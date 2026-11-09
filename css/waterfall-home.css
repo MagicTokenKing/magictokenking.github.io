@@ -1,0 +1,267 @@
+/* ============================================================
+   首页瀑布流布局（多列错落 + 无限滚动）
+   依赖：/js/waterfall-home.js 为容器添加 .wf-grid 类
+   说明：仅在 JS 生效后启用；无 JS 时保持原卡片流 + 分页兜底
+   ============================================================ */
+
+/* ---------- 容器 ---------- */
+#recent-posts.wf-grid {
+  position: relative;
+  display: block !important;
+  margin-top: 10px;
+  transition: height 0.25s ease-out;
+}
+
+/* 分页导航在瀑布流下隐藏（改为滚动自动加载） */
+#recent-posts.wf-grid > #pagination {
+  display: none !important;
+}
+
+/* 分类栏在瀑布流中横跨整行（由 JS 计算绝对定位） */
+#recent-posts.wf-grid > #categoryBar {
+  z-index: 3;
+  margin-bottom: 0 !important;
+}
+
+/* ---------- 卡片 ---------- */
+#recent-posts.wf-grid > .recent-post-item {
+  margin: 0 !important;
+  display: flex !important;
+  flex-direction: column !important;
+  align-items: stretch !important;
+  height: auto !important;
+  border-radius: 12px;
+  overflow: hidden;
+  animation: none !important;
+  will-change: top, left;
+}
+
+#recent-posts.wf-grid > .recent-post-item:active {
+  transform: none;
+}
+
+/* 有封面时：封面置顶、固定高度、等比裁切 */
+#recent-posts.wf-grid > .recent-post-item > .post_cover {
+  width: 100% !important;
+  height: 168px !important;
+  flex: 0 0 auto !important;
+  order: 0 !important;
+  border-radius: 0 !important;
+}
+
+#recent-posts.wf-grid > .recent-post-item > .post_cover img.post_bg {
+  width: 100% !important;
+  height: 100% !important;
+  object-fit: cover;
+}
+
+/* ---------- 文字区 ---------- */
+#recent-posts.wf-grid > .recent-post-item > .recent-post-info {
+  width: 100% !important;
+  height: auto !important;
+  min-height: 0 !important;
+  padding: 16px 18px 15px !important;
+  display: flex !important;
+  flex-direction: column;
+  cursor: pointer;
+}
+
+#recent-posts.wf-grid > .recent-post-item > .recent-post-info > .recent-post-info-top {
+  padding: 0 !important;
+}
+
+#recent-posts.wf-grid .recent-post-info-top-tips {
+  margin-top: 0 !important;
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 6px;
+  min-height: 20px;
+}
+
+#recent-posts.wf-grid .recent-post-info-top-tips .article-categories-original {
+  margin-right: 0 !important;
+  padding: 1px 7px;
+  border-radius: 5px;
+  background: var(--anzhiyu-secondbg);
+  color: var(--anzhiyu-secondtext);
+  font-size: 11px;
+  line-height: 18px;
+}
+
+#recent-posts.wf-grid .recent-post-info-top-tips .newPost,
+#recent-posts.wf-grid .recent-post-info-top-tips .unvisited-post {
+  margin-right: 0 !important;
+  font-size: 11px;
+  color: var(--anzhiyu-secondtext);
+}
+
+#recent-posts.wf-grid .recent-post-info-top-tips .newPost {
+  color: #f6465d;
+  font-weight: 700;
+}
+
+/* 标题 */
+#recent-posts.wf-grid > .recent-post-item .article-title {
+  margin: 9px 0 0 !important;
+  font-size: 16px !important;
+  font-weight: 700 !important;
+  line-height: 1.5 !important;
+  color: var(--anzhiyu-fontcolor);
+  display: -webkit-box !important;
+  -webkit-line-clamp: 2;
+  -webkit-box-orient: vertical;
+  overflow: hidden;
+  transition: color 0.3s;
+}
+
+#recent-posts.wf-grid > .recent-post-item:hover .article-title {
+  color: var(--anzhiyu-main) !important;
+}
+
+/* 摘要（主题在 homepage.styl 末尾用 `#content-inner #recent-posts > ...` 设置了
+   clamp:2 / 高 0 / 透明，这里必须用同等或更高优先级覆盖） */
+#content-inner #recent-posts.wf-grid > .recent-post-item > .recent-post-info > .content {
+  opacity: 1 !important;
+  height: auto !important;
+  margin: 10px 0 0 !important;
+  display: -webkit-box !important;
+  -webkit-line-clamp: 6;
+  -webkit-box-orient: vertical;
+  overflow: hidden;
+  font-size: 13px;
+  line-height: 1.7;
+  color: var(--anzhiyu-secondtext);
+  transition: none;
+}
+
+/* 元信息（日期 / 分类标签） */
+#recent-posts.wf-grid > .recent-post-item > .recent-post-info > .article-meta-wrap {
+  position: static !important;
+  left: auto !important;
+  bottom: auto !important;
+  width: 100% !important;
+  padding: 0 !important;
+  margin-top: auto;
+  padding-top: 12px !important;
+  display: flex !important;
+  flex-direction: row !important;
+  flex-wrap: nowrap;
+  align-items: center;
+  justify-content: flex-start;
+  overflow: hidden;
+  font-size: 11px;
+  color: var(--anzhiyu-secondtext);
+  white-space: nowrap;
+}
+
+#recent-posts.wf-grid .article-meta-wrap > .post-meta-date {
+  font-size: 11px !important;
+  color: var(--anzhiyu-secondtext) !important;
+  flex: 0 0 auto;
+}
+
+#recent-posts.wf-grid .article-meta-wrap .article-meta-label,
+#recent-posts.wf-grid .article-meta-wrap .time_hidden {
+  display: none !important;
+}
+
+#recent-posts.wf-grid .article-meta-wrap .article-meta.tags {
+  display: flex;
+  flex-wrap: nowrap;
+  overflow: hidden;
+  margin-left: 8px;
+  min-width: 0;
+  flex: 1 1 auto;
+}
+
+#recent-posts.wf-grid .article-meta-wrap .article-meta__tags {
+  display: none;
+}
+
+#recent-posts.wf-grid .article-meta-wrap .article-meta__tags:nth-child(-n + 2) {
+  display: inline-flex;
+  align-items: center;
+  font-size: 11px;
+  color: var(--anzhiyu-secondtext);
+  margin-right: 8px;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+/* ---------- 加载状态 ---------- */
+#wf-status {
+  position: absolute;
+  left: 0;
+  width: 100%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 8px;
+  height: 42px;
+  font-size: 13px;
+  color: var(--anzhiyu-secondtext);
+  pointer-events: none;
+}
+
+#wf-status.is-idle {
+  opacity: 0;
+}
+
+#recent-posts.wf-single #wf-status {
+  position: static;
+  height: auto;
+  padding: 18px 0 6px;
+}
+
+.wf-dot {
+  width: 7px;
+  height: 7px;
+  border-radius: 50%;
+  background: var(--anzhiyu-main);
+  animation: wf-pulse 1.1s ease-in-out infinite;
+}
+
+@keyframes wf-pulse {
+  0%,
+  100% {
+    opacity: 0.25;
+    transform: scale(0.85);
+  }
+  50% {
+    opacity: 1;
+    transform: scale(1.15);
+  }
+}
+
+#wf-status.is-end .wf-dot {
+  animation: none;
+  background: var(--anzhiyu-secondtext);
+  opacity: 0.5;
+}
+
+#wf-status.is-error {
+  pointer-events: auto;
+}
+
+#wf-status.is-error .wf-retry {
+  color: var(--anzhiyu-main);
+  cursor: pointer;
+  text-decoration: underline;
+}
+
+/* ---------- 窄屏：单列，回归普通流 ---------- */
+@media screen and (max-width: 767px) {
+  #recent-posts.wf-grid > .recent-post-item {
+    width: 100% !important;
+    margin-bottom: 20px !important;
+  }
+
+  #recent-posts.wf-grid > .recent-post-item .article-title {
+    font-size: 17px !important;
+  }
+
+  #content-inner #recent-posts.wf-grid > .recent-post-item > .recent-post-info > .content {
+    -webkit-line-clamp: 3;
+  }
+}
