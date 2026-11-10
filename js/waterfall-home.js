@@ -8,8 +8,7 @@
   "use strict";
 
   var GAP = 20;
-  var COLS_3 = 980;
-  var COLS_2 = 700;
+  var COLS_2 = 700; // ≥700px 两列，其余单列（固定两列，不再出现三列）
   var PRELOAD = 900; // 提前加载距离（px）
 
   var container = null;
@@ -89,7 +88,7 @@
 
     var items = getItems();
     var width = container.clientWidth;
-    var cols = width >= COLS_3 ? 3 : width >= COLS_2 ? 2 : 1;
+    var cols = width >= COLS_2 ? 2 : 1;
     var bar = document.getElementById("categoryBar");
     if (bar && bar.parentNode !== container) bar = null;
     var s = ensureStatus();

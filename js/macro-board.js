@@ -156,10 +156,20 @@
     });
   }
 
-  function setUpdated(text, off) {
+  function setUpdated(text, cls) {
     if (!updatedEl) return;
     updatedEl.textContent = text;
-    updatedEl.className = "mb-updated" + (off ? " is-off" : "");
+    updatedEl.className = "mb-updated" + (cls ? " " + cls : "");
+  }
+
+  // 取快照中最新的一条观测日期，用于「快照 11-06」提示
+  function newestDate(items) {
+    var newest = "";
+    Object.keys(items).forEach(function (k) {
+      var d = items[k] && items[k].date;
+      if (d && d > newest) newest = d;
+    });
+    return newest ? shortDate(newest, false) : "";
   }
 
   /* ---------------- 数据 ---------------- */
@@ -177,28 +187,45 @@
     refreshTimer = setTimeout(load, REFRESH_MS);
   }
 
+  function requestJSON(url) {
+    return fetch(url, { cache: "no-store" }).then(function (res) {
+      if (!res.ok) throw new Error("HTTP " + res.status);
+      return res.json();
+    });
+  }
+
+  // 优先边缘接口（Cloudflare Pages 上为实时数据）；
+  // 不可用时回退到构建时写入的静态快照 /data/macro.json，保证始终有数
   function load() {
     if (busy || !root) return;
     busy = true;
 
-    fetch("/api/macro", { cache: "no-store" })
-      .then(function (res) {
-        if (!res.ok) throw new Error("HTTP " + res.status);
-        return res.json();
-      })
+    requestJSON("/api/macro")
       .then(function (json) {
+        return { json: json, live: true };
+      })
+      .catch(function () {
+        return requestJSON("/data/macro.json").then(function (json) {
+          return { json: json, live: false };
+        });
+      })
+      .then(function (res) {
         if (!root) return;
-        var items = (json && json.items) || {};
+        var items = (res.json && res.json.items) || {};
         if (!Object.keys(items).length) throw new Error("empty");
         render(items);
-        setUpdated("更新 " + stamp(), false);
+        if (res.live) {
+          setUpdated("更新 " + stamp(), "");
+        } else {
+          setUpdated("快照 " + newestDate(items), "is-snapshot");
+        }
       })
       .catch(function () {
         if (!root) return;
         if (!gridEl || !gridEl.querySelector(".mb-tile:not(.is-skeleton)")) {
           render(null);
         }
-        setUpdated("数据暂不可用", true);
+        setUpdated("数据暂不可用", "is-off");
       })
       .then(function () {
         busy = false;

@@ -53,6 +53,11 @@
   color: #e5533d;
 }
 
+/* 使用静态快照时的提示色（非实时） */
+#macro-board .mb-updated.is-snapshot {
+  color: #d99a00;
+}
+
 /* ---------- 指标网格 ---------- */
 #macro-board .mb-grid {
   flex: 1 1 auto;
