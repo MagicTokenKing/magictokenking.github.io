@@ -1,0 +1,214 @@
+/* ============================================================
+   首页左上横幅：全球宏观指标看板（常驻，非悬浮）
+   数据来自 FRED（圣路易斯联储），由 /api/macro 代理返回
+   ============================================================ */
+
+#macro-board.macro-board {
+  position: absolute;
+  inset: 0;
+  z-index: 2;
+  display: flex;
+  flex-direction: column;
+  box-sizing: border-box;
+  padding: 12px 14px 9px;
+  background: var(--anzhiyu-card-bg);
+  border-radius: 12px;
+}
+
+/* ---------- 头部 ---------- */
+#macro-board .mb-head {
+  display: flex;
+  align-items: baseline;
+  gap: 8px;
+  padding-bottom: 7px;
+  border-bottom: 1px solid var(--style-border);
+  flex: 0 0 auto;
+}
+
+#macro-board .mb-title {
+  font-size: 13px;
+  font-weight: 700;
+  color: var(--anzhiyu-fontcolor);
+  letter-spacing: 0.02em;
+  white-space: nowrap;
+}
+
+#macro-board .mb-sub {
+  font-size: 9.5px;
+  letter-spacing: 0.12em;
+  color: var(--anzhiyu-secondtext);
+  opacity: 0.8;
+  white-space: nowrap;
+}
+
+#macro-board .mb-updated {
+  margin-left: auto;
+  font-size: 10.5px;
+  color: var(--anzhiyu-secondtext);
+  font-variant-numeric: tabular-nums;
+  white-space: nowrap;
+}
+
+#macro-board .mb-updated.is-off {
+  color: #e5533d;
+}
+
+/* ---------- 指标网格 ---------- */
+#macro-board .mb-grid {
+  flex: 1 1 auto;
+  min-height: 0;
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  grid-template-rows: repeat(2, 1fr);
+  gap: 7px;
+  padding: 8px 0 6px;
+}
+
+#macro-board .mb-tile {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  gap: 3px;
+  min-width: 0;
+  padding: 6px 11px;
+  border-radius: 9px;
+  /* 中性半透明底色，深浅主题下都能形成卡片边界 */
+  background: rgba(127, 127, 127, 0.09);
+  border: 1px solid rgba(127, 127, 127, 0.13);
+  transition: border-color 0.25s, background 0.25s;
+}
+
+#macro-board .mb-tile:hover {
+  background: rgba(127, 127, 127, 0.13);
+  border-color: rgba(127, 127, 127, 0.25);
+}
+
+#macro-board .mb-label {
+  font-size: 11px;
+  line-height: 1.2;
+  color: var(--anzhiyu-secondtext);
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+#macro-board .mb-value {
+  font-size: 21px;
+  font-weight: 700;
+  line-height: 1.2;
+  color: var(--anzhiyu-fontcolor);
+  font-variant-numeric: tabular-nums;
+  white-space: nowrap;
+  letter-spacing: -0.015em;
+  display: flex;
+  align-items: baseline;
+}
+
+#macro-board .mb-unit {
+  font-size: 12px;
+  font-weight: 600;
+  margin-left: 2px;
+  opacity: 0.72;
+  letter-spacing: 0;
+}
+
+#macro-board .mb-note {
+  font-size: 10px;
+  line-height: 1.2;
+  color: var(--anzhiyu-secondtext);
+  font-variant-numeric: tabular-nums;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+/* 涨红跌绿 */
+#macro-board .mb-up {
+  color: #f6465d;
+}
+
+#macro-board .mb-down {
+  color: #2ebd85;
+}
+
+#macro-board .mb-flat {
+  color: var(--anzhiyu-secondtext);
+}
+
+/* 骨架屏 */
+#macro-board .mb-tile.is-skeleton {
+  background: linear-gradient(
+    90deg,
+    rgba(127, 127, 127, 0.07) 25%,
+    rgba(127, 127, 127, 0.17) 37%,
+    rgba(127, 127, 127, 0.07) 63%
+  );
+  background-size: 400% 100%;
+  animation: mb-shimmer 1.4s ease infinite;
+}
+
+@keyframes mb-shimmer {
+  0% {
+    background-position: 100% 50%;
+  }
+  100% {
+    background-position: 0 50%;
+  }
+}
+
+#macro-board .mb-tile.is-empty .mb-value {
+  font-size: 15px;
+  font-weight: 500;
+  color: var(--anzhiyu-secondtext);
+}
+
+/* ---------- 底部 ---------- */
+#macro-board .mb-foot {
+  flex: 0 0 auto;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 10px;
+  padding-top: 6px;
+  border-top: 1px solid var(--style-border);
+  font-size: 10px;
+  color: var(--anzhiyu-secondtext);
+  white-space: nowrap;
+}
+
+#macro-board .mb-foot a {
+  color: inherit;
+  text-decoration: none;
+}
+
+#macro-board .mb-foot a:hover {
+  color: var(--anzhiyu-main);
+}
+
+/* ---------- 横幅较窄时缩小字号（保持 3 列 × 2 行，避免挤压） ---------- */
+@media screen and (max-width: 1320px) {
+  #macro-board .mb-grid {
+    gap: 6px;
+  }
+
+  #macro-board .mb-tile {
+    padding: 4px 9px;
+    gap: 2px;
+  }
+
+  #macro-board .mb-value {
+    font-size: 17px;
+  }
+
+  #macro-board .mb-unit {
+    font-size: 10.5px;
+  }
+
+  #macro-board .mb-label {
+    font-size: 10px;
+  }
+
+  #macro-board .mb-note {
+    font-size: 9.5px;
+  }
+}
