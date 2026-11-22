@@ -1,0 +1,430 @@
+<!DOCTYPE html><html lang="en" data-theme="dark"><head><meta charset="UTF-8"><meta http-equiv="X-UA-Compatible" content="IE=edge"><meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=no"><title>链上期权为什么做不起来：问题从来不是技术 | BitBank|比特帮</title><meta name="keywords" content="链上期权,onchain options,期权AMM,做市商,集中流动性,永续期权,Panoptic,Derive,隐含波动率,gamma对冲,库存风险,LVR"><meta name="author" content="Bitbank"><meta name="copyright" content="Bitbank"><meta name="format-detection" content="telephone=no"><meta name="theme-color" content="#181A20"><meta name="mobile-web-app-capable" content="yes"><meta name="apple-touch-fullscreen" content="yes"><meta name="apple-mobile-web-app-title" content="链上期权为什么做不起来：问题从来不是技术"><meta name="application-name" content="链上期权为什么做不起来：问题从来不是技术"><meta name="apple-mobile-web-app-capable" content="yes"><meta name="apple-mobile-web-app-status-bar-style" content="#181A20"><meta property="og:type" content="article"><meta property="og:title" content="链上期权为什么做不起来：问题从来不是技术"><meta property="og:url" content="http://www.bitbank.link/2026/11/22/onchain-options-amm-market-making-2026/index.html"><meta property="og:site_name" content="BitBank|比特帮"><meta property="og:description" content="五年、五代方案、无数次技术升级，链上期权的成交量依然只有中心化场所的零头。真正的瓶颈是做市商，不是 gas。"><meta property="og:locale" content="en"><meta property="og:image" content="http://www.bitbank.link/img/btc.png"><meta property="article:author" content="Bitbank"><meta property="article:tag"><meta name="twitter:card" content="summary"><meta name="twitter:image" content="http://www.bitbank.link/img/btc.png"><meta name="description" content="五年、五代方案、无数次技术升级，链上期权的成交量依然只有中心化场所的零头。真正的瓶颈是做市商，不是 gas。"><link rel="shortcut icon" href="/favicon.ico"><link rel="canonical" href="http://www.bitbank.link/2026/11/22/onchain-options-amm-market-making-2026/"><link rel="preconnect" href="//cdn.cbd.int"/><meta name="google-site-verification" content="xxx"/><meta name="baidu-site-verification" content="code-xxx"/><meta name="msvalidate.01" content="xxx"/><link rel="stylesheet" href="/css/index.css"><link rel="stylesheet" href="https://cdn.cbd.int/node-snackbar@0.1.16/dist/snackbar.min.css" media="print" onload="this.media='all'"><link rel="stylesheet" href="https://cdn.cbd.int/@fancyapps/ui@6.1.6/dist/fancybox/fancybox.css" media="print" onload="this.media='all'"><script>const GLOBAL_CONFIG = {
+  linkPageTop: undefined,
+  peoplecanvas: undefined,
+  postHeadAiDescription: {"enable":true,"gptName":"Bitbank","mode":"local","switchBtn":false,"btnLink":"https://afdian.net/item/886a79d4db6711eda42a52540025c377","randomNum":3,"basicWordCount":1000,"key":"xxxx","Referer":"https://xx.xx/"},
+  diytitle: {"enable":true,"leaveTitle":"BlockChain！Link the world！","backTitle":"BitBank"},
+  LA51: undefined,
+  greetingBox: undefined,
+  twikooEnvId: '',
+  commentBarrageConfig:undefined,
+  music_page_default: "nav_music",
+  root: '/',
+  preloader: {"source":3},
+  friends_vue_info: undefined,
+  navMusic: false,
+  mainTone: undefined,
+  authorStatus: undefined,
+  algolia: undefined,
+  localSearch: undefined,
+  translate: {"defaultEncoding":2,"translateDelay":0,"msgToTraditionalChinese":"繁","msgToSimplifiedChinese":"简","rightMenuMsgToTraditionalChinese":"转为繁体","rightMenuMsgToSimplifiedChinese":"转为简体"},
+  noticeOutdate: undefined,
+  highlight: {"plugin":"highlight.js","highlightCopy":true,"highlightLang":true,"highlightHeightLimit":330},
+  copy: {
+    success: 'Copy successfully',
+    error: 'Copy error',
+    noSupport: 'The browser does not support'
+  },
+  relativeDate: {
+    homepage: false,
+    simplehomepage: true,
+    post: false
+  },
+  runtime: 'days',
+  date_suffix: {
+    just: 'Just',
+    min: 'minutes ago',
+    hour: 'hours ago',
+    day: 'days ago',
+    month: 'months ago'
+  },
+  copyright: {"copy":true,"copyrightEbable":false,"limitCount":50,"languages":{"author":"Author: Bitbank","link":"Link: ","source":"Source: BitBank|比特帮","info":"Copyright is owned by the author. For commercial reprints, please contact the author for authorization. For non-commercial reprints, please indicate the source.","copySuccess":"Copy success, copy and reprint please mark the address of this article"}},
+  lightbox: 'fancybox',
+  Snackbar: {"chs_to_cht":"Traditional Chinese Activated Manually","cht_to_chs":"Simplified Chinese Activated Manually","day_to_night":"Dark Mode Activated Manually","night_to_day":"Light Mode Activated Manually","bgLight":"#425AEF","bgDark":"#1f1f1f","position":"top-center"},
+  source: {
+    justifiedGallery: {
+      js: 'https://cdn.cbd.int/flickr-justified-gallery@2.2.0/dist/fjGallery.min.js',
+      css: 'https://cdn.cbd.int/flickr-justified-gallery@2.2.0/dist/fjGallery.css'
+    }
+  },
+  isPhotoFigcaption: false,
+  islazyload: true,
+  isAnchor: false,
+  shortcutKey: undefined,
+  autoDarkmode: false
+}</script><script id="config-diff">var GLOBAL_CONFIG_SITE = {
+  configTitle: 'BitBank|比特帮',
+  title: '链上期权为什么做不起来：问题从来不是技术',
+  postAI: '',
+  pageFillDescription: '五代方案同一结局, 基础设施已经不是借口, 瓶颈是做市商的启动成本, 期权 AMM 的内在矛盾, 永续期权：把复杂度换个地方放, 现在的真实格局, 对交易者的实际含义, 结语币安欧意导读如果只看技术叙事链上期权早就该成功了低费用的专用应用链无需预言机的定价模型每一代都解决了上一代的抱怨可是成交量没有跟上五代方案同一结局按技术路线梳理链上期权走过五个阶段代际代表路线结局第一代全额抵押的期权金库卖出备兑资本效率低收益率随波动率下滑第二代定价池按算法报价无常损失与定价偏差吃掉收益第三代迁移到降低成本成本降了需求没来第四代专用应用链链下撮合链上结算执行质量接近中心化成交量仍集中在少数标的第五代去掉到期日做永续期权概念最优理解成本最高这条时间线上有一个反复出现的名字同一个团队的产品从金库转成订单簿又从订单簿转成永续合约另一个团队从期权金库转成通用衍生品平台把期权做成背景功能还有一个项目在年月日直接停止运营月初关闭链团队明确表示不为一个走到生命末期的产品发币把这些退出放在一起看结论有点刺人每一次被识别出的问题都是真的每一个提出的方案在技术上都是对的结果却一样基础设施已经不是借口早年确实受限于链的能力年在以太坊上跑期权订单簿不可能替代方案还不存在这个借口现在不成立了把执行成本压到很低应用链允许协议为自己的场景定制区块空间全链上订单簿已经能提供接近中心化场所的执行质量反证也很清楚某个现在以永续合约为主打的平台早期做的架构几乎就是链下订单簿链上结算专用与今天主导期权市场的那个协议几乎一样技术在年就对了可是到年年中它的天期权名义成交只有约万美元未平仓合约只有几百万美元同样的架构在另一家始终专注期权的协议那里成交量是它的三十倍所以差别不在技术栈瓶颈是做市商的启动成本期权做市与现货做市有一个结构性差异你得同时喂几百个订单簿执行价与到期日构成一个矩阵每个格子都是独立的市场每个市场都需要报价都需要对冲而在一个新平台上做市商面对的订单流构成极其难堪散户还没来先来的是套利者套利者会拿你的报价与中心化场所的报价做比较一旦偏离就打掉做市商因此在系统性地站在错误的一边吃进库存还得自己花钱去别处对冲有从业者在年月把这个机制讲得很直白即使一切正常运行新上线的链上期权交易所里的做市商也会亏掉数百万美元结论只有两条路要么重金补贴第一批做市商要么把还不存在的散户订单流带进来没有第三条期权的内在矛盾集中流动性做市有一个容易被忽略的性质的头寸在数学上等价于卖出了一份跨式期权价格在区间内震荡时收取手续费价格突破区间时承受方向性损失用期权语言说是的这带来一个清晰的判据的收益可以粗略拆成两项净收益累计手续费再平衡损失其中手续费与换手率成正比再平衡损失与实际波动率的平方成正比于是存在一个隐含的盈亏平衡波动率超过它亏低于它赚这个数字不是由任何协议设定的而是由池子的费率档位与真实成交结构决定的所谓期权化做的就是把这件事显式化不再让在不知情的情况下卖波动率而是让他们明确地为一份期权定价收取权利金并对冲永续期权把复杂度换个地方放最新一代方案的想法很聪明既然所有麻烦都来自执行价到期日这个矩阵那就去掉到期日某协议把永续期权建立在集中流动性池之上不使用预言机不使用订单簿权利金按时间连续计费而非一次性支付杠杆最高倍年月在以太坊上线第二代同时推出金库套件一个稳定币策略做借贷加自动一个策略做借贷加系统化期权做市与自动对冲这个方向在概念上是最原创的但去掉到期日并没有去掉期权的复杂度只是把它挪进了一个连续的资金费机制里对一个普通用户理解永续期权的连续权利金比理解一张天看涨难得多所以这类产品停留在内行的小圈子里做市商的问题只是换了个地方重新出现现在的真实格局抛开叙事看数字会更清醒场所类型天名义成交特征应用链链下订单簿十亿美元量级机构组合保证金跨产品净额通用衍生品平台数千万美元期权为附属功能山寨币标的较多期权金库结构化千万美元级常低于百万收益依赖定价与再平衡逻辑永续期权未披露概念前沿流动性集中在一两个标的一个值得注意的细节某基于的协议把从万美元做到年月的万美元以上每周期权名义成交约万美元且每次到期后有超过的资本回流这个到期后资本回流率是一个很好的产品健康度指标它说明用户是来做策略的不是来投机的反过来某个型期权协议累计处理了亿美元名义成交但当前只有万美元累计量与存量差三个数量级说明资金进来赚一笔立刻走对交易者的实际含义如果你确实要用链上期权三个判断标准比有用看报价深度不看总锁仓你要交易的那个执行价那个到期日盘口有多厚总大的协议在你要的格子上可能是空的算全成本权利金平台费结算对冲腿的滑点链上期权的名义权利金看似便宜但加上退出成本常常不如直接在中心化场所做确认结算机制现金结算还是实物交割结算价取哪段窗口的均价自动行权的金额门槛是多少这三点决定了到期那天你是收到钱还是收到一堆难卖的抵押品在币安与欧意上期权与永续的流动性集中在少数标的这也解释了为什么链上协议即使技术更好也很难把主流标的的成交量抢过来结语链上期权的故事是一个提醒把技术问题解决完并不等于把商业问题解决完期权市场需要的是持续的双边订单流与愿意承担库存风险的专业做市商这两样东西不会因为变便宜而自动出现真正可能改变格局的不是又一个更优雅的定价模型而是某类能自带订单流的结构比如把期权嵌进收益产品让用户在不知道自己在卖期权的情况下提供流动性这条路已经有产品在走但它同时也意味着风险会被更彻底地藏起来本文为行业结构分析不构成投资建议期权与杠杆产品可能导致本金全部损失',
+  isPost: true,
+  isHome: false,
+  isHighlightShrink: false,
+  isToc: true,
+  postUpdate: '2026-11-22 22:21:39',
+  postMainColor: '',
+}</script><noscript><style type="text/css">
+  #nav {
+    opacity: 1
+  }
+  .justified-gallery img {
+    opacity: 1
+  }
+
+  #recent-posts time,
+  #post-meta time {
+    display: inline !important
+  }
+</style></noscript><script>(win=>{
+      win.saveToLocal = {
+        set: (key, value, ttl) => {
+          if (ttl === 0) return
+          const now = Date.now()
+          const expiry = now + ttl * 86400000
+          const item = {
+            value,
+            expiry
+          }
+          localStorage.setItem(key, JSON.stringify(item))
+        },
+      
+        get: key => {
+          const itemStr = localStorage.getItem(key)
+      
+          if (!itemStr) {
+            return undefined
+          }
+          const item = JSON.parse(itemStr)
+          const now = Date.now()
+      
+          if (now > item.expiry) {
+            localStorage.removeItem(key)
+            return undefined
+          }
+          return item.value
+        }
+      }
+    
+      win.getScript = (url, attr = {}) => new Promise((resolve, reject) => {
+        const script = document.createElement('script')
+        script.src = url
+        script.async = true
+        script.onerror = reject
+        script.onload = script.onreadystatechange = function() {
+          const loadState = this.readyState
+          if (loadState && loadState !== 'loaded' && loadState !== 'complete') return
+          script.onload = script.onreadystatechange = null
+          resolve()
+        }
+
+        Object.keys(attr).forEach(key => {
+          script.setAttribute(key, attr[key])
+        })
+
+        document.head.appendChild(script)
+      })
+    
+      win.getCSS = (url, id = false) => new Promise((resolve, reject) => {
+        const link = document.createElement('link')
+        link.rel = 'stylesheet'
+        link.href = url
+        if (id) link.id = id
+        link.onerror = reject
+        link.onload = link.onreadystatechange = function() {
+          const loadState = this.readyState
+          if (loadState && loadState !== 'loaded' && loadState !== 'complete') return
+          link.onload = link.onreadystatechange = null
+          resolve()
+        }
+        document.head.appendChild(link)
+      })
+    
+      win.activateDarkMode = () => {
+        document.documentElement.setAttribute('data-theme', 'dark')
+        if (document.querySelector('meta[name="theme-color"]') !== null) {
+          document.querySelector('meta[name="theme-color"]').setAttribute('content', '#181A20')
+        }
+      }
+      win.activateLightMode = () => {
+        document.documentElement.setAttribute('data-theme', 'light')
+        if (document.querySelector('meta[name="theme-color"]') !== null) {
+          document.querySelector('meta[name="theme-color"]').setAttribute('content', '#F0B90B')
+        }
+      }
+      const t = saveToLocal.get('theme')
+    
+        if (t === 'dark') activateDarkMode()
+        else if (t === 'light') activateLightMode()
+      
+      const asideStatus = saveToLocal.get('aside-status')
+      if (asideStatus !== undefined) {
+        if (asideStatus === 'hide') {
+          document.documentElement.classList.add('hide-aside')
+        } else {
+          document.documentElement.classList.remove('hide-aside')
+        }
+      }
+    
+      const detectApple = () => {
+        if(/iPad|iPhone|iPod|Macintosh/.test(navigator.userAgent)){
+          document.documentElement.classList.add('apple')
+        }
+      }
+      detectApple()
+    })(window)</script><link rel="stylesheet" href="/css/waterfall-home.css"><link rel="stylesheet" href="/css/macro-board.css"><meta name="generator" content="Hexo 8.1.2"></head><body data-type="anzhiyu"><div id="web_bg"></div><div id="an_music_bg"></div><div id="loading-box" onclick="document.getElementById(&quot;loading-box&quot;).classList.add(&quot;loaded&quot;)"><div class="loading-bg"><img class="loading-img nolazyload" alt="加载头像" src="/img/btc.png"/><div class="loading-image-dot"></div></div></div><script>const preloader = {
+  endLoading: () => {
+    document.getElementById('loading-box').classList.add("loaded");
+  },
+  initLoading: () => {
+    document.getElementById('loading-box').classList.remove("loaded")
+  }
+}
+window.addEventListener('load',()=> { preloader.endLoading() })
+setTimeout(function(){preloader.endLoading();},10000)
+
+if (true) {
+  document.addEventListener('pjax:send', () => { preloader.initLoading() })
+  document.addEventListener('pjax:complete', () => { preloader.endLoading() })
+}</script><link rel="stylesheet" href="https://cdn.cbd.int/anzhiyu-theme-static@1.1.10/progress_bar/progress_bar.css"/><script async="async" src="https://cdn.cbd.int/pace-js@1.2.4/pace.min.js" data-pace-options="{ &quot;restartOnRequestAfter&quot;:false,&quot;eventLag&quot;:false}"></script><div class="post" id="body-wrap"><header class="post-bg" id="page-header"><nav id="nav"><div id="nav-group"><span id="blog_name"><a id="site-name" href="/" accesskey="h"><div class="title">BitBank|比特帮</div><i class="anzhiyufont anzhiyu-icon-house-chimney"></i></a></span><div class="mask-name-container"><div id="name-container"><a id="page-name" href="javascript:anzhiyu.scrollToDest(0, 500)">PAGE_NAME</a></div></div><div id="menus"></div><div id="nav-right"><div class="nav-button" id="randomPost_button"><a class="site-page" onclick="toRandomPost()" title="Random Post" href="javascript:void(0);"><i class="anzhiyufont anzhiyu-icon-dice"></i></a></div><input id="center-console" type="checkbox"/><label class="widget" for="center-console" title="Console" onclick="anzhiyu.switchConsole();"><i class="left"></i><i class="widget center"></i><i class="widget right"></i></label><div id="console"><div class="console-card-group-reward"><ul class="reward-all console-card"><li class="reward-item"><a href="/img/bitcoin.png" target="_blank"><img class="post-qr-code-img" alt="BTC" src="/img/bitcoin.png"/></a><div class="post-qr-code-desc">BTC</div></li><li class="reward-item"><a href="/img/eth.png" target="_blank"><img class="post-qr-code-img" alt="ETH" src="/img/eth.png"/></a><div class="post-qr-code-desc">ETH</div></li></ul></div><div class="console-card-group"><div class="console-card-group-left"><div class="console-card" id="card-newest-comments"><div class="card-content"><div class="author-content-item-tips">Interaction</div><span class="author-content-item-title"> Newest Comments</span></div><div class="aside-list"><span>loading...</span></div></div></div><div class="console-card-group-right"><div class="console-card tags"><div class="card-content"><div class="author-content-item-tips">Interests</div><span class="author-content-item-title">Find your area of interest</span><div class="card-tags"><div class="item-headline"></div><div class="card-tag-cloud"><a href="/tags/AI/" style="font-size: 1.05rem;">AI<sup>1</sup></a><a href="/tags/AI-Agent/" style="font-size: 1.05rem;">AI Agent<sup>2</sup></a><a href="/tags/AI%E4%BB%A3%E7%90%86/" style="font-size: 1.05rem;">AI代理<sup>1</sup></a><a href="/tags/DeFi/" style="font-size: 1.05rem;">DeFi<sup>6</sup></a><a href="/tags/ERC-4337/" style="font-size: 1.05rem;">ERC-4337<sup>2</sup></a><a href="/tags/SegWit/" style="font-size: 1.05rem;">SegWit<sup>1</sup></a><a href="/tags/TGE/" style="font-size: 1.05rem;">TGE<sup>1</sup></a><a href="/tags/UASF/" style="font-size: 1.05rem;">UASF<sup>1</sup></a><a href="/tags/Web3/" style="font-size: 1.05rem;">Web3<sup>2</sup></a><a href="/tags/Web3%E4%BD%93%E9%AA%8C/" style="font-size: 1.05rem;">Web3体验<sup>1</sup></a><a href="/tags/gas%E4%BB%A3%E4%BB%98/" style="font-size: 1.05rem;">gas代付<sup>1</sup></a><a href="/tags/x402/" style="font-size: 1.05rem;">x402<sup>1</sup></a><a href="/tags/%E4%BB%A3%E5%B8%81%E5%88%86%E5%8F%91/" style="font-size: 1.05rem;">代币分发<sup>1</sup></a><a href="/tags/%E5%85%B1%E8%AF%86%E6%9C%BA%E5%88%B6/" style="font-size: 1.05rem;">共识机制<sup>3</sup></a><a href="/tags/%E5%8A%A0%E5%AF%86ATM/" style="font-size: 1.05rem;">加密ATM<sup>1</sup></a><a href="/tags/%E5%8C%BA%E5%9D%97%E5%A4%A7%E5%B0%8F/" style="font-size: 1.05rem;">区块大小<sup>1</sup></a><a href="/tags/%E5%A5%B3%E5%B7%AB%E6%94%BB%E5%87%BB/" style="font-size: 1.05rem;">女巫攻击<sup>1</sup></a><a href="/tags/%E5%AE%9E%E4%BD%93%E5%85%91%E6%8D%A2/" style="font-size: 1.05rem;">实体兑换<sup>1</sup></a><a href="/tags/%E6%89%A9%E5%AE%B9/" style="font-size: 1.05rem;">扩容<sup>5</sup></a><a href="/tags/%E6%95%B0%E5%AD%97%E9%BB%84%E9%87%91/" style="font-size: 1.05rem;">数字黄金<sup>2</sup></a><a href="/tags/%E6%99%BA%E8%83%BD%E4%BD%93/" style="font-size: 1.05rem;">智能体<sup>1</sup></a><a href="/tags/%E6%99%BA%E8%83%BD%E5%90%88%E7%BA%A6/" style="font-size: 1.05rem;">智能合约<sup>4</sup></a><a href="/tags/%E6%99%BA%E8%83%BD%E5%90%88%E7%BA%A6%E9%92%B1%E5%8C%85/" style="font-size: 1.05rem;">智能合约钱包<sup>1</sup></a><a href="/tags/%E6%9C%BA%E5%99%A8%E6%94%AF%E4%BB%98/" style="font-size: 1.05rem;">机器支付<sup>1</sup></a><a href="/tags/%E6%AF%94%E7%89%B9%E5%B8%81/" style="font-size: 1.05rem;">比特币<sup>15</sup></a><a href="/tags/%E6%AF%94%E7%89%B9%E5%B8%81ATM/" style="font-size: 1.05rem;">比特币ATM<sup>1</sup></a><a href="/tags/%E6%B2%BB%E7%90%86/" style="font-size: 1.05rem;">治理<sup>2</sup></a><a href="/tags/%E7%8E%B0%E9%87%91%E5%85%91%E6%8D%A2/" style="font-size: 1.05rem;">现金兑换<sup>1</sup></a><a href="/tags/%E7%A4%BE%E4%BA%A4%E6%81%A2%E5%A4%8D/" style="font-size: 1.05rem;">社交恢复<sup>3</sup></a><a href="/tags/%E7%A8%B3%E5%AE%9A%E5%B8%81/" style="font-size: 1.05rem;">稳定币<sup>18</sup></a><a href="/tags/%E7%A9%BA%E6%8A%95/" style="font-size: 1.05rem;">空投<sup>1</sup></a><a href="/tags/%E7%BA%BF%E6%80%A7%E8%A7%A3%E9%94%81/" style="font-size: 1.05rem;">线性解锁<sup>1</sup></a><a href="/tags/%E7%BB%93%E7%AE%97/" style="font-size: 1.05rem;">结算<sup>3</sup></a><a href="/tags/%E8%87%AA%E4%B8%BB%E7%BB%8F%E6%B5%8E/" style="font-size: 1.05rem;">自主经济<sup>1</sup></a><a href="/tags/%E8%A1%8C%E4%B8%9A%E8%A7%82%E5%AF%9F/" style="font-size: 1.05rem;">行业观察<sup>1</sup></a><a href="/tags/%E8%B4%A6%E6%88%B7%E6%8A%BD%E8%B1%A1/" style="font-size: 1.05rem;">账户抽象<sup>3</sup></a><a href="/tags/%E8%B5%9B%E9%81%93%E6%8A%95%E7%A0%94/" style="font-size: 1.05rem;">赛道投研<sup>1</sup></a><a href="/tags/%E9%81%BF%E9%99%A9%E8%B5%84%E4%BA%A7/" style="font-size: 1.05rem;">避险资产<sup>2</sup></a><a href="/tags/%E9%93%BE%E4%B8%8A%E5%88%86%E6%9E%90/" style="font-size: 1.05rem;">链上分析<sup>3</sup></a><a href="/tags/%E9%98%B2%E8%AF%88%E9%AA%97/" style="font-size: 1.05rem;">防诈骗<sup>2</sup></a></div></div><hr/></div></div><div class="console-card history"><div class="item-headline"><i class="anzhiyufont anzhiyu-icon-box-archiv"></i><span>Articles</span></div><div class="card-archives"><div class="item-headline"><i class="anzhiyufont anzhiyu-icon-archive"></i><span>Archives</span></div><ul class="card-archive-list"><li class="card-archive-list-item"><a class="card-archive-list-link" href="/archives/2026/11/"><span class="card-archive-list-date">November 2026</span><div class="card-archive-list-count-group"><span class="card-archive-list-count">230</span><span>篇</span></div></a></li><li class="card-archive-list-item"><a class="card-archive-list-link" href="/archives/2026/10/"><span class="card-archive-list-date">October 2026</span><div class="card-archive-list-count-group"><span class="card-archive-list-count">59</span><span>篇</span></div></a></li><li class="card-archive-list-item"><a class="card-archive-list-link" href="/archives/2026/03/"><span class="card-archive-list-date">March 2026</span><div class="card-archive-list-count-group"><span class="card-archive-list-count">13</span><span>篇</span></div></a></li><li class="card-archive-list-item"><a class="card-archive-list-link" href="/archives/2026/02/"><span class="card-archive-list-date">February 2026</span><div class="card-archive-list-count-group"><span class="card-archive-list-count">2</span><span>篇</span></div></a></li><li class="card-archive-list-item"><a class="card-archive-list-link" href="/archives/2025/11/"><span class="card-archive-list-date">November 2025</span><div class="card-archive-list-count-group"><span class="card-archive-list-count">3</span><span>篇</span></div></a></li><li class="card-archive-list-item"><a class="card-archive-list-link" href="/archives/2025/10/"><span class="card-archive-list-date">October 2025</span><div class="card-archive-list-count-group"><span class="card-archive-list-count">2</span><span>篇</span></div></a></li><li class="card-archive-list-item"><a class="card-archive-list-link" href="/archives/2025/09/"><span class="card-archive-list-date">September 2025</span><div class="card-archive-list-count-group"><span class="card-archive-list-count">1</span><span>篇</span></div></a></li></ul></div><hr/></div></div></div><div class="button-group"><div class="console-btn-item"><a class="darkmode_switchbutton" title="Toggle Display Mode" href="javascript:void(0);"><i class="anzhiyufont anzhiyu-icon-moon"></i></a></div><div class="console-btn-item" id="consoleHideAside" onclick="anzhiyu.hideAsideBtn()" title="Toggle Sidebar"><a class="asideSwitch"><i class="anzhiyufont anzhiyu-icon-arrows-left-right"></i></a></div></div><div class="console-mask" onclick="anzhiyu.hideConsole()" href="javascript:void(0);"></div></div><div class="nav-button" id="nav-totop"><a class="totopbtn" href="javascript:void(0);"><i class="anzhiyufont anzhiyu-icon-arrow-up"></i><span id="percent" onclick="anzhiyu.scrollToDest(0,500)">0</span></a></div><div id="toggle-menu"><a class="site-page" href="javascript:void(0);" title="Toggle"><i class="anzhiyufont anzhiyu-icon-bars"></i></a></div></div></div></nav><div id="post-info"><div id="post-firstinfo"><div class="meta-firstline"><a class="post-meta-original">原创</a><span class="post-meta-categories"><span class="post-meta-separator"></span><i class="anzhiyufont anzhiyu-icon-inbox post-meta-icon"></i><a class="post-meta-categories" href="/categories/%E5%8A%A0%E5%AF%86%E8%B4%A7%E5%B8%81/" itemprop="url">加密货币</a><i class="anzhiyufont anzhiyu-icon-angle-right post-meta-separator"></i><i class="anzhiyufont anzhiyu-icon-inbox post-meta-icon"></i><a class="post-meta-categories" href="/categories/%E5%8A%A0%E5%AF%86%E8%B4%A7%E5%B8%81/DeFi/" itemprop="url">DeFi</a><i class="anzhiyufont anzhiyu-icon-angle-right post-meta-separator"></i><i class="anzhiyufont anzhiyu-icon-inbox post-meta-icon"></i><a class="post-meta-categories" href="/categories/%E5%8A%A0%E5%AF%86%E8%B4%A7%E5%B8%81/DeFi/%E8%A1%8D%E7%94%9F%E5%93%81/" itemprop="url">衍生品</a></span><span class="article-meta tags"><a class="article-meta__tags" href="/tags/%E9%9A%90%E5%90%AB%E6%B3%A2%E5%8A%A8%E7%8E%87/" tabindex="-1" itemprop="url"> <span> <i class="anzhiyufont anzhiyu-icon-hashtag"></i>隐含波动率</span></a><a class="article-meta__tags" href="/tags/%E9%9B%86%E4%B8%AD%E6%B5%81%E5%8A%A8%E6%80%A7/" tabindex="-1" itemprop="url"> <span> <i class="anzhiyufont anzhiyu-icon-hashtag"></i>集中流动性</span></a><a class="article-meta__tags" href="/tags/%E5%81%9A%E5%B8%82%E5%95%86/" tabindex="-1" itemprop="url"> <span> <i class="anzhiyufont anzhiyu-icon-hashtag"></i>做市商</span></a><a class="article-meta__tags" href="/tags/%E9%93%BE%E4%B8%8A%E6%9C%9F%E6%9D%83/" tabindex="-1" itemprop="url"> <span> <i class="anzhiyufont anzhiyu-icon-hashtag"></i>链上期权</span></a><a class="article-meta__tags" href="/tags/%E6%B0%B8%E7%BB%AD%E6%9C%9F%E6%9D%83/" tabindex="-1" itemprop="url"> <span> <i class="anzhiyufont anzhiyu-icon-hashtag"></i>永续期权</span></a><a class="article-meta__tags" href="/tags/gamma/" tabindex="-1" itemprop="url"> <span> <i class="anzhiyufont anzhiyu-icon-hashtag"></i>gamma</span></a></span></div></div><h1 class="post-title" itemprop="name headline">链上期权为什么做不起来：问题从来不是技术</h1><div id="post-meta"><div class="meta-firstline"><span class="post-meta-date"><i class="anzhiyufont anzhiyu-icon-calendar-days post-meta-icon"></i><span class="post-meta-label">Created</span><time class="post-meta-date-created" itemprop="dateCreated datePublished" datetime="2026-11-22T15:10:00.000Z" title="Created 2026-11-22 23:10:00">2026-11-22</time><span class="post-meta-separator"></span><i class="anzhiyufont anzhiyu-icon-history post-meta-icon"></i><span class="post-meta-label">Updated</span><time class="post-meta-date-updated" itemprop="dateCreated datePublished" datetime="2026-11-22T14:21:39.901Z" title="Updated 2026-11-22 22:21:39">2026-11-22</time></span></div><div class="meta-secondline"><span class="post-meta-separator">       </span><span class="post-meta-position" title="作者IP属地为Block"><i class="anzhiyufont anzhiyu-icon-location-dot"></i>Block</span></div></div></div><section class="main-hero-waves-area waves-area"><svg class="waves-svg" xmlns="http://www.w3.org/2000/svg" xlink="http://www.w3.org/1999/xlink" viewBox="0 24 150 28" preserveAspectRatio="none" shape-rendering="auto"><defs><path id="gentle-wave" d="M -160 44 c 30 0 58 -18 88 -18 s 58 18 88 18 s 58 -18 88 -18 s 58 18 88 18 v 44 h -352 Z"></path></defs><g class="parallax"><use href="#gentle-wave" x="48" y="0"></use><use href="#gentle-wave" x="48" y="3"></use><use href="#gentle-wave" x="48" y="5"></use><use href="#gentle-wave" x="48" y="7"></use></g></svg></section><div id="post-top-cover"><img class="nolazyload" id="post-top-bg" src=""></div></header><main id="blog-container"><div class="layout" id="content-inner"><div id="post"><article class="post-content" id="article-container" itemscope itemtype="http://www.bitbank.link/2026/11/22/onchain-options-amm-market-making-2026/"><header><a class="post-meta-categories" href="/categories/%E5%8A%A0%E5%AF%86%E8%B4%A7%E5%B8%81/" itemprop="url">加密货币</a><a class="post-meta-categories" href="/categories/%E5%8A%A0%E5%AF%86%E8%B4%A7%E5%B8%81/DeFi/" itemprop="url">DeFi</a><a class="post-meta-categories" href="/categories/%E5%8A%A0%E5%AF%86%E8%B4%A7%E5%B8%81/DeFi/%E8%A1%8D%E7%94%9F%E5%93%81/" itemprop="url">衍生品</a><a href="/tags/%E9%9A%90%E5%90%AB%E6%B3%A2%E5%8A%A8%E7%8E%87/" tabindex="-1" itemprop="url">隐含波动率</a><a href="/tags/%E9%9B%86%E4%B8%AD%E6%B5%81%E5%8A%A8%E6%80%A7/" tabindex="-1" itemprop="url">集中流动性</a><a href="/tags/%E5%81%9A%E5%B8%82%E5%95%86/" tabindex="-1" itemprop="url">做市商</a><a href="/tags/%E9%93%BE%E4%B8%8A%E6%9C%9F%E6%9D%83/" tabindex="-1" itemprop="url">链上期权</a><a href="/tags/%E6%B0%B8%E7%BB%AD%E6%9C%9F%E6%9D%83/" tabindex="-1" itemprop="url">永续期权</a><a href="/tags/gamma/" tabindex="-1" itemprop="url">gamma</a><h1 id="CrawlerTitle" itemprop="name headline">链上期权为什么做不起来：问题从来不是技术</h1><span itemprop="author" itemscope itemtype="http://schema.org/Person">Bitbank</span><time itemprop="dateCreated datePublished" datetime="2026-11-22T15:10:00.000Z" title="Created 2026-11-22 23:10:00">2026-11-22</time><time itemprop="dateCreated datePublished" datetime="2026-11-22T14:21:39.901Z" title="Updated 2026-11-22 22:21:39">2026-11-22</time></header><p><a target="_blank" rel="noopener" href="https://www.binance.com/register?ref=CYBERBASE">币安|Binance</a><br><a target="_blank" rel="noopener" href="https://www.okx.com/join/EBED6G2L">欧意|OKX</a></p>
+<blockquote>
+<p><strong>导读</strong>：如果只看技术叙事，链上期权早就该成功了。低费用的 L2、专用应用链、无需预言机的定价模型，每一代都解决了上一代的抱怨。可是成交量没有跟上。</p>
+</blockquote>
+<h2 id="五代方案，同一结局"><a href="#五代方案，同一结局" class="headerlink" title="五代方案，同一结局"></a>五代方案，同一结局</h2><p>按技术路线梳理，链上期权走过五个阶段：</p>
+<table>
+<thead>
+<tr>
+<th>代际</th>
+<th>代表路线</th>
+<th>结局</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>第一代</td>
+<td>全额抵押的期权金库，卖出备兑</td>
+<td>资本效率低，收益率随波动率下滑</td>
+</tr>
+<tr>
+<td>第二代</td>
+<td>AMM 定价池，按算法报价</td>
+<td>无常损失与定价偏差吃掉 LP 收益</td>
+</tr>
+<tr>
+<td>第三代</td>
+<td>迁移到 L2 降低成本</td>
+<td>成本降了，需求没来</td>
+</tr>
+<tr>
+<td>第四代</td>
+<td>专用应用链 + 链下撮合、链上结算</td>
+<td>执行质量接近中心化，成交量仍集中在少数标的</td>
+</tr>
+<tr>
+<td>第五代</td>
+<td>去掉到期日，做永续期权</td>
+<td>概念最优，理解成本最高</td>
+</tr>
+</tbody></table>
+<p>这条时间线上有一个反复出现的名字：同一个团队的产品从金库转成订单簿，又从订单簿转成永续合约；另一个团队从期权金库转成通用衍生品平台，把期权做成背景功能；还有一个项目在 2026 年 2 月 13 日直接停止运营、3 月初关闭链，团队明确表示不为一个走到生命末期的产品发币。</p>
+<p>把这些退出放在一起看，结论有点刺人：<strong>每一次被识别出的问题都是真的，每一个提出的方案在技术上都是对的，结果却一样。</strong></p>
+<h2 id="基础设施已经不是借口"><a href="#基础设施已经不是借口" class="headerlink" title="基础设施已经不是借口"></a>基础设施已经不是借口</h2><p>早年确实受限于链的能力。2020 年在以太坊上跑期权订单簿不可能，替代方案还不存在。这个借口现在不成立了：Rollup 把执行成本压到很低，应用链允许协议为自己的场景定制区块空间，全链上订单簿已经能提供接近中心化场所的执行质量。</p>
+<p>反证也很清楚。某个现在以永续合约为主打的平台，早期做的架构几乎就是「链下订单簿 + 链上结算 + 专用 OP Stack L2」——与今天主导期权市场的那个协议几乎一样。技术在 2023 年就对了，可是到 2026 年年中，它的 30 天期权名义成交只有约 4,500 万美元，未平仓合约只有几百万美元。同样的架构，在另一家始终专注期权的协议那里，成交量是它的三十倍。</p>
+<p>所以差别不在技术栈。</p>
+<h2 id="瓶颈是做市商的启动成本"><a href="#瓶颈是做市商的启动成本" class="headerlink" title="瓶颈是做市商的启动成本"></a>瓶颈是做市商的启动成本</h2><p>期权做市与现货做市有一个结构性差异：<strong>你得同时喂几百个订单簿</strong>。执行价与到期日构成一个矩阵，每个格子都是独立的市场，每个市场都需要报价、都需要对冲。</p>
+<p>而在一个新平台上，做市商面对的订单流构成极其难堪：散户还没来，先来的是套利者。套利者会拿你的报价与中心化场所的报价做比较，一旦偏离就打掉。做市商因此在系统性地站在错误的一边，吃进库存，还得自己花钱去别处对冲。有从业者在 2026 年 8 月把这个机制讲得很直白：即使一切正常运行，新上线的链上期权交易所里的做市商也会亏掉数百万美元。</p>
+<p>结论只有两条路：要么重金补贴第一批做市商，要么把还不存在的散户订单流带进来。没有第三条。</p>
+<h2 id="期权-AMM-的内在矛盾"><a href="#期权-AMM-的内在矛盾" class="headerlink" title="期权 AMM 的内在矛盾"></a>期权 AMM 的内在矛盾</h2><p>集中流动性做市有一个容易被忽略的性质：<strong>LP 的头寸在数学上等价于卖出了一份跨式期权。</strong> 价格在区间内震荡时，LP 收取手续费；价格突破区间时，LP 承受方向性损失。用期权语言说，LP 是 short gamma、short vol 的。</p>
+<p>这带来一个清晰的判据。LP 的收益可以粗略拆成两项：</p>
+<blockquote>
+<p>净收益 ≈ 累计手续费 − 再平衡损失（LVR）</p>
+</blockquote>
+<p>其中手续费与换手率成正比，再平衡损失与实际波动率的平方成正比。于是存在一个隐含的「盈亏平衡波动率」：超过它，LP 亏；低于它，LP 赚。这个数字不是由任何协议设定的，而是由池子的费率档位与真实成交结构决定的。</p>
+<p>所谓「期权化 AMM」，做的就是把这件事显式化：不再让 LP 在不知情的情况下卖波动率，而是让他们明确地为一份期权定价、收取权利金、并对冲 delta。</p>
+<h2 id="永续期权：把复杂度换个地方放"><a href="#永续期权：把复杂度换个地方放" class="headerlink" title="永续期权：把复杂度换个地方放"></a>永续期权：把复杂度换个地方放</h2><p>最新一代方案的想法很聪明：既然所有麻烦都来自「执行价 × 到期日」这个矩阵，那就去掉到期日。</p>
+<p>某协议把永续期权建立在集中流动性池之上，不使用预言机、不使用订单簿，权利金按时间连续计费而非一次性支付，杠杆最高 10 倍。2026 年 6 月在以太坊上线第二代，同时推出金库套件：一个稳定币策略做借贷加自动 gamma scalping，一个 ETH 策略做借贷加系统化期权做市与自动 delta 对冲。</p>
+<p>这个方向在概念上是最原创的。但去掉到期日并没有去掉期权的复杂度，只是把它挪进了一个连续的资金费机制里。对一个普通用户，理解「永续期权的连续权利金」比理解「一张 30 天看涨」难得多。所以这类产品停留在内行的小圈子里，做市商的问题只是换了个地方重新出现。</p>
+<h2 id="现在的真实格局"><a href="#现在的真实格局" class="headerlink" title="现在的真实格局"></a>现在的真实格局</h2><p>抛开叙事，看数字会更清醒：</p>
+<table>
+<thead>
+<tr>
+<th>场所类型</th>
+<th>30 天名义成交</th>
+<th>特征</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>应用链 + 链下订单簿</td>
+<td>十亿美元量级</td>
+<td>机构 RFQ、组合保证金、跨产品净额</td>
+</tr>
+<tr>
+<td>通用衍生品平台</td>
+<td>数千万美元</td>
+<td>期权为附属功能，山寨币标的较多</td>
+</tr>
+<tr>
+<td>期权金库 &#x2F; 结构化</td>
+<td>千万美元级，TVL 常低于百万</td>
+<td>收益依赖定价与再平衡逻辑</td>
+</tr>
+<tr>
+<td>永续期权</td>
+<td>未披露</td>
+<td>概念前沿，流动性集中在一两个标的</td>
+</tr>
+</tbody></table>
+<p>一个值得注意的细节：某基于 HyperEVM 的协议把 TVL 从 420 万美元做到 2026 年 3 月的 6,500 万美元以上，每周期权名义成交约 6,000 万美元，且每次到期后有超过 90% 的资本回流。这个「到期后资本回流率」是一个很好的产品健康度指标——它说明用户是来做策略的，不是来投机的。</p>
+<p>反过来，某个 AMM 型期权协议累计处理了 4.11 亿美元名义成交，但当前 TVL 只有 18.5 万美元。累计量与存量差三个数量级，说明资金进来、赚一笔、立刻走。</p>
+<h2 id="对交易者的实际含义"><a href="#对交易者的实际含义" class="headerlink" title="对交易者的实际含义"></a>对交易者的实际含义</h2><p>如果你确实要用链上期权，三个判断标准比 TVL 有用：</p>
+<p><strong>看报价深度，不看总锁仓。</strong> 你要交易的那个执行价、那个到期日，盘口有多厚？总 TVL 大的协议在你要的格子上可能是空的。</p>
+<p><strong>算全成本。</strong> 权利金 + 平台费 + 结算 gas + 对冲腿的滑点。链上期权的名义权利金看似便宜，但加上退出成本常常不如直接在中心化场所做。</p>
+<p><strong>确认结算机制。</strong> 现金结算还是实物交割？结算价取哪段窗口的均价？自动行权的金额门槛是多少？这三点决定了到期那天你是收到钱还是收到一堆难卖的抵押品。</p>
+<p>在 <a target="_blank" rel="noopener" href="https://www.binance.com/register?ref=CYBERBASE">币安</a> 与 <a target="_blank" rel="noopener" href="https://www.okx.com/join/EBED6G2L">欧意 OKX</a> 上，期权与永续的流动性集中在少数标的，这也解释了为什么链上协议即使技术更好，也很难把主流标的的成交量抢过来。</p>
+<h2 id="结语"><a href="#结语" class="headerlink" title="结语"></a>结语</h2><p>链上期权的故事是一个提醒：把技术问题解决完，并不等于把商业问题解决完。期权市场需要的是持续的双边订单流与愿意承担库存风险的专业做市商，这两样东西不会因为 gas 变便宜而自动出现。</p>
+<p>真正可能改变格局的，不是又一个更优雅的定价模型，而是某类能自带订单流的结构——比如把期权嵌进收益产品、让用户在不知道自己在卖期权的情况下提供流动性。这条路已经有产品在走，但它同时也意味着，风险会被更彻底地藏起来。</p>
+<blockquote>
+<p>本文为行业结构分析，不构成投资建议。期权与杠杆产品可能导致本金全部损失。</p>
+</blockquote>
+</article><div class="post-copyright"><div class="copyright-cc-box"><i class="anzhiyufont anzhiyu-icon-copyright"></i></div><div class="post-copyright__author_box"><a class="post-copyright__author_img" href="/" title="头像"><img class="post-copyright__author_img_back" src= "data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7" onerror="this.onerror=null,this.src=&quot;/img/404.jpg&quot;" data-lazy-src="/img/btc.png" title="头像" alt="头像"><img class="post-copyright__author_img_front" src= "data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7" onerror="this.onerror=null,this.src=&quot;/img/404.jpg&quot;" data-lazy-src="/img/btc.png" title="头像" alt="头像"></a><div class="post-copyright__author_name">Bitbank</div><div class="post-copyright__author_desc"></div></div><div class="post-copyright__post__info"><a class="post-copyright__original" title="该文章为原创文章，注意版权协议" href="http://www.bitbank.link/2026/11/22/onchain-options-amm-market-making-2026/">原创</a><a class="post-copyright-title"><span onclick="rm.copyPageUrl('http://www.bitbank.link/2026/11/22/onchain-options-amm-market-making-2026/')">链上期权为什么做不起来：问题从来不是技术</span></a></div><div class="post-tools" id="post-tools"><div class="post-tools-left"><div class="rewardLeftButton"><div class="post-reward" onclick="anzhiyu.addRewardMask()"><div class="reward-button button--animated" title="Support Author"><i class="anzhiyufont anzhiyu-icon-hand-heart-fill"></i>Donate</div><div class="reward-main"><div class="reward-all"><span class="reward-title">Thanks for your support</span><ul class="reward-group"><li class="reward-item"><a href="/img/bitcoin.png" target="_blank"><img class="post-qr-code-img" src= "data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7" onerror="this.onerror=null,this.src=&quot;/img/404.jpg&quot;" data-lazy-src="/img/bitcoin.png" alt="BTC"/></a><div class="post-qr-code-desc">BTC</div></li><li class="reward-item"><a href="/img/eth.png" target="_blank"><img class="post-qr-code-img" src= "data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7" onerror="this.onerror=null,this.src=&quot;/img/404.jpg&quot;" data-lazy-src="/img/eth.png" alt="ETH"/></a><div class="post-qr-code-desc">ETH</div></li></ul><a class="reward-main-btn" href="/about/#about-reward" target="_blank"><div class="reward-text">Supporters</div><div class="reward-dec">Your support motivates me to write more 🙏</div></a></div></div></div><div id="quit-box" onclick="anzhiyu.removeRewardMask()" style="display: none"></div></div><div class="shareRight"><div class="share-link mobile"><div class="share-qrcode"><div class="share-button" title="使用手机访问这篇文章"><i class="anzhiyufont anzhiyu-icon-qrcode"></i></div><div class="share-main"><div class="share-main-all"><div id="qrcode" title="http://www.bitbank.link/2026/11/22/onchain-options-amm-market-making-2026/"></div><div class="reward-dec">使用手机访问这篇文章</div></div></div></div></div><div class="share-link weibo"><a class="share-button" target="_blank" href="https://service.weibo.com/share/share.php?title=链上期权为什么做不起来：问题从来不是技术&amp;url=http://www.bitbank.link/2026/11/22/onchain-options-amm-market-making-2026/&amp;pic=" rel="external nofollow noreferrer noopener"><i class="anzhiyufont anzhiyu-icon-weibo"></i></a></div><script>function copyCurrentPageUrl() {
+  var currentPageUrl = window.location.href;
+  var input = document.createElement("input");
+  input.setAttribute("value", currentPageUrl);
+  document.body.appendChild(input);
+  input.select();
+  input.setSelectionRange(0, 99999);
+  document.execCommand("copy");
+  document.body.removeChild(input);
+}</script><div class="share-link copyurl"><div class="share-button" id="post-share-url" title="复制链接" onclick="copyCurrentPageUrl()"><i class="anzhiyufont anzhiyu-icon-link"></i></div></div></div></div></div><div class="post-copyright__notice"><span class="post-copyright-info">All articles in this blog are licensed under <a target="_blank" rel="noopener" href="https://creativecommons.org/licenses/by-nc-sa/4.0/">CC BY-NC-SA 4.0</a> unless stating additionally.</span></div></div><div class="post-tools-right"><div class="tag_share"><div class="post-meta__box"><div class="post-meta__box__tag-list"><a class="post-meta__box__tags" href="/tags/%E9%9A%90%E5%90%AB%E6%B3%A2%E5%8A%A8%E7%8E%87/"><span class="tags-punctuation"> <i class="anzhiyufont anzhiyu-icon-tag"></i></span>隐含波动率<span class="tagsPageCount">5</span></a><a class="post-meta__box__tags" href="/tags/%E9%9B%86%E4%B8%AD%E6%B5%81%E5%8A%A8%E6%80%A7/"><span class="tags-punctuation"> <i class="anzhiyufont anzhiyu-icon-tag"></i></span>集中流动性<span class="tagsPageCount">2</span></a><a class="post-meta__box__tags" href="/tags/%E5%81%9A%E5%B8%82%E5%95%86/"><span class="tags-punctuation"> <i class="anzhiyufont anzhiyu-icon-tag"></i></span>做市商<span class="tagsPageCount">5</span></a><a class="post-meta__box__tags" href="/tags/%E9%93%BE%E4%B8%8A%E6%9C%9F%E6%9D%83/"><span class="tags-punctuation"> <i class="anzhiyufont anzhiyu-icon-tag"></i></span>链上期权<span class="tagsPageCount">1</span></a><a class="post-meta__box__tags" href="/tags/%E6%B0%B8%E7%BB%AD%E6%9C%9F%E6%9D%83/"><span class="tags-punctuation"> <i class="anzhiyufont anzhiyu-icon-tag"></i></span>永续期权<span class="tagsPageCount">1</span></a><a class="post-meta__box__tags" href="/tags/gamma/"><span class="tags-punctuation"> <i class="anzhiyufont anzhiyu-icon-tag"></i></span>gamma<span class="tagsPageCount">1</span></a></div></div></div><div class="post_share"><div class="social-share" data-image="/img/btc.png" data-sites="facebook,twitter,wechat,weibo,qq"></div><link rel="stylesheet" href="https://cdn.cbd.int/butterfly-extsrc@1.1.3/sharejs/dist/css/share.min.css" media="print" onload="this.media='all'"/><script src="https://cdn.cbd.int/butterfly-extsrc@1.1.3/sharejs/dist/js/social-share.min.js" defer="defer"></script></div></div><nav class="pagination-post" id="pagination"><div class="prev-post pull-left"><a href="/2026/11/22/tokenized-fund-nav-subscription-redemption-2026/"><img class="prev-cover" src= "data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7" onerror="this.onerror=null,this.src=&quot;/img/404.jpg&quot;" data-lazy-src="/" onerror="onerror=null;src='/img/404.jpg'" alt="cover of previous post"><div class="pagination-info"><div class="label">Previous Post</div><div class="prev_info">代币化基金的申赎真相：NAV 只在特定时刻成立</div></div></a></div><div class="next-post pull-right"><a href="/2026/11/22/ai-datacenter-mining-power-competition-2026/"><img class="next-cover" src= "data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7" onerror="this.onerror=null,this.src=&quot;/img/404.jpg&quot;" data-lazy-src="/" onerror="onerror=null;src='/img/404.jpg'" alt="cover of next post"><div class="pagination-info"><div class="label">Next Post</div><div class="next_info">同一度电，矿场卖 99 美元，AI 数据中心卖 234 美元</div></div></a></div></nav><div class="relatedPosts"><div class="headline"><i class="anzhiyufont anzhiyu-icon-thumbs-up fa-fw" style="font-size: 1.5rem; margin-right: 4px"></i><span>Related Articles</span></div><div class="relatedPosts-list"><div><a href="/2026/11/09/bitcoin-etf-options-institutional-2026/" title="比特币 ETF 期权：机构风险管理的新工具"><img class="cover" src= "data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7" onerror="this.onerror=null,this.src=&quot;/img/404.jpg&quot;" data-lazy-src="/" alt="cover"><div class="content is-center"><div class="date"><i class="anzhiyufont anzhiyu-icon-calendar-days fa-fw"></i> 2026-11-09</div><div class="title">比特币 ETF 期权：机构风险管理的新工具</div></div></a></div><div><a href="/2026/11/05/crypto-volatility-sentiment-indicators-2026/" title="加密市场情绪仪表盘：DVOL波动率指数与恐惧贪婪指数"><img class="cover" src= "data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7" onerror="this.onerror=null,this.src=&quot;/img/404.jpg&quot;" data-lazy-src="/" alt="cover"><div class="content is-center"><div class="date"><i class="anzhiyufont anzhiyu-icon-calendar-days fa-fw"></i> 2026-11-05</div><div class="title">加密市场情绪仪表盘：DVOL波动率指数与恐惧贪婪指数</div></div></a></div><div><a href="/2026/11/15/crypto-options-volatility-surface-skew-2026/" title="期权偏斜（Skew）：从 25-delta 风险逆转读出市场在怕什么"><img class="cover" src= "data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7" onerror="this.onerror=null,this.src=&quot;/img/404.jpg&quot;" data-lazy-src="/" alt="cover"><div class="content is-center"><div class="date"><i class="anzhiyufont anzhiyu-icon-calendar-days fa-fw"></i> 2026-11-15</div><div class="title">期权偏斜（Skew）：从 25-delta 风险逆转读出市场在怕什么</div></div></a></div><div><a href="/2026/11/19/variance-risk-premium-vol-arbitrage-2026/" title="方差风险溢价：卖波动率为什么越来越不赚钱"><img class="cover" src= "data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7" onerror="this.onerror=null,this.src=&quot;/img/404.jpg&quot;" data-lazy-src="/" alt="cover"><div class="content is-center"><div class="date"><i class="anzhiyufont anzhiyu-icon-calendar-days fa-fw"></i> 2026-11-19</div><div class="title">方差风险溢价：卖波动率为什么越来越不赚钱</div></div></a></div><div><a href="/2026/11/05/concentrated-liquidity-clmm-2026/" title="集中流动性做市：Uniswap v3与CLMM如何改变DeFi"><img class="cover" src= "data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7" onerror="this.onerror=null,this.src=&quot;/img/404.jpg&quot;" data-lazy-src="/" alt="cover"><div class="content is-center"><div class="date"><i class="anzhiyufont anzhiyu-icon-calendar-days fa-fw"></i> 2026-11-05</div><div class="title">集中流动性做市：Uniswap v3与CLMM如何改变DeFi</div></div></a></div><div><a href="/2026/11/07/crypto-market-makers-liquidity-2026/" title="做市商：加密市场流动性的隐形引擎——从Wintermute看机构化浪潮"><img class="cover" src= "data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7" onerror="this.onerror=null,this.src=&quot;/img/404.jpg&quot;" data-lazy-src="/" alt="cover"><div class="content is-center"><div class="date"><i class="anzhiyufont anzhiyu-icon-calendar-days fa-fw"></i> 2026-11-07</div><div class="title">做市商：加密市场流动性的隐形引擎——从Wintermute看机构化浪潮</div></div></a></div></div></div></div><div class="aside-content" id="aside-content"><div class="card-widget card-info"><div class="card-content"><div class="author-info-avatar"><img class="avatar-img" src= "data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7" onerror="this.onerror=null,this.src=&quot;/img/404.jpg&quot;" data-lazy-src="/img/btc.png" onerror="this.onerror=null;this.src='/img/friend_404.gif'" alt="avatar"/></div><div class="author-info__description"></div></div></div><div class="card-widget anzhiyu-right-widget" id="card-wechat" onclick="null"><div id="flip-wrapper"><div id="flip-content"><div class="face" style="background: url(https://bu.dusays.com/2023/01/13/63c02edf44033.png) center center / 100% no-repeat"></div><div class="back face" style="background: url(https://bu.dusays.com/2023/05/13/645fa415e8694.png) center center / 100% no-repeat"></div></div></div></div><div class="sticky_layout"><div class="card-widget" id="card-toc"><div class="item-headline"><i class="anzhiyufont anzhiyu-icon-bars"></i><span>Catalog</span><span class="toc-percentage"></span></div><div class="toc-content"><ol class="toc"><li class="toc-item toc-level-2"><a class="toc-link" href="#%E4%BA%94%E4%BB%A3%E6%96%B9%E6%A1%88%EF%BC%8C%E5%90%8C%E4%B8%80%E7%BB%93%E5%B1%80"><span class="toc-number">1.</span> <span class="toc-text">五代方案，同一结局</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E5%9F%BA%E7%A1%80%E8%AE%BE%E6%96%BD%E5%B7%B2%E7%BB%8F%E4%B8%8D%E6%98%AF%E5%80%9F%E5%8F%A3"><span class="toc-number">2.</span> <span class="toc-text">基础设施已经不是借口</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E7%93%B6%E9%A2%88%E6%98%AF%E5%81%9A%E5%B8%82%E5%95%86%E7%9A%84%E5%90%AF%E5%8A%A8%E6%88%90%E6%9C%AC"><span class="toc-number">3.</span> <span class="toc-text">瓶颈是做市商的启动成本</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E6%9C%9F%E6%9D%83-AMM-%E7%9A%84%E5%86%85%E5%9C%A8%E7%9F%9B%E7%9B%BE"><span class="toc-number">4.</span> <span class="toc-text">期权 AMM 的内在矛盾</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E6%B0%B8%E7%BB%AD%E6%9C%9F%E6%9D%83%EF%BC%9A%E6%8A%8A%E5%A4%8D%E6%9D%82%E5%BA%A6%E6%8D%A2%E4%B8%AA%E5%9C%B0%E6%96%B9%E6%94%BE"><span class="toc-number">5.</span> <span class="toc-text">永续期权：把复杂度换个地方放</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E7%8E%B0%E5%9C%A8%E7%9A%84%E7%9C%9F%E5%AE%9E%E6%A0%BC%E5%B1%80"><span class="toc-number">6.</span> <span class="toc-text">现在的真实格局</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E5%AF%B9%E4%BA%A4%E6%98%93%E8%80%85%E7%9A%84%E5%AE%9E%E9%99%85%E5%90%AB%E4%B9%89"><span class="toc-number">7.</span> <span class="toc-text">对交易者的实际含义</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E7%BB%93%E8%AF%AD"><span class="toc-number">8.</span> <span class="toc-text">结语</span></a></li></ol></div></div><div class="card-widget card-recent-post"><div class="item-headline"><i class="anzhiyufont anzhiyu-icon-history"></i><span>Recent Post</span></div><div class="aside-list"><div class="aside-list-item no-cover"><div class="content"><a class="title" href="/2026/11/22/ai-datacenter-mining-power-competition-2026/" title="同一度电，矿场卖 99 美元，AI 数据中心卖 234 美元">同一度电，矿场卖 99 美元，AI 数据中心卖 234 美元</a><time datetime="2026-11-22T15:15:00.000Z" title="Created 2026-11-22 23:15:00">2026-11-22</time></div></div><div class="aside-list-item no-cover"><div class="content"><a class="title" href="/2026/11/22/onchain-options-amm-market-making-2026/" title="链上期权为什么做不起来：问题从来不是技术">链上期权为什么做不起来：问题从来不是技术</a><time datetime="2026-11-22T15:10:00.000Z" title="Created 2026-11-22 23:10:00">2026-11-22</time></div></div><div class="aside-list-item no-cover"><div class="content"><a class="title" href="/2026/11/22/tokenized-fund-nav-subscription-redemption-2026/" title="代币化基金的申赎真相：NAV 只在特定时刻成立">代币化基金的申赎真相：NAV 只在特定时刻成立</a><time datetime="2026-11-22T15:05:00.000Z" title="Created 2026-11-22 23:05:00">2026-11-22</time></div></div><div class="aside-list-item no-cover"><div class="content"><a class="title" href="/2026/11/22/defi-liquidator-economics-2026/" title="清算人的账本：615 美元奖励，530 美元交给了区块构建者">清算人的账本：615 美元奖励，530 美元交给了区块构建者</a><time datetime="2026-11-22T15:00:00.000Z" title="Created 2026-11-22 23:00:00">2026-11-22</time></div></div><div class="aside-list-item no-cover"><div class="content"><a class="title" href="/2026/11/22/recursive-folding-proofs-nova-2026/" title="折叠证明：把一万次验证折叠成一次，代价记在最后一步">折叠证明：把一万次验证折叠成一次，代价记在最后一步</a><time datetime="2026-11-22T14:55:00.000Z" title="Created 2026-11-22 22:55:00">2026-11-22</time></div></div></div></div></div></div></div></main><footer id="footer"><div id="footer-wrap"></div><div id="footer-bar"><div class="footer-bar-links"><div class="footer-bar-left"><div id="footer-bar-tips"><div class="copyright">&copy;2020 - 2026 By <a class="footer-bar-link" href="/" title="Bitbank" target="_blank">Bitbank</a></div></div><div id="footer-type-tips"></div></div><div class="footer-bar-right"><a class="footer-bar-link" target="_blank" rel="noopener" href="https://www.binance.com/register?ref=CYBERBASE" title="开始交易">开始交易</a></div></div></div></footer></div><div id="sidebar"><div id="menu-mask"></div><div id="sidebar-menus"><div class="sidebar-site-data site-data is-center"><a href="/archives/" title="archive"><div class="headline">Articles</div><div class="length-num">310</div></a><a href="/tags/" title="tag"><div class="headline">Tags</div><div class="length-num">1255</div></a><a href="/categories/" title="category"><div class="headline">Categories</div><div class="length-num">311</div></a></div><div class="back-menu-list-groups"><div class="back-menu-list-group"><div class="back-menu-list-title">网页</div><div class="back-menu-list"><a class="back-menu-item" target="_blank" rel="noopener" href="https://hexo.anheyu.com/" title="博客"><img class="back-menu-item-icon" src= "data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7" onerror="this.onerror=null,this.src=&quot;/img/404.jpg&quot;" data-lazy-src="/img/favicon.ico" alt="博客"/><span class="back-menu-item-text">博客</span></a></div></div><div class="back-menu-list-group"><div class="back-menu-list-title">项目</div><div class="back-menu-list"><a class="back-menu-item" target="_blank" rel="noopener" href="https://image.anheyu.com/" title="安知鱼图床"><img class="back-menu-item-icon" src= "data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7" onerror="this.onerror=null,this.src=&quot;/img/404.jpg&quot;" data-lazy-src="https://image.anheyu.com/favicon.ico" alt="安知鱼图床"/><span class="back-menu-item-text">安知鱼图床</span></a></div></div></div><span class="sidebar-menu-item-title">标签</span><div class="card-tags"><div class="item-headline"></div><div class="card-tag-cloud"><a href="/tags/AI/" style="font-size: 0.88rem;">AI<sup>1</sup></a><a href="/tags/AI-Agent/" style="font-size: 0.88rem;">AI Agent<sup>2</sup></a><a href="/tags/AI%E4%BB%A3%E7%90%86/" style="font-size: 0.88rem;">AI代理<sup>1</sup></a><a href="/tags/DeFi/" style="font-size: 0.88rem;">DeFi<sup>6</sup></a><a href="/tags/ERC-4337/" style="font-size: 0.88rem;">ERC-4337<sup>2</sup></a><a href="/tags/SegWit/" style="font-size: 0.88rem;">SegWit<sup>1</sup></a><a href="/tags/TGE/" style="font-size: 0.88rem;">TGE<sup>1</sup></a><a href="/tags/UASF/" style="font-size: 0.88rem;">UASF<sup>1</sup></a><a href="/tags/Web3/" style="font-size: 0.88rem;">Web3<sup>2</sup></a><a href="/tags/Web3%E4%BD%93%E9%AA%8C/" style="font-size: 0.88rem;">Web3体验<sup>1</sup></a><a href="/tags/gas%E4%BB%A3%E4%BB%98/" style="font-size: 0.88rem;">gas代付<sup>1</sup></a><a href="/tags/x402/" style="font-size: 0.88rem;">x402<sup>1</sup></a><a href="/tags/%E4%BB%A3%E5%B8%81%E5%88%86%E5%8F%91/" style="font-size: 0.88rem;">代币分发<sup>1</sup></a><a href="/tags/%E5%85%B1%E8%AF%86%E6%9C%BA%E5%88%B6/" style="font-size: 0.88rem;">共识机制<sup>3</sup></a><a href="/tags/%E5%8A%A0%E5%AF%86ATM/" style="font-size: 0.88rem;">加密ATM<sup>1</sup></a><a href="/tags/%E5%8C%BA%E5%9D%97%E5%A4%A7%E5%B0%8F/" style="font-size: 0.88rem;">区块大小<sup>1</sup></a><a href="/tags/%E5%A5%B3%E5%B7%AB%E6%94%BB%E5%87%BB/" style="font-size: 0.88rem;">女巫攻击<sup>1</sup></a><a href="/tags/%E5%AE%9E%E4%BD%93%E5%85%91%E6%8D%A2/" style="font-size: 0.88rem;">实体兑换<sup>1</sup></a><a href="/tags/%E6%89%A9%E5%AE%B9/" style="font-size: 0.88rem;">扩容<sup>5</sup></a><a href="/tags/%E6%95%B0%E5%AD%97%E9%BB%84%E9%87%91/" style="font-size: 0.88rem;">数字黄金<sup>2</sup></a><a href="/tags/%E6%99%BA%E8%83%BD%E4%BD%93/" style="font-size: 0.88rem;">智能体<sup>1</sup></a><a href="/tags/%E6%99%BA%E8%83%BD%E5%90%88%E7%BA%A6/" style="font-size: 0.88rem;">智能合约<sup>4</sup></a><a href="/tags/%E6%99%BA%E8%83%BD%E5%90%88%E7%BA%A6%E9%92%B1%E5%8C%85/" style="font-size: 0.88rem;">智能合约钱包<sup>1</sup></a><a href="/tags/%E6%9C%BA%E5%99%A8%E6%94%AF%E4%BB%98/" style="font-size: 0.88rem;">机器支付<sup>1</sup></a><a href="/tags/%E6%AF%94%E7%89%B9%E5%B8%81/" style="font-size: 0.88rem;">比特币<sup>15</sup></a><a href="/tags/%E6%AF%94%E7%89%B9%E5%B8%81ATM/" style="font-size: 0.88rem;">比特币ATM<sup>1</sup></a><a href="/tags/%E6%B2%BB%E7%90%86/" style="font-size: 0.88rem;">治理<sup>2</sup></a><a href="/tags/%E7%8E%B0%E9%87%91%E5%85%91%E6%8D%A2/" style="font-size: 0.88rem;">现金兑换<sup>1</sup></a><a href="/tags/%E7%A4%BE%E4%BA%A4%E6%81%A2%E5%A4%8D/" style="font-size: 0.88rem;">社交恢复<sup>3</sup></a><a href="/tags/%E7%A8%B3%E5%AE%9A%E5%B8%81/" style="font-size: 0.88rem;">稳定币<sup>18</sup></a><a href="/tags/%E7%A9%BA%E6%8A%95/" style="font-size: 0.88rem;">空投<sup>1</sup></a><a href="/tags/%E7%BA%BF%E6%80%A7%E8%A7%A3%E9%94%81/" style="font-size: 0.88rem;">线性解锁<sup>1</sup></a><a href="/tags/%E7%BB%93%E7%AE%97/" style="font-size: 0.88rem;">结算<sup>3</sup></a><a href="/tags/%E8%87%AA%E4%B8%BB%E7%BB%8F%E6%B5%8E/" style="font-size: 0.88rem;">自主经济<sup>1</sup></a><a href="/tags/%E8%A1%8C%E4%B8%9A%E8%A7%82%E5%AF%9F/" style="font-size: 0.88rem;">行业观察<sup>1</sup></a><a href="/tags/%E8%B4%A6%E6%88%B7%E6%8A%BD%E8%B1%A1/" style="font-size: 0.88rem;">账户抽象<sup>3</sup></a><a href="/tags/%E8%B5%9B%E9%81%93%E6%8A%95%E7%A0%94/" style="font-size: 0.88rem;">赛道投研<sup>1</sup></a><a href="/tags/%E9%81%BF%E9%99%A9%E8%B5%84%E4%BA%A7/" style="font-size: 0.88rem;">避险资产<sup>2</sup></a><a href="/tags/%E9%93%BE%E4%B8%8A%E5%88%86%E6%9E%90/" style="font-size: 0.88rem;">链上分析<sup>3</sup></a><a href="/tags/%E9%98%B2%E8%AF%88%E9%AA%97/" style="font-size: 0.88rem;">防诈骗<sup>2</sup></a></div></div><hr/></div></div><div id="rightside"><div id="rightside-config-hide"><button id="readmode" type="button" title="Read Mode"><i class="anzhiyufont anzhiyu-icon-book-open"></i></button><button id="translateLink" type="button" title="Switch Between Traditional Chinese And Simplified Chinese">繁</button><button id="hide-aside-btn" type="button" title="Toggle between single-column and double-column"><i class="anzhiyufont anzhiyu-icon-arrows-left-right"></i></button></div><div id="rightside-config-show"><button id="rightside-config" type="button" title="Setting"><i class="anzhiyufont anzhiyu-icon-gear"></i></button><button class="close" id="mobile-toc-button" type="button" title="Table Of Contents"><i class="anzhiyufont anzhiyu-icon-list-ul"></i></button><button id="go-up" type="button" title="Back To Top"><i class="anzhiyufont anzhiyu-icon-arrow-up"></i></button></div></div><div id="rightMenu"><div class="rightMenu-group rightMenu-small"><div class="rightMenu-item" id="menu-backward"><i class="anzhiyufont anzhiyu-icon-arrow-left"></i></div><div class="rightMenu-item" id="menu-forward"><i class="anzhiyufont anzhiyu-icon-arrow-right"></i></div><div class="rightMenu-item" id="menu-refresh"><i class="anzhiyufont anzhiyu-icon-arrow-rotate-right" style="font-size: 1rem;"></i></div><div class="rightMenu-item" id="menu-top"><i class="anzhiyufont anzhiyu-icon-arrow-up"></i></div></div><div class="rightMenu-group rightMenu-line rightMenuPlugin"><div class="rightMenu-item" id="menu-copytext"><i class="anzhiyufont anzhiyu-icon-copy"></i><span>复制选中文本</span></div><div class="rightMenu-item" id="menu-pastetext"><i class="anzhiyufont anzhiyu-icon-paste"></i><span>粘贴文本</span></div><a class="rightMenu-item" id="menu-commenttext"><i class="anzhiyufont anzhiyu-icon-comment-medical"></i><span>引用到评论</span></a><div class="rightMenu-item" id="menu-newwindow"><i class="anzhiyufont anzhiyu-icon-window-restore"></i><span>新窗口打开</span></div><div class="rightMenu-item" id="menu-copylink"><i class="anzhiyufont anzhiyu-icon-link"></i><span>复制链接地址</span></div><div class="rightMenu-item" id="menu-copyimg"><i class="anzhiyufont anzhiyu-icon-images"></i><span>复制此图片</span></div><div class="rightMenu-item" id="menu-downloadimg"><i class="anzhiyufont anzhiyu-icon-download"></i><span>下载此图片</span></div><div class="rightMenu-item" id="menu-newwindowimg"><i class="anzhiyufont anzhiyu-icon-window-restore"></i><span>新窗口打开图片</span></div><div class="rightMenu-item" id="menu-search"><i class="anzhiyufont anzhiyu-icon-magnifying-glass"></i><span>站内搜索</span></div><div class="rightMenu-item" id="menu-searchBaidu"><i class="anzhiyufont anzhiyu-icon-magnifying-glass"></i><span>百度搜索</span></div><div class="rightMenu-item" id="menu-music-toggle"><i class="anzhiyufont anzhiyu-icon-play"></i><span>播放音乐</span></div><div class="rightMenu-item" id="menu-music-back"><i class="anzhiyufont anzhiyu-icon-backward"></i><span>切换到上一首</span></div><div class="rightMenu-item" id="menu-music-forward"><i class="anzhiyufont anzhiyu-icon-forward"></i><span>切换到下一首</span></div><div class="rightMenu-item" id="menu-music-playlist" onclick="window.open(&quot;https://y.qq.com/n/ryqq/playlist/8802438608&quot;, &quot;_blank&quot;);" style="display: none;"><i class="anzhiyufont anzhiyu-icon-radio"></i><span>查看所有歌曲</span></div><div class="rightMenu-item" id="menu-music-copyMusicName"><i class="anzhiyufont anzhiyu-icon-copy"></i><span>复制歌名</span></div></div><div class="rightMenu-group rightMenu-line rightMenuOther"><a class="rightMenu-item menu-link" id="menu-randomPost"><i class="anzhiyufont anzhiyu-icon-shuffle"></i><span>随便逛逛</span></a><a class="rightMenu-item menu-link" href="/categories/"><i class="anzhiyufont anzhiyu-icon-cube"></i><span>博客分类</span></a><a class="rightMenu-item menu-link" href="/tags/"><i class="anzhiyufont anzhiyu-icon-tags"></i><span>文章标签</span></a></div><div class="rightMenu-group rightMenu-line rightMenuOther"><a class="rightMenu-item" id="menu-copy" href="javascript:void(0);"><i class="anzhiyufont anzhiyu-icon-copy"></i><span>复制地址</span></a><a class="rightMenu-item" id="menu-commentBarrage" href="javascript:void(0);"><i class="anzhiyufont anzhiyu-icon-message"></i><span class="menu-commentBarrage-text">关闭热评</span></a><a class="rightMenu-item" id="menu-darkmode" href="javascript:void(0);"><i class="anzhiyufont anzhiyu-icon-circle-half-stroke"></i><span class="menu-darkmode-text">深色模式</span></a><a class="rightMenu-item" id="menu-translate" href="javascript:void(0);"><i class="anzhiyufont anzhiyu-icon-language"></i><span>轉為繁體</span></a></div></div><div id="rightmenu-mask"></div><div><script src="/js/utils.js"></script><script src="/js/main.js"></script><script src="/js/tw_cn.js"></script><script src="https://cdn.cbd.int/@fancyapps/ui@6.1.6/dist/fancybox/fancybox.umd.js"></script><script src="https://cdn.cbd.int/instant.page@5.2.0/instantpage.js" type="module"></script><script src="https://cdn.cbd.int/vanilla-lazyload@19.1.3/dist/lazyload.iife.min.js"></script><script src="https://cdn.cbd.int/node-snackbar@0.1.16/dist/snackbar.min.js"></script><canvas id="universe"></canvas><script async src="https://npm.elemecdn.com/anzhiyu-theme-static@1.0.0/dark/dark.js"></script><script>// 消除控制台打印
+var HoldLog = console.log;
+console.log = function () {};
+let now1 = new Date();
+queueMicrotask(() => {
+  const Log = function () {
+    HoldLog.apply(console, arguments);
+  }; //在恢复前输出日志
+  const grt = new Date("04/01/2021 00:00:00"); //此处修改你的建站时间或者网站上线时间
+  now1.setTime(now1.getTime() + 250);
+  const days = (now1 - grt) / 1000 / 60 / 60 / 24;
+  const dnum = Math.floor(days);
+  const ascll = [
+    `欢迎使用安知鱼!`,
+    `生活明朗, 万物可爱`,
+    `
+        
+       █████╗ ███╗   ██╗███████╗██╗  ██╗██╗██╗   ██╗██╗   ██╗
+      ██╔══██╗████╗  ██║╚══███╔╝██║  ██║██║╚██╗ ██╔╝██║   ██║
+      ███████║██╔██╗ ██║  ███╔╝ ███████║██║ ╚████╔╝ ██║   ██║
+      ██╔══██║██║╚██╗██║ ███╔╝  ██╔══██║██║  ╚██╔╝  ██║   ██║
+      ██║  ██║██║ ╚████║███████╗██║  ██║██║   ██║   ╚██████╔╝
+      ╚═╝  ╚═╝╚═╝  ╚═══╝╚══════╝╚═╝  ╚═╝╚═╝   ╚═╝    ╚═════╝
+        
+        `,
+    "已上线",
+    dnum,
+    "天",
+    "©2020 By 安知鱼 V1.7.1",
+  ];
+  const ascll2 = [`NCC2-036`, `调用前置摄像头拍照成功，识别为【小笨蛋】.`, `Photo captured: `, `🤪`];
+
+  setTimeout(
+    Log.bind(
+      console,
+      `\n%c${ascll[0]} %c ${ascll[1]} %c ${ascll[2]} %c${ascll[3]}%c ${ascll[4]}%c ${ascll[5]}\n\n%c ${ascll[6]}\n`,
+      "color:#425AEF",
+      "",
+      "color:#425AEF",
+      "color:#425AEF",
+      "",
+      "color:#425AEF",
+      ""
+    )
+  );
+  setTimeout(
+    Log.bind(
+      console,
+      `%c ${ascll2[0]} %c ${ascll2[1]} %c \n${ascll2[2]} %c\n${ascll2[3]}\n`,
+      "color:white; background-color:#4fd953",
+      "",
+      "",
+      'background:url("https://npm.elemecdn.com/anzhiyu-blog@1.1.6/img/post/common/tinggge.gif") no-repeat;font-size:450%'
+    )
+  );
+
+  setTimeout(Log.bind(console, "%c WELCOME %c 你好，小笨蛋.", "color:white; background-color:#4f90d9", ""));
+
+  setTimeout(
+    console.warn.bind(
+      console,
+      "%c ⚡ Powered by 安知鱼 %c 你正在访问 Bitbank 的博客.",
+      "color:white; background-color:#f0ad4e",
+      ""
+    )
+  );
+
+  setTimeout(Log.bind(console, "%c W23-12 %c 你已打开控制台.", "color:white; background-color:#4f90d9", ""));
+
+  setTimeout(
+    console.warn.bind(console, "%c S013-782 %c 你现在正处于监控中.", "color:white; background-color:#d9534f", "")
+  );
+});</script><script async src="/anzhiyu/random.js"></script><div class="js-pjax"><input type="hidden" name="page-type" id="page-type" value="post"></div><script>var visitorMail = "";
+</script><script async data-pjax src="https://cdn.cbd.int/anzhiyu-theme-static@1.0.0/waterfall/waterfall.js"></script><script src="https://cdn.cbd.int/qrcodejs@1.0.0/qrcode.min.js"></script><link rel="stylesheet" href="https://cdn.cbd.int/anzhiyu-theme-static@1.1.9/icon/ali_iconfont_css.css"><script src="/js/waterfall-home.js" defer></script><script src="/js/macro-board.js" defer></script><link rel="stylesheet" href="https://cdn.cbd.int/anzhiyu-theme-static@1.0.0/aplayer/APlayer.min.css" media="print" onload="this.media='all'"><script src="https://cdn.cbd.int/anzhiyu-blog-static@1.0.1/js/APlayer.min.js"></script><script src="https://cdn.cbd.int/hexo-anzhiyu-music@1.0.1/assets/js/Meting2.min.js"></script><script src="https://cdn.cbd.int/pjax@0.2.8/pjax.min.js"></script><script>let pjaxSelectors = ["head > title","#config-diff","#body-wrap","#rightside-config-hide","#rightside-config-show",".js-pjax"]
+var pjax = new Pjax({
+  elements: 'a:not([target="_blank"])',
+  selectors: pjaxSelectors,
+  cacheBust: false,
+  analytics: false,
+  scrollRestoration: false
+})
+
+document.addEventListener('pjax:send', function () {
+  // removeEventListener scroll 
+  anzhiyu.removeGlobalFnEvent('pjax')
+  anzhiyu.removeGlobalFnEvent('themeChange')
+
+  document.getElementById('rightside').classList.remove('rightside-show')
+  
+  if (window.aplayers) {
+    for (let i = 0; i < window.aplayers.length; i++) {
+      if (!window.aplayers[i].options.fixed) {
+        window.aplayers[i].destroy()
+      }
+    }
+  }
+
+  typeof typed === 'object' && typed.destroy()
+
+  //reset readmode
+  const $bodyClassList = document.body.classList
+  $bodyClassList.contains('read-mode') && $bodyClassList.remove('read-mode')
+})
+
+document.addEventListener('pjax:complete', function () {
+  window.refreshFn()
+
+  document.querySelectorAll('script[data-pjax]').forEach(item => {
+    const newScript = document.createElement('script')
+    const content = item.text || item.textContent || item.innerHTML || ""
+    Array.from(item.attributes).forEach(attr => newScript.setAttribute(attr.name, attr.value))
+    newScript.appendChild(document.createTextNode(content))
+    item.parentNode.replaceChild(newScript, item)
+  })
+
+  GLOBAL_CONFIG.islazyload && window.lazyLoadInstance.update()
+
+  typeof panguInit === 'function' && panguInit()
+
+  // google analytics
+  typeof gtag === 'function' && gtag('config', '', {'page_path': window.location.pathname});
+
+  // baidu analytics
+  typeof _hmt === 'object' && _hmt.push(['_trackPageview',window.location.pathname]);
+
+  typeof loadMeting === 'function' && document.getElementsByClassName('aplayer').length && loadMeting()
+
+  // prismjs
+  typeof Prism === 'object' && Prism.highlightAll()
+})
+
+document.addEventListener('pjax:error', e => {
+  if (e.request.status === 404) {
+    pjax.loadUrl('/404.html')
+  }
+})</script><script charset="UTF-8" src="https://cdn.cbd.int/anzhiyu-theme-static@1.1.5/accesskey/accesskey.js"></script></div><div id="popup-window"><div class="popup-window-title">通知</div><div class="popup-window-divider"></div><div class="popup-window-content"><div class="popup-tip">你好呀</div><div class="popup-link"><i class="anzhiyufont anzhiyu-icon-arrow-circle-right"></i></div></div></div></body></html>

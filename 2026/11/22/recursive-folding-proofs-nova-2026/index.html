@@ -1,0 +1,439 @@
+<!DOCTYPE html><html lang="en" data-theme="dark"><head><meta charset="UTF-8"><meta http-equiv="X-UA-Compatible" content="IE=edge"><meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=no"><title>折叠证明：把一万次验证折叠成一次，代价记在最后一步 | BitBank|比特帮</title><meta name="keywords" content="折叠方案,folding scheme,Nova,SuperNova,HyperNova,递归证明,IVC,增量可验证计算,relaxed R1CS,Pasta曲线,zkVM,continuations,证明聚合"><meta name="author" content="Bitbank"><meta name="copyright" content="Bitbank"><meta name="format-detection" content="telephone=no"><meta name="theme-color" content="#181A20"><meta name="mobile-web-app-capable" content="yes"><meta name="apple-touch-fullscreen" content="yes"><meta name="apple-mobile-web-app-title" content="折叠证明：把一万次验证折叠成一次，代价记在最后一步"><meta name="application-name" content="折叠证明：把一万次验证折叠成一次，代价记在最后一步"><meta name="apple-mobile-web-app-capable" content="yes"><meta name="apple-mobile-web-app-status-bar-style" content="#181A20"><meta property="og:type" content="article"><meta property="og:title" content="折叠证明：把一万次验证折叠成一次，代价记在最后一步"><meta property="og:url" content="http://www.bitbank.link/2026/11/22/recursive-folding-proofs-nova-2026/index.html"><meta property="og:site_name" content="BitBank|比特帮"><meta property="og:description" content="递归要在每一步里塞一个验证器电路，折叠不用。每步只做两次多标量乘，最后压缩一次——这是长执行轨迹能被证明的关键。"><meta property="og:locale" content="en"><meta property="og:image" content="http://www.bitbank.link/img/btc.png"><meta property="article:author" content="Bitbank"><meta property="article:tag"><meta name="twitter:card" content="summary"><meta name="twitter:image" content="http://www.bitbank.link/img/btc.png"><meta name="description" content="递归要在每一步里塞一个验证器电路，折叠不用。每步只做两次多标量乘，最后压缩一次——这是长执行轨迹能被证明的关键。"><link rel="shortcut icon" href="/favicon.ico"><link rel="canonical" href="http://www.bitbank.link/2026/11/22/recursive-folding-proofs-nova-2026/"><link rel="preconnect" href="//cdn.cbd.int"/><meta name="google-site-verification" content="xxx"/><meta name="baidu-site-verification" content="code-xxx"/><meta name="msvalidate.01" content="xxx"/><link rel="stylesheet" href="/css/index.css"><link rel="stylesheet" href="https://cdn.cbd.int/node-snackbar@0.1.16/dist/snackbar.min.css" media="print" onload="this.media='all'"><link rel="stylesheet" href="https://cdn.cbd.int/@fancyapps/ui@6.1.6/dist/fancybox/fancybox.css" media="print" onload="this.media='all'"><script>const GLOBAL_CONFIG = {
+  linkPageTop: undefined,
+  peoplecanvas: undefined,
+  postHeadAiDescription: {"enable":true,"gptName":"Bitbank","mode":"local","switchBtn":false,"btnLink":"https://afdian.net/item/886a79d4db6711eda42a52540025c377","randomNum":3,"basicWordCount":1000,"key":"xxxx","Referer":"https://xx.xx/"},
+  diytitle: {"enable":true,"leaveTitle":"BlockChain！Link the world！","backTitle":"BitBank"},
+  LA51: undefined,
+  greetingBox: undefined,
+  twikooEnvId: '',
+  commentBarrageConfig:undefined,
+  music_page_default: "nav_music",
+  root: '/',
+  preloader: {"source":3},
+  friends_vue_info: undefined,
+  navMusic: false,
+  mainTone: undefined,
+  authorStatus: undefined,
+  algolia: undefined,
+  localSearch: undefined,
+  translate: {"defaultEncoding":2,"translateDelay":0,"msgToTraditionalChinese":"繁","msgToSimplifiedChinese":"简","rightMenuMsgToTraditionalChinese":"转为繁体","rightMenuMsgToSimplifiedChinese":"转为简体"},
+  noticeOutdate: undefined,
+  highlight: {"plugin":"highlight.js","highlightCopy":true,"highlightLang":true,"highlightHeightLimit":330},
+  copy: {
+    success: 'Copy successfully',
+    error: 'Copy error',
+    noSupport: 'The browser does not support'
+  },
+  relativeDate: {
+    homepage: false,
+    simplehomepage: true,
+    post: false
+  },
+  runtime: 'days',
+  date_suffix: {
+    just: 'Just',
+    min: 'minutes ago',
+    hour: 'hours ago',
+    day: 'days ago',
+    month: 'months ago'
+  },
+  copyright: {"copy":true,"copyrightEbable":false,"limitCount":50,"languages":{"author":"Author: Bitbank","link":"Link: ","source":"Source: BitBank|比特帮","info":"Copyright is owned by the author. For commercial reprints, please contact the author for authorization. For non-commercial reprints, please indicate the source.","copySuccess":"Copy success, copy and reprint please mark the address of this article"}},
+  lightbox: 'fancybox',
+  Snackbar: {"chs_to_cht":"Traditional Chinese Activated Manually","cht_to_chs":"Simplified Chinese Activated Manually","day_to_night":"Dark Mode Activated Manually","night_to_day":"Light Mode Activated Manually","bgLight":"#425AEF","bgDark":"#1f1f1f","position":"top-center"},
+  source: {
+    justifiedGallery: {
+      js: 'https://cdn.cbd.int/flickr-justified-gallery@2.2.0/dist/fjGallery.min.js',
+      css: 'https://cdn.cbd.int/flickr-justified-gallery@2.2.0/dist/fjGallery.css'
+    }
+  },
+  isPhotoFigcaption: false,
+  islazyload: true,
+  isAnchor: false,
+  shortcutKey: undefined,
+  autoDarkmode: false
+}</script><script id="config-diff">var GLOBAL_CONFIG_SITE = {
+  configTitle: 'BitBank|比特帮',
+  title: '折叠证明：把一万次验证折叠成一次，代价记在最后一步',
+  postAI: '',
+  pageFillDescription: '先区分两件事：递归与折叠, 松弛 R1CS 与那个容易翻车的因子, 家族演化：从均匀到异构, 真实成本长什么样, 它和 zkVM 的关系, 工程上要盯的四件事, 结语币安欧意导读如果你要证明这段程序跑了一亿步最笨的办法是把一亿步全塞进一个电路证明时间与内存都会爆折叠给出了另一条路径每步只做一次廉价的代数合并最后才生成一个真正的证明先区分两件事递归与折叠这两个词经常被混用但成本结构完全不同递归的思路是把验证器写成电路验证第步的证明时在电路里内嵌一个完整的上一步验证器这样个证明可以压成一个问题是验证器电路本身就很大每步都要付一次它的证明成本随规模增长很快折叠的思路是在增量计算里你并不需要在每一步都有一个可独立验证的证明你可以把两个约束实例合并成一个松弛实例只做一次随机线性组合继续往下折最后对累加器生成一个真正的证明单步成本从证明一个验证器电路降到两次多标量乘法这个量级差异是决定性的折叠让证明一个长时间运行的进程从不可行变成例行操作业界的三条工程化出路也就清楚了曲线循环的或让验证器电路的域与本域天然互换摊销的做法把多次内积论证累加到最后一次性验证代价随层数对数增长折叠方案则干脆不做把验证全部推迟松弛与那个容易翻车的因子的构造里有一个细节必须理解否则会误判它的安全性标准的实例是三个矩阵与见证向量的约束要对两个实例做线性组合组合后的结果通常不再满足原来的等式结构的解法是把实例松弛引入一个标量和一个误差向量把约束改写成其中当且时松弛实例退化为标准实例折叠的过程就是取两个松弛实例做随机线性组合得到一个新的松弛实例其与按同样方式合并这套代数很优雅但工程上最容易出错的地方也在这里如果的溢出没有做范围检查或者公共输入没有被正确纳入哈希你会得到一个看起来合法实际证明的是另一个命题的证明这类漏洞不会让验证失败它会让验证通过而结论错误比崩溃更危险家族演化从均匀到异构方案年份扩展点适用场景均匀步骤固定电路长而重复的计算每步可用不同电路非均匀指令流从推广到多种约束系统混用推广到关系需要自定义门与查找表的意义在于它承认了现实真实程序的每一步并不跑同一个电路分支循环不同指令对应不同约束用的固定电路处理等于为所有指令的并集付一次成本让每步选择自己的电路代价是控制流的表达更复杂把可折叠的对象从推广到可定制约束系统思路是把约束重写成多线性扩展用把折叠校验归约成一次求值则覆盖了关系这对实际部署很重要大部分生产级电路用的是自定义门加查找表不是纯真实成本长什么样一组公开的对照数据能说明量级差异在连续帧的计算上方案证明内存聚合延迟验证成本聚合秒毫秒递归秒毫秒秒毫秒折叠秒毫秒读法很关键折叠把内存降了一个数量级以上聚合延迟降了近三十倍但验证成本上升了约五十倍毫秒毫秒原因在于折叠产出的是累加器而不是简洁证明必须再套一层压缩才能上链验证而这一层的开销常常在基准测试里被省略所以选型不是折叠一定更好而是看你的瓶颈在哪证明端内存受限计算很长验证只做一次折叠优势明显验证要在链上高频调用敏感压缩后的配对型证明更合适需要后量子安全折叠不适用它的安全性建立在离散对数承诺上最后一条容易被忽略折叠层的安全性依赖群上的离散对数与基于哈希的家族不同如果威胁模型包含量子对手这条路从一开始就不在选项里它和的关系的结构可以拆成六层指令集执行轨迹内存一致性论证算术化后端证明系统可选的递归压缩与验证器折叠主要作用在后端与压缩这两层它天然适合的机制把长执行切成固定大小的段例如每段个周期每段独立证明再用折叠把段与段之间的状态转移合并因为段内计算近似均匀正好落在的甜蜜点上这也解释了为什么折叠成了近两年最活跃的组合不是折叠更先进而是它匹配了虚拟机执行轨迹的形状长重复分段状态可累加工程上要盯的四件事累加器不是证明任何声称折叠后即可上链验证的说法都省略了压缩步骤问清楚压缩用什么系统成本多少域的选择决定一切曲线让递归免去非原生域模拟但如果你的应用已经在上换域意味着重写电路公共输入的绑定方式折叠只保证实例之间的一致性不保证实例与外部世界的一致性公共输入的哈希必须进入每一折的计算否则攻击者可以换掉输入而保持累加器有效实现的成熟度目前可用的实现包括研究机构的参考实现某基金会的以及若干独立实现均处于研究到早期生产之间没有中立的第三方基准所有性能数字都来自各自仓库结语折叠的价值可以用一句话概括它把验证的成本从每一步挪到了最后一步这个挪动换来的是数量级的内存与时间节省代价是延迟的验证额外的压缩层以及一套更年轻的可靠性论证对构建者判断标准很朴素如果你的计算是长而重复的证明端资源紧张验证只发生一次折叠值得投入如果你的证明要在链上被反复验证或者需要抗量子那么它可能不是答案在币安与欧意观察相关资产的定价时值得区分用了递归与用了折叠两者的成本结构不同能支撑的业务量级也不同本文为技术原理解析不构成投资建议所述性能数据来自公开基准不同实现与硬件条件下差异较大',
+  isPost: true,
+  isHome: false,
+  isHighlightShrink: false,
+  isToc: true,
+  postUpdate: '2026-11-22 22:20:34',
+  postMainColor: '',
+}</script><noscript><style type="text/css">
+  #nav {
+    opacity: 1
+  }
+  .justified-gallery img {
+    opacity: 1
+  }
+
+  #recent-posts time,
+  #post-meta time {
+    display: inline !important
+  }
+</style></noscript><script>(win=>{
+      win.saveToLocal = {
+        set: (key, value, ttl) => {
+          if (ttl === 0) return
+          const now = Date.now()
+          const expiry = now + ttl * 86400000
+          const item = {
+            value,
+            expiry
+          }
+          localStorage.setItem(key, JSON.stringify(item))
+        },
+      
+        get: key => {
+          const itemStr = localStorage.getItem(key)
+      
+          if (!itemStr) {
+            return undefined
+          }
+          const item = JSON.parse(itemStr)
+          const now = Date.now()
+      
+          if (now > item.expiry) {
+            localStorage.removeItem(key)
+            return undefined
+          }
+          return item.value
+        }
+      }
+    
+      win.getScript = (url, attr = {}) => new Promise((resolve, reject) => {
+        const script = document.createElement('script')
+        script.src = url
+        script.async = true
+        script.onerror = reject
+        script.onload = script.onreadystatechange = function() {
+          const loadState = this.readyState
+          if (loadState && loadState !== 'loaded' && loadState !== 'complete') return
+          script.onload = script.onreadystatechange = null
+          resolve()
+        }
+
+        Object.keys(attr).forEach(key => {
+          script.setAttribute(key, attr[key])
+        })
+
+        document.head.appendChild(script)
+      })
+    
+      win.getCSS = (url, id = false) => new Promise((resolve, reject) => {
+        const link = document.createElement('link')
+        link.rel = 'stylesheet'
+        link.href = url
+        if (id) link.id = id
+        link.onerror = reject
+        link.onload = link.onreadystatechange = function() {
+          const loadState = this.readyState
+          if (loadState && loadState !== 'loaded' && loadState !== 'complete') return
+          link.onload = link.onreadystatechange = null
+          resolve()
+        }
+        document.head.appendChild(link)
+      })
+    
+      win.activateDarkMode = () => {
+        document.documentElement.setAttribute('data-theme', 'dark')
+        if (document.querySelector('meta[name="theme-color"]') !== null) {
+          document.querySelector('meta[name="theme-color"]').setAttribute('content', '#181A20')
+        }
+      }
+      win.activateLightMode = () => {
+        document.documentElement.setAttribute('data-theme', 'light')
+        if (document.querySelector('meta[name="theme-color"]') !== null) {
+          document.querySelector('meta[name="theme-color"]').setAttribute('content', '#F0B90B')
+        }
+      }
+      const t = saveToLocal.get('theme')
+    
+        if (t === 'dark') activateDarkMode()
+        else if (t === 'light') activateLightMode()
+      
+      const asideStatus = saveToLocal.get('aside-status')
+      if (asideStatus !== undefined) {
+        if (asideStatus === 'hide') {
+          document.documentElement.classList.add('hide-aside')
+        } else {
+          document.documentElement.classList.remove('hide-aside')
+        }
+      }
+    
+      const detectApple = () => {
+        if(/iPad|iPhone|iPod|Macintosh/.test(navigator.userAgent)){
+          document.documentElement.classList.add('apple')
+        }
+      }
+      detectApple()
+    })(window)</script><link rel="stylesheet" href="/css/waterfall-home.css"><link rel="stylesheet" href="/css/macro-board.css"><meta name="generator" content="Hexo 8.1.2"></head><body data-type="anzhiyu"><div id="web_bg"></div><div id="an_music_bg"></div><div id="loading-box" onclick="document.getElementById(&quot;loading-box&quot;).classList.add(&quot;loaded&quot;)"><div class="loading-bg"><img class="loading-img nolazyload" alt="加载头像" src="/img/btc.png"/><div class="loading-image-dot"></div></div></div><script>const preloader = {
+  endLoading: () => {
+    document.getElementById('loading-box').classList.add("loaded");
+  },
+  initLoading: () => {
+    document.getElementById('loading-box').classList.remove("loaded")
+  }
+}
+window.addEventListener('load',()=> { preloader.endLoading() })
+setTimeout(function(){preloader.endLoading();},10000)
+
+if (true) {
+  document.addEventListener('pjax:send', () => { preloader.initLoading() })
+  document.addEventListener('pjax:complete', () => { preloader.endLoading() })
+}</script><link rel="stylesheet" href="https://cdn.cbd.int/anzhiyu-theme-static@1.1.10/progress_bar/progress_bar.css"/><script async="async" src="https://cdn.cbd.int/pace-js@1.2.4/pace.min.js" data-pace-options="{ &quot;restartOnRequestAfter&quot;:false,&quot;eventLag&quot;:false}"></script><div class="post" id="body-wrap"><header class="post-bg" id="page-header"><nav id="nav"><div id="nav-group"><span id="blog_name"><a id="site-name" href="/" accesskey="h"><div class="title">BitBank|比特帮</div><i class="anzhiyufont anzhiyu-icon-house-chimney"></i></a></span><div class="mask-name-container"><div id="name-container"><a id="page-name" href="javascript:anzhiyu.scrollToDest(0, 500)">PAGE_NAME</a></div></div><div id="menus"></div><div id="nav-right"><div class="nav-button" id="randomPost_button"><a class="site-page" onclick="toRandomPost()" title="Random Post" href="javascript:void(0);"><i class="anzhiyufont anzhiyu-icon-dice"></i></a></div><input id="center-console" type="checkbox"/><label class="widget" for="center-console" title="Console" onclick="anzhiyu.switchConsole();"><i class="left"></i><i class="widget center"></i><i class="widget right"></i></label><div id="console"><div class="console-card-group-reward"><ul class="reward-all console-card"><li class="reward-item"><a href="/img/bitcoin.png" target="_blank"><img class="post-qr-code-img" alt="BTC" src="/img/bitcoin.png"/></a><div class="post-qr-code-desc">BTC</div></li><li class="reward-item"><a href="/img/eth.png" target="_blank"><img class="post-qr-code-img" alt="ETH" src="/img/eth.png"/></a><div class="post-qr-code-desc">ETH</div></li></ul></div><div class="console-card-group"><div class="console-card-group-left"><div class="console-card" id="card-newest-comments"><div class="card-content"><div class="author-content-item-tips">Interaction</div><span class="author-content-item-title"> Newest Comments</span></div><div class="aside-list"><span>loading...</span></div></div></div><div class="console-card-group-right"><div class="console-card tags"><div class="card-content"><div class="author-content-item-tips">Interests</div><span class="author-content-item-title">Find your area of interest</span><div class="card-tags"><div class="item-headline"></div><div class="card-tag-cloud"><a href="/tags/AI/" style="font-size: 1.05rem;">AI<sup>1</sup></a><a href="/tags/AI-Agent/" style="font-size: 1.05rem;">AI Agent<sup>2</sup></a><a href="/tags/AI%E4%BB%A3%E7%90%86/" style="font-size: 1.05rem;">AI代理<sup>1</sup></a><a href="/tags/DeFi/" style="font-size: 1.05rem;">DeFi<sup>6</sup></a><a href="/tags/ERC-4337/" style="font-size: 1.05rem;">ERC-4337<sup>2</sup></a><a href="/tags/SegWit/" style="font-size: 1.05rem;">SegWit<sup>1</sup></a><a href="/tags/TGE/" style="font-size: 1.05rem;">TGE<sup>1</sup></a><a href="/tags/UASF/" style="font-size: 1.05rem;">UASF<sup>1</sup></a><a href="/tags/Web3/" style="font-size: 1.05rem;">Web3<sup>2</sup></a><a href="/tags/Web3%E4%BD%93%E9%AA%8C/" style="font-size: 1.05rem;">Web3体验<sup>1</sup></a><a href="/tags/gas%E4%BB%A3%E4%BB%98/" style="font-size: 1.05rem;">gas代付<sup>1</sup></a><a href="/tags/x402/" style="font-size: 1.05rem;">x402<sup>1</sup></a><a href="/tags/%E4%BB%A3%E5%B8%81%E5%88%86%E5%8F%91/" style="font-size: 1.05rem;">代币分发<sup>1</sup></a><a href="/tags/%E5%85%B1%E8%AF%86%E6%9C%BA%E5%88%B6/" style="font-size: 1.05rem;">共识机制<sup>3</sup></a><a href="/tags/%E5%8A%A0%E5%AF%86ATM/" style="font-size: 1.05rem;">加密ATM<sup>1</sup></a><a href="/tags/%E5%8C%BA%E5%9D%97%E5%A4%A7%E5%B0%8F/" style="font-size: 1.05rem;">区块大小<sup>1</sup></a><a href="/tags/%E5%A5%B3%E5%B7%AB%E6%94%BB%E5%87%BB/" style="font-size: 1.05rem;">女巫攻击<sup>1</sup></a><a href="/tags/%E5%AE%9E%E4%BD%93%E5%85%91%E6%8D%A2/" style="font-size: 1.05rem;">实体兑换<sup>1</sup></a><a href="/tags/%E6%89%A9%E5%AE%B9/" style="font-size: 1.05rem;">扩容<sup>5</sup></a><a href="/tags/%E6%95%B0%E5%AD%97%E9%BB%84%E9%87%91/" style="font-size: 1.05rem;">数字黄金<sup>2</sup></a><a href="/tags/%E6%99%BA%E8%83%BD%E4%BD%93/" style="font-size: 1.05rem;">智能体<sup>1</sup></a><a href="/tags/%E6%99%BA%E8%83%BD%E5%90%88%E7%BA%A6/" style="font-size: 1.05rem;">智能合约<sup>4</sup></a><a href="/tags/%E6%99%BA%E8%83%BD%E5%90%88%E7%BA%A6%E9%92%B1%E5%8C%85/" style="font-size: 1.05rem;">智能合约钱包<sup>1</sup></a><a href="/tags/%E6%9C%BA%E5%99%A8%E6%94%AF%E4%BB%98/" style="font-size: 1.05rem;">机器支付<sup>1</sup></a><a href="/tags/%E6%AF%94%E7%89%B9%E5%B8%81/" style="font-size: 1.05rem;">比特币<sup>15</sup></a><a href="/tags/%E6%AF%94%E7%89%B9%E5%B8%81ATM/" style="font-size: 1.05rem;">比特币ATM<sup>1</sup></a><a href="/tags/%E6%B2%BB%E7%90%86/" style="font-size: 1.05rem;">治理<sup>2</sup></a><a href="/tags/%E7%8E%B0%E9%87%91%E5%85%91%E6%8D%A2/" style="font-size: 1.05rem;">现金兑换<sup>1</sup></a><a href="/tags/%E7%A4%BE%E4%BA%A4%E6%81%A2%E5%A4%8D/" style="font-size: 1.05rem;">社交恢复<sup>3</sup></a><a href="/tags/%E7%A8%B3%E5%AE%9A%E5%B8%81/" style="font-size: 1.05rem;">稳定币<sup>18</sup></a><a href="/tags/%E7%A9%BA%E6%8A%95/" style="font-size: 1.05rem;">空投<sup>1</sup></a><a href="/tags/%E7%BA%BF%E6%80%A7%E8%A7%A3%E9%94%81/" style="font-size: 1.05rem;">线性解锁<sup>1</sup></a><a href="/tags/%E7%BB%93%E7%AE%97/" style="font-size: 1.05rem;">结算<sup>3</sup></a><a href="/tags/%E8%87%AA%E4%B8%BB%E7%BB%8F%E6%B5%8E/" style="font-size: 1.05rem;">自主经济<sup>1</sup></a><a href="/tags/%E8%A1%8C%E4%B8%9A%E8%A7%82%E5%AF%9F/" style="font-size: 1.05rem;">行业观察<sup>1</sup></a><a href="/tags/%E8%B4%A6%E6%88%B7%E6%8A%BD%E8%B1%A1/" style="font-size: 1.05rem;">账户抽象<sup>3</sup></a><a href="/tags/%E8%B5%9B%E9%81%93%E6%8A%95%E7%A0%94/" style="font-size: 1.05rem;">赛道投研<sup>1</sup></a><a href="/tags/%E9%81%BF%E9%99%A9%E8%B5%84%E4%BA%A7/" style="font-size: 1.05rem;">避险资产<sup>2</sup></a><a href="/tags/%E9%93%BE%E4%B8%8A%E5%88%86%E6%9E%90/" style="font-size: 1.05rem;">链上分析<sup>3</sup></a><a href="/tags/%E9%98%B2%E8%AF%88%E9%AA%97/" style="font-size: 1.05rem;">防诈骗<sup>2</sup></a></div></div><hr/></div></div><div class="console-card history"><div class="item-headline"><i class="anzhiyufont anzhiyu-icon-box-archiv"></i><span>Articles</span></div><div class="card-archives"><div class="item-headline"><i class="anzhiyufont anzhiyu-icon-archive"></i><span>Archives</span></div><ul class="card-archive-list"><li class="card-archive-list-item"><a class="card-archive-list-link" href="/archives/2026/11/"><span class="card-archive-list-date">November 2026</span><div class="card-archive-list-count-group"><span class="card-archive-list-count">230</span><span>篇</span></div></a></li><li class="card-archive-list-item"><a class="card-archive-list-link" href="/archives/2026/10/"><span class="card-archive-list-date">October 2026</span><div class="card-archive-list-count-group"><span class="card-archive-list-count">59</span><span>篇</span></div></a></li><li class="card-archive-list-item"><a class="card-archive-list-link" href="/archives/2026/03/"><span class="card-archive-list-date">March 2026</span><div class="card-archive-list-count-group"><span class="card-archive-list-count">13</span><span>篇</span></div></a></li><li class="card-archive-list-item"><a class="card-archive-list-link" href="/archives/2026/02/"><span class="card-archive-list-date">February 2026</span><div class="card-archive-list-count-group"><span class="card-archive-list-count">2</span><span>篇</span></div></a></li><li class="card-archive-list-item"><a class="card-archive-list-link" href="/archives/2025/11/"><span class="card-archive-list-date">November 2025</span><div class="card-archive-list-count-group"><span class="card-archive-list-count">3</span><span>篇</span></div></a></li><li class="card-archive-list-item"><a class="card-archive-list-link" href="/archives/2025/10/"><span class="card-archive-list-date">October 2025</span><div class="card-archive-list-count-group"><span class="card-archive-list-count">2</span><span>篇</span></div></a></li><li class="card-archive-list-item"><a class="card-archive-list-link" href="/archives/2025/09/"><span class="card-archive-list-date">September 2025</span><div class="card-archive-list-count-group"><span class="card-archive-list-count">1</span><span>篇</span></div></a></li></ul></div><hr/></div></div></div><div class="button-group"><div class="console-btn-item"><a class="darkmode_switchbutton" title="Toggle Display Mode" href="javascript:void(0);"><i class="anzhiyufont anzhiyu-icon-moon"></i></a></div><div class="console-btn-item" id="consoleHideAside" onclick="anzhiyu.hideAsideBtn()" title="Toggle Sidebar"><a class="asideSwitch"><i class="anzhiyufont anzhiyu-icon-arrows-left-right"></i></a></div></div><div class="console-mask" onclick="anzhiyu.hideConsole()" href="javascript:void(0);"></div></div><div class="nav-button" id="nav-totop"><a class="totopbtn" href="javascript:void(0);"><i class="anzhiyufont anzhiyu-icon-arrow-up"></i><span id="percent" onclick="anzhiyu.scrollToDest(0,500)">0</span></a></div><div id="toggle-menu"><a class="site-page" href="javascript:void(0);" title="Toggle"><i class="anzhiyufont anzhiyu-icon-bars"></i></a></div></div></div></nav><div id="post-info"><div id="post-firstinfo"><div class="meta-firstline"><a class="post-meta-original">原创</a><span class="post-meta-categories"><span class="post-meta-separator"></span><i class="anzhiyufont anzhiyu-icon-inbox post-meta-icon"></i><a class="post-meta-categories" href="/categories/%E5%8A%A0%E5%AF%86%E8%B4%A7%E5%B8%81/" itemprop="url">加密货币</a><i class="anzhiyufont anzhiyu-icon-angle-right post-meta-separator"></i><i class="anzhiyufont anzhiyu-icon-inbox post-meta-icon"></i><a class="post-meta-categories" href="/categories/%E5%8A%A0%E5%AF%86%E8%B4%A7%E5%B8%81/%E9%9B%B6%E7%9F%A5%E8%AF%86%E8%AF%81%E6%98%8E/" itemprop="url">零知识证明</a><i class="anzhiyufont anzhiyu-icon-angle-right post-meta-separator"></i><i class="anzhiyufont anzhiyu-icon-inbox post-meta-icon"></i><a class="post-meta-categories" href="/categories/%E5%8A%A0%E5%AF%86%E8%B4%A7%E5%B8%81/%E9%9B%B6%E7%9F%A5%E8%AF%86%E8%AF%81%E6%98%8E/%E5%9F%BA%E7%A1%80%E8%AE%BE%E6%96%BD/" itemprop="url">基础设施</a></span><span class="article-meta tags"><a class="article-meta__tags" href="/tags/%E9%80%92%E5%BD%92%E8%AF%81%E6%98%8E/" tabindex="-1" itemprop="url"> <span> <i class="anzhiyufont anzhiyu-icon-hashtag"></i>递归证明</span></a><a class="article-meta__tags" href="/tags/zkVM/" tabindex="-1" itemprop="url"> <span> <i class="anzhiyufont anzhiyu-icon-hashtag"></i>zkVM</span></a><a class="article-meta__tags" href="/tags/%E6%8A%98%E5%8F%A0%E6%96%B9%E6%A1%88/" tabindex="-1" itemprop="url"> <span> <i class="anzhiyufont anzhiyu-icon-hashtag"></i>折叠方案</span></a><a class="article-meta__tags" href="/tags/Nova/" tabindex="-1" itemprop="url"> <span> <i class="anzhiyufont anzhiyu-icon-hashtag"></i>Nova</span></a><a class="article-meta__tags" href="/tags/SuperNova/" tabindex="-1" itemprop="url"> <span> <i class="anzhiyufont anzhiyu-icon-hashtag"></i>SuperNova</span></a><a class="article-meta__tags" href="/tags/%E5%A2%9E%E9%87%8F%E5%8F%AF%E9%AA%8C%E8%AF%81%E8%AE%A1%E7%AE%97/" tabindex="-1" itemprop="url"> <span> <i class="anzhiyufont anzhiyu-icon-hashtag"></i>增量可验证计算</span></a></span></div></div><h1 class="post-title" itemprop="name headline">折叠证明：把一万次验证折叠成一次，代价记在最后一步</h1><div id="post-meta"><div class="meta-firstline"><span class="post-meta-date"><i class="anzhiyufont anzhiyu-icon-calendar-days post-meta-icon"></i><span class="post-meta-label">Created</span><time class="post-meta-date-created" itemprop="dateCreated datePublished" datetime="2026-11-22T14:55:00.000Z" title="Created 2026-11-22 22:55:00">2026-11-22</time><span class="post-meta-separator"></span><i class="anzhiyufont anzhiyu-icon-history post-meta-icon"></i><span class="post-meta-label">Updated</span><time class="post-meta-date-updated" itemprop="dateCreated datePublished" datetime="2026-11-22T14:20:34.131Z" title="Updated 2026-11-22 22:20:34">2026-11-22</time></span></div><div class="meta-secondline"><span class="post-meta-separator">       </span><span class="post-meta-position" title="作者IP属地为Block"><i class="anzhiyufont anzhiyu-icon-location-dot"></i>Block</span></div></div></div><section class="main-hero-waves-area waves-area"><svg class="waves-svg" xmlns="http://www.w3.org/2000/svg" xlink="http://www.w3.org/1999/xlink" viewBox="0 24 150 28" preserveAspectRatio="none" shape-rendering="auto"><defs><path id="gentle-wave" d="M -160 44 c 30 0 58 -18 88 -18 s 58 18 88 18 s 58 -18 88 -18 s 58 18 88 18 v 44 h -352 Z"></path></defs><g class="parallax"><use href="#gentle-wave" x="48" y="0"></use><use href="#gentle-wave" x="48" y="3"></use><use href="#gentle-wave" x="48" y="5"></use><use href="#gentle-wave" x="48" y="7"></use></g></svg></section><div id="post-top-cover"><img class="nolazyload" id="post-top-bg" src=""></div></header><main id="blog-container"><div class="layout" id="content-inner"><div id="post"><article class="post-content" id="article-container" itemscope itemtype="http://www.bitbank.link/2026/11/22/recursive-folding-proofs-nova-2026/"><header><a class="post-meta-categories" href="/categories/%E5%8A%A0%E5%AF%86%E8%B4%A7%E5%B8%81/" itemprop="url">加密货币</a><a class="post-meta-categories" href="/categories/%E5%8A%A0%E5%AF%86%E8%B4%A7%E5%B8%81/%E9%9B%B6%E7%9F%A5%E8%AF%86%E8%AF%81%E6%98%8E/" itemprop="url">零知识证明</a><a class="post-meta-categories" href="/categories/%E5%8A%A0%E5%AF%86%E8%B4%A7%E5%B8%81/%E9%9B%B6%E7%9F%A5%E8%AF%86%E8%AF%81%E6%98%8E/%E5%9F%BA%E7%A1%80%E8%AE%BE%E6%96%BD/" itemprop="url">基础设施</a><a href="/tags/%E9%80%92%E5%BD%92%E8%AF%81%E6%98%8E/" tabindex="-1" itemprop="url">递归证明</a><a href="/tags/zkVM/" tabindex="-1" itemprop="url">zkVM</a><a href="/tags/%E6%8A%98%E5%8F%A0%E6%96%B9%E6%A1%88/" tabindex="-1" itemprop="url">折叠方案</a><a href="/tags/Nova/" tabindex="-1" itemprop="url">Nova</a><a href="/tags/SuperNova/" tabindex="-1" itemprop="url">SuperNova</a><a href="/tags/%E5%A2%9E%E9%87%8F%E5%8F%AF%E9%AA%8C%E8%AF%81%E8%AE%A1%E7%AE%97/" tabindex="-1" itemprop="url">增量可验证计算</a><h1 id="CrawlerTitle" itemprop="name headline">折叠证明：把一万次验证折叠成一次，代价记在最后一步</h1><span itemprop="author" itemscope itemtype="http://schema.org/Person">Bitbank</span><time itemprop="dateCreated datePublished" datetime="2026-11-22T14:55:00.000Z" title="Created 2026-11-22 22:55:00">2026-11-22</time><time itemprop="dateCreated datePublished" datetime="2026-11-22T14:20:34.131Z" title="Updated 2026-11-22 22:20:34">2026-11-22</time></header><p><a target="_blank" rel="noopener" href="https://www.binance.com/register?ref=CYBERBASE">币安|Binance</a><br><a target="_blank" rel="noopener" href="https://www.okx.com/join/EBED6G2L">欧意|OKX</a></p>
+<blockquote>
+<p><strong>导读</strong>：如果你要证明「这段程序跑了一亿步」，最笨的办法是把一亿步全塞进一个电路，证明时间与内存都会爆。折叠给出了另一条路径：每步只做一次廉价的代数合并，最后才生成一个真正的证明。</p>
+</blockquote>
+<h2 id="先区分两件事：递归与折叠"><a href="#先区分两件事：递归与折叠" class="headerlink" title="先区分两件事：递归与折叠"></a>先区分两件事：递归与折叠</h2><p>这两个词经常被混用，但成本结构完全不同。</p>
+<p><strong>递归</strong>的思路是：把验证器写成电路，验证第 n 步的证明时，在电路里内嵌一个完整的上一步验证器。这样 N 个证明可以压成一个。问题是验证器电路本身就很大，每步都要付一次它的证明成本，随规模增长很快。</p>
+<p><strong>折叠</strong>的思路是：在增量计算里，你并不需要在每一步都有一个可独立验证的证明。你可以把两个约束实例合并成一个「松弛实例」，只做一次随机线性组合，继续往下折，最后对累加器生成一个真正的证明。</p>
+<p>单步成本从「证明一个验证器电路」降到「两次多标量乘法（MSM）」。这个量级差异是决定性的——折叠让「证明一个长时间运行的进程」从不可行变成例行操作。</p>
+<p>业界的三条工程化出路也就清楚了：曲线循环（Pasta 的 Pallas&#x2F;Vesta 或 BN254&#x2F;Grumpkin）让验证器电路的域与本域天然互换；IPA 摊销（Halo 的做法）把多次内积论证累加到最后一次性验证，代价随层数对数增长；折叠方案则干脆不做 SNARK，把验证全部推迟。</p>
+<h2 id="松弛-R1CS-与那个容易翻车的因子"><a href="#松弛-R1CS-与那个容易翻车的因子" class="headerlink" title="松弛 R1CS 与那个容易翻车的因子"></a>松弛 R1CS 与那个容易翻车的因子</h2><p>Nova 的构造里有一个细节必须理解，否则会误判它的安全性。</p>
+<p>标准的 R1CS 实例是三个矩阵 A、B、C 与见证向量 w 的约束。要对两个实例做线性组合，组合后的结果通常不再满足原来的等式结构。Nova 的解法是把实例「松弛」：引入一个标量 u 和一个误差向量 E，把约束改写成</p>
+<blockquote>
+<p>A·z ∘ B·z &#x3D; u·(C·z) + E</p>
+</blockquote>
+<p>其中 z &#x3D; (w, u)。当 u &#x3D; 1 且 E &#x3D; 0 时，松弛实例退化为标准实例。折叠的过程就是取两个松弛实例做随机线性组合，得到一个新的松弛实例，其 u 与 E 按同样方式合并。</p>
+<p>这套代数很优雅，但工程上最容易出错的地方也在这里。如果 E 的溢出没有做范围检查，或者公共输入没有被正确纳入哈希，你会得到一个「看起来合法、实际证明的是另一个命题」的证明。这类漏洞不会让验证失败，它会让验证通过而结论错误——比崩溃更危险。</p>
+<h2 id="家族演化：从均匀到异构"><a href="#家族演化：从均匀到异构" class="headerlink" title="家族演化：从均匀到异构"></a>家族演化：从均匀到异构</h2><table>
+<thead>
+<tr>
+<th>方案</th>
+<th>年份</th>
+<th>扩展点</th>
+<th>适用场景</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>Nova</td>
+<td>2021</td>
+<td>均匀步骤，固定电路</td>
+<td>长而重复的计算</td>
+</tr>
+<tr>
+<td>SuperNova</td>
+<td>2022</td>
+<td>每步可用不同电路</td>
+<td>非均匀指令流</td>
+</tr>
+<tr>
+<td>HyperNova</td>
+<td>2024</td>
+<td>从 R1CS 推广到 CCS</td>
+<td>多种约束系统混用</td>
+</tr>
+<tr>
+<td>ProtoStar</td>
+<td>2024</td>
+<td>推广到 PLONKish 关系</td>
+<td>需要自定义门与查找表</td>
+</tr>
+</tbody></table>
+<p>SuperNova 的意义在于它承认了现实：真实程序的每一步并不跑同一个电路。分支、循环、不同指令对应不同约束。用 Nova 的固定电路处理，等于为所有指令的并集付一次成本；SuperNova 让每步选择自己的电路，代价是控制流的表达更复杂。</p>
+<p>HyperNova 把可折叠的对象从 R1CS 推广到 CCS（可定制约束系统），思路是把约束重写成多线性扩展，用 sum-check 把折叠校验归约成一次求值。ProtoStar 则覆盖了 PLONKish 关系，这对实际部署很重要——大部分生产级电路用的是自定义门加查找表，不是纯 R1CS。</p>
+<h2 id="真实成本长什么样"><a href="#真实成本长什么样" class="headerlink" title="真实成本长什么样"></a>真实成本长什么样</h2><p>一组公开的对照数据能说明量级差异。在连续 100,000 帧的计算上：</p>
+<table>
+<thead>
+<tr>
+<th>方案</th>
+<th>证明内存</th>
+<th>聚合延迟</th>
+<th>验证成本</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>Groth16 聚合</td>
+<td>28.4 GB</td>
+<td>412 秒</td>
+<td>3.8 毫秒</td>
+</tr>
+<tr>
+<td>Plonky2 递归</td>
+<td>4.1 GB</td>
+<td>38.4 秒</td>
+<td>12.2 毫秒</td>
+</tr>
+<tr>
+<td>Nova IVC</td>
+<td>0.84 GB</td>
+<td>14.6 秒</td>
+<td>185 毫秒</td>
+</tr>
+<tr>
+<td>HyperNova 折叠</td>
+<td>0.92 GB</td>
+<td>11.2 秒</td>
+<td>192 毫秒</td>
+</tr>
+</tbody></table>
+<p>读法很关键：折叠把内存降了一个数量级以上（28.4 GB → 0.84 GB），聚合延迟降了近三十倍，但<strong>验证成本上升了约五十倍</strong>（3.8 毫秒 → 185 毫秒）。原因在于折叠产出的是累加器而不是简洁证明，必须再套一层压缩 SNARK 才能上链验证，而这一层的开销常常在基准测试里被省略。</p>
+<p>所以选型不是「折叠一定更好」，而是看你的瓶颈在哪：</p>
+<ul>
+<li>证明端内存受限、计算很长、验证只做一次 → 折叠优势明显；</li>
+<li>验证要在链上高频调用、gas 敏感 → 压缩后的配对型证明更合适；</li>
+<li>需要后量子安全 → 折叠不适用，它的安全性建立在离散对数承诺上。</li>
+</ul>
+<p>最后一条容易被忽略。折叠层的安全性依赖群上的离散对数，与基于哈希的 STARK 家族不同。如果威胁模型包含量子对手，这条路从一开始就不在选项里。</p>
+<h2 id="它和-zkVM-的关系"><a href="#它和-zkVM-的关系" class="headerlink" title="它和 zkVM 的关系"></a>它和 zkVM 的关系</h2><p>zkVM 的结构可以拆成六层：指令集、执行轨迹、内存一致性论证、算术化、后端证明系统、可选的递归压缩与验证器。</p>
+<p>折叠主要作用在后端与压缩这两层。它天然适合 zkVM 的 <strong>continuations</strong> 机制：把长执行切成固定大小的段（例如每段 2²⁰ 个周期），每段独立证明，再用折叠把段与段之间的状态转移合并。因为段内计算近似均匀，正好落在 Nova 的甜蜜点上。</p>
+<p>这也解释了为什么「折叠 + zkVM」成了近两年最活跃的组合：不是折叠更先进，而是它匹配了虚拟机执行轨迹的形状——长、重复、分段、状态可累加。</p>
+<h2 id="工程上要盯的四件事"><a href="#工程上要盯的四件事" class="headerlink" title="工程上要盯的四件事"></a>工程上要盯的四件事</h2><p><strong>累加器不是证明。</strong> 任何声称「折叠后即可上链验证」的说法都省略了压缩步骤。问清楚压缩用什么系统、成本多少。</p>
+<p><strong>域的选择决定一切。</strong> Pasta 曲线让递归免去非原生域模拟，但如果你的应用已经在 BN254 上，换域意味着重写电路。</p>
+<p><strong>公共输入的绑定方式。</strong> 折叠只保证实例之间的一致性，不保证实例与外部世界的一致性。公共输入的哈希必须进入每一折的计算，否则攻击者可以换掉输入而保持累加器有效。</p>
+<p><strong>实现的成熟度。</strong> 目前可用的实现包括研究机构的参考实现、某基金会的 Sonobe、以及若干独立实现，均处于研究到早期生产之间，没有中立的第三方基准。所有性能数字都来自各自仓库。</p>
+<h2 id="结语"><a href="#结语" class="headerlink" title="结语"></a>结语</h2><p>折叠的价值可以用一句话概括：它把「验证的成本」从每一步挪到了最后一步。这个挪动换来的是数量级的内存与时间节省，代价是延迟的验证、额外的压缩层，以及一套更年轻的可靠性论证。</p>
+<p>对构建者，判断标准很朴素——如果你的计算是长而重复的、证明端资源紧张、验证只发生一次，折叠值得投入；如果你的证明要在链上被反复验证，或者需要抗量子，那么它可能不是答案。</p>
+<p>在 <a target="_blank" rel="noopener" href="https://www.binance.com/register?ref=CYBERBASE">币安</a> 与 <a target="_blank" rel="noopener" href="https://www.okx.com/join/EBED6G2L">欧意 OKX</a> 观察 ZK 相关资产的定价时，值得区分「用了递归」与「用了折叠」——两者的成本结构不同，能支撑的业务量级也不同。</p>
+<blockquote>
+<p>本文为技术原理解析，不构成投资建议。所述性能数据来自公开基准，不同实现与硬件条件下差异较大。</p>
+</blockquote>
+</article><div class="post-copyright"><div class="copyright-cc-box"><i class="anzhiyufont anzhiyu-icon-copyright"></i></div><div class="post-copyright__author_box"><a class="post-copyright__author_img" href="/" title="头像"><img class="post-copyright__author_img_back" src= "data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7" onerror="this.onerror=null,this.src=&quot;/img/404.jpg&quot;" data-lazy-src="/img/btc.png" title="头像" alt="头像"><img class="post-copyright__author_img_front" src= "data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7" onerror="this.onerror=null,this.src=&quot;/img/404.jpg&quot;" data-lazy-src="/img/btc.png" title="头像" alt="头像"></a><div class="post-copyright__author_name">Bitbank</div><div class="post-copyright__author_desc"></div></div><div class="post-copyright__post__info"><a class="post-copyright__original" title="该文章为原创文章，注意版权协议" href="http://www.bitbank.link/2026/11/22/recursive-folding-proofs-nova-2026/">原创</a><a class="post-copyright-title"><span onclick="rm.copyPageUrl('http://www.bitbank.link/2026/11/22/recursive-folding-proofs-nova-2026/')">折叠证明：把一万次验证折叠成一次，代价记在最后一步</span></a></div><div class="post-tools" id="post-tools"><div class="post-tools-left"><div class="rewardLeftButton"><div class="post-reward" onclick="anzhiyu.addRewardMask()"><div class="reward-button button--animated" title="Support Author"><i class="anzhiyufont anzhiyu-icon-hand-heart-fill"></i>Donate</div><div class="reward-main"><div class="reward-all"><span class="reward-title">Thanks for your support</span><ul class="reward-group"><li class="reward-item"><a href="/img/bitcoin.png" target="_blank"><img class="post-qr-code-img" src= "data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7" onerror="this.onerror=null,this.src=&quot;/img/404.jpg&quot;" data-lazy-src="/img/bitcoin.png" alt="BTC"/></a><div class="post-qr-code-desc">BTC</div></li><li class="reward-item"><a href="/img/eth.png" target="_blank"><img class="post-qr-code-img" src= "data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7" onerror="this.onerror=null,this.src=&quot;/img/404.jpg&quot;" data-lazy-src="/img/eth.png" alt="ETH"/></a><div class="post-qr-code-desc">ETH</div></li></ul><a class="reward-main-btn" href="/about/#about-reward" target="_blank"><div class="reward-text">Supporters</div><div class="reward-dec">Your support motivates me to write more 🙏</div></a></div></div></div><div id="quit-box" onclick="anzhiyu.removeRewardMask()" style="display: none"></div></div><div class="shareRight"><div class="share-link mobile"><div class="share-qrcode"><div class="share-button" title="使用手机访问这篇文章"><i class="anzhiyufont anzhiyu-icon-qrcode"></i></div><div class="share-main"><div class="share-main-all"><div id="qrcode" title="http://www.bitbank.link/2026/11/22/recursive-folding-proofs-nova-2026/"></div><div class="reward-dec">使用手机访问这篇文章</div></div></div></div></div><div class="share-link weibo"><a class="share-button" target="_blank" href="https://service.weibo.com/share/share.php?title=折叠证明：把一万次验证折叠成一次，代价记在最后一步&amp;url=http://www.bitbank.link/2026/11/22/recursive-folding-proofs-nova-2026/&amp;pic=" rel="external nofollow noreferrer noopener"><i class="anzhiyufont anzhiyu-icon-weibo"></i></a></div><script>function copyCurrentPageUrl() {
+  var currentPageUrl = window.location.href;
+  var input = document.createElement("input");
+  input.setAttribute("value", currentPageUrl);
+  document.body.appendChild(input);
+  input.select();
+  input.setSelectionRange(0, 99999);
+  document.execCommand("copy");
+  document.body.removeChild(input);
+}</script><div class="share-link copyurl"><div class="share-button" id="post-share-url" title="复制链接" onclick="copyCurrentPageUrl()"><i class="anzhiyufont anzhiyu-icon-link"></i></div></div></div></div></div><div class="post-copyright__notice"><span class="post-copyright-info">All articles in this blog are licensed under <a target="_blank" rel="noopener" href="https://creativecommons.org/licenses/by-nc-sa/4.0/">CC BY-NC-SA 4.0</a> unless stating additionally.</span></div></div><div class="post-tools-right"><div class="tag_share"><div class="post-meta__box"><div class="post-meta__box__tag-list"><a class="post-meta__box__tags" href="/tags/%E9%80%92%E5%BD%92%E8%AF%81%E6%98%8E/"><span class="tags-punctuation"> <i class="anzhiyufont anzhiyu-icon-tag"></i></span>递归证明<span class="tagsPageCount">2</span></a><a class="post-meta__box__tags" href="/tags/zkVM/"><span class="tags-punctuation"> <i class="anzhiyufont anzhiyu-icon-tag"></i></span>zkVM<span class="tagsPageCount">2</span></a><a class="post-meta__box__tags" href="/tags/%E6%8A%98%E5%8F%A0%E6%96%B9%E6%A1%88/"><span class="tags-punctuation"> <i class="anzhiyufont anzhiyu-icon-tag"></i></span>折叠方案<span class="tagsPageCount">1</span></a><a class="post-meta__box__tags" href="/tags/Nova/"><span class="tags-punctuation"> <i class="anzhiyufont anzhiyu-icon-tag"></i></span>Nova<span class="tagsPageCount">1</span></a><a class="post-meta__box__tags" href="/tags/SuperNova/"><span class="tags-punctuation"> <i class="anzhiyufont anzhiyu-icon-tag"></i></span>SuperNova<span class="tagsPageCount">1</span></a><a class="post-meta__box__tags" href="/tags/%E5%A2%9E%E9%87%8F%E5%8F%AF%E9%AA%8C%E8%AF%81%E8%AE%A1%E7%AE%97/"><span class="tags-punctuation"> <i class="anzhiyufont anzhiyu-icon-tag"></i></span>增量可验证计算<span class="tagsPageCount">1</span></a></div></div></div><div class="post_share"><div class="social-share" data-image="/img/btc.png" data-sites="facebook,twitter,wechat,weibo,qq"></div><link rel="stylesheet" href="https://cdn.cbd.int/butterfly-extsrc@1.1.3/sharejs/dist/css/share.min.css" media="print" onload="this.media='all'"/><script src="https://cdn.cbd.int/butterfly-extsrc@1.1.3/sharejs/dist/js/social-share.min.js" defer="defer"></script></div></div><nav class="pagination-post" id="pagination"><div class="prev-post pull-left"><a href="/2026/11/22/crypto-short-research-forensics-2026/"><img class="prev-cover" src= "data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7" onerror="this.onerror=null,this.src=&quot;/img/404.jpg&quot;" data-lazy-src="/" onerror="onerror=null;src='/img/404.jpg'" alt="cover of previous post"><div class="pagination-info"><div class="label">Previous Post</div><div class="prev_info">做空研究怎么做：从链上取证到公开指控的四步</div></div></a></div><div class="next-post pull-right"><a href="/2026/11/22/defi-liquidator-economics-2026/"><img class="next-cover" src= "data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7" onerror="this.onerror=null,this.src=&quot;/img/404.jpg&quot;" data-lazy-src="/" onerror="onerror=null;src='/img/404.jpg'" alt="cover of next post"><div class="pagination-info"><div class="label">Next Post</div><div class="next_info">清算人的账本：615 美元奖励，530 美元交给了区块构建者</div></div></a></div></nav><div class="relatedPosts"><div class="headline"><i class="anzhiyufont anzhiyu-icon-thumbs-up fa-fw" style="font-size: 1.5rem; margin-right: 4px"></i><span>Related Articles</span></div><div class="relatedPosts-list"><div><a href="/2026/11/10/zk-snark-stark-proof-systems-2026/" title="零知识证明入门：ZK-SNARK 与 ZK-STARK 的技术对比"><img class="cover" src= "data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7" onerror="this.onerror=null,this.src=&quot;/img/404.jpg&quot;" data-lazy-src="/" alt="cover"><div class="content is-center"><div class="date"><i class="anzhiyufont anzhiyu-icon-calendar-days fa-fw"></i> 2026-11-10</div><div class="title">零知识证明入门：ZK-SNARK 与 ZK-STARK 的技术对比</div></div></a></div><div><a href="/2026/11/18/zk-proving-market-cost-2026/" title="证明市场：ZK 证明的算力如何被定价"><img class="cover" src= "data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7" onerror="this.onerror=null,this.src=&quot;/img/404.jpg&quot;" data-lazy-src="/" alt="cover"><div class="content is-center"><div class="date"><i class="anzhiyufont anzhiyu-icon-calendar-days fa-fw"></i> 2026-11-18</div><div class="title">证明市场：ZK 证明的算力如何被定价</div></div></a></div></div></div></div><div class="aside-content" id="aside-content"><div class="card-widget card-info"><div class="card-content"><div class="author-info-avatar"><img class="avatar-img" src= "data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7" onerror="this.onerror=null,this.src=&quot;/img/404.jpg&quot;" data-lazy-src="/img/btc.png" onerror="this.onerror=null;this.src='/img/friend_404.gif'" alt="avatar"/></div><div class="author-info__description"></div></div></div><div class="card-widget anzhiyu-right-widget" id="card-wechat" onclick="null"><div id="flip-wrapper"><div id="flip-content"><div class="face" style="background: url(https://bu.dusays.com/2023/01/13/63c02edf44033.png) center center / 100% no-repeat"></div><div class="back face" style="background: url(https://bu.dusays.com/2023/05/13/645fa415e8694.png) center center / 100% no-repeat"></div></div></div></div><div class="sticky_layout"><div class="card-widget" id="card-toc"><div class="item-headline"><i class="anzhiyufont anzhiyu-icon-bars"></i><span>Catalog</span><span class="toc-percentage"></span></div><div class="toc-content"><ol class="toc"><li class="toc-item toc-level-2"><a class="toc-link" href="#%E5%85%88%E5%8C%BA%E5%88%86%E4%B8%A4%E4%BB%B6%E4%BA%8B%EF%BC%9A%E9%80%92%E5%BD%92%E4%B8%8E%E6%8A%98%E5%8F%A0"><span class="toc-number">1.</span> <span class="toc-text">先区分两件事：递归与折叠</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E6%9D%BE%E5%BC%9B-R1CS-%E4%B8%8E%E9%82%A3%E4%B8%AA%E5%AE%B9%E6%98%93%E7%BF%BB%E8%BD%A6%E7%9A%84%E5%9B%A0%E5%AD%90"><span class="toc-number">2.</span> <span class="toc-text">松弛 R1CS 与那个容易翻车的因子</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E5%AE%B6%E6%97%8F%E6%BC%94%E5%8C%96%EF%BC%9A%E4%BB%8E%E5%9D%87%E5%8C%80%E5%88%B0%E5%BC%82%E6%9E%84"><span class="toc-number">3.</span> <span class="toc-text">家族演化：从均匀到异构</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E7%9C%9F%E5%AE%9E%E6%88%90%E6%9C%AC%E9%95%BF%E4%BB%80%E4%B9%88%E6%A0%B7"><span class="toc-number">4.</span> <span class="toc-text">真实成本长什么样</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E5%AE%83%E5%92%8C-zkVM-%E7%9A%84%E5%85%B3%E7%B3%BB"><span class="toc-number">5.</span> <span class="toc-text">它和 zkVM 的关系</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E5%B7%A5%E7%A8%8B%E4%B8%8A%E8%A6%81%E7%9B%AF%E7%9A%84%E5%9B%9B%E4%BB%B6%E4%BA%8B"><span class="toc-number">6.</span> <span class="toc-text">工程上要盯的四件事</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E7%BB%93%E8%AF%AD"><span class="toc-number">7.</span> <span class="toc-text">结语</span></a></li></ol></div></div><div class="card-widget card-recent-post"><div class="item-headline"><i class="anzhiyufont anzhiyu-icon-history"></i><span>Recent Post</span></div><div class="aside-list"><div class="aside-list-item no-cover"><div class="content"><a class="title" href="/2026/11/22/ai-datacenter-mining-power-competition-2026/" title="同一度电，矿场卖 99 美元，AI 数据中心卖 234 美元">同一度电，矿场卖 99 美元，AI 数据中心卖 234 美元</a><time datetime="2026-11-22T15:15:00.000Z" title="Created 2026-11-22 23:15:00">2026-11-22</time></div></div><div class="aside-list-item no-cover"><div class="content"><a class="title" href="/2026/11/22/onchain-options-amm-market-making-2026/" title="链上期权为什么做不起来：问题从来不是技术">链上期权为什么做不起来：问题从来不是技术</a><time datetime="2026-11-22T15:10:00.000Z" title="Created 2026-11-22 23:10:00">2026-11-22</time></div></div><div class="aside-list-item no-cover"><div class="content"><a class="title" href="/2026/11/22/tokenized-fund-nav-subscription-redemption-2026/" title="代币化基金的申赎真相：NAV 只在特定时刻成立">代币化基金的申赎真相：NAV 只在特定时刻成立</a><time datetime="2026-11-22T15:05:00.000Z" title="Created 2026-11-22 23:05:00">2026-11-22</time></div></div><div class="aside-list-item no-cover"><div class="content"><a class="title" href="/2026/11/22/defi-liquidator-economics-2026/" title="清算人的账本：615 美元奖励，530 美元交给了区块构建者">清算人的账本：615 美元奖励，530 美元交给了区块构建者</a><time datetime="2026-11-22T15:00:00.000Z" title="Created 2026-11-22 23:00:00">2026-11-22</time></div></div><div class="aside-list-item no-cover"><div class="content"><a class="title" href="/2026/11/22/recursive-folding-proofs-nova-2026/" title="折叠证明：把一万次验证折叠成一次，代价记在最后一步">折叠证明：把一万次验证折叠成一次，代价记在最后一步</a><time datetime="2026-11-22T14:55:00.000Z" title="Created 2026-11-22 22:55:00">2026-11-22</time></div></div></div></div></div></div></div></main><footer id="footer"><div id="footer-wrap"></div><div id="footer-bar"><div class="footer-bar-links"><div class="footer-bar-left"><div id="footer-bar-tips"><div class="copyright">&copy;2020 - 2026 By <a class="footer-bar-link" href="/" title="Bitbank" target="_blank">Bitbank</a></div></div><div id="footer-type-tips"></div></div><div class="footer-bar-right"><a class="footer-bar-link" target="_blank" rel="noopener" href="https://www.binance.com/register?ref=CYBERBASE" title="开始交易">开始交易</a></div></div></div></footer></div><div id="sidebar"><div id="menu-mask"></div><div id="sidebar-menus"><div class="sidebar-site-data site-data is-center"><a href="/archives/" title="archive"><div class="headline">Articles</div><div class="length-num">310</div></a><a href="/tags/" title="tag"><div class="headline">Tags</div><div class="length-num">1255</div></a><a href="/categories/" title="category"><div class="headline">Categories</div><div class="length-num">311</div></a></div><div class="back-menu-list-groups"><div class="back-menu-list-group"><div class="back-menu-list-title">网页</div><div class="back-menu-list"><a class="back-menu-item" target="_blank" rel="noopener" href="https://hexo.anheyu.com/" title="博客"><img class="back-menu-item-icon" src= "data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7" onerror="this.onerror=null,this.src=&quot;/img/404.jpg&quot;" data-lazy-src="/img/favicon.ico" alt="博客"/><span class="back-menu-item-text">博客</span></a></div></div><div class="back-menu-list-group"><div class="back-menu-list-title">项目</div><div class="back-menu-list"><a class="back-menu-item" target="_blank" rel="noopener" href="https://image.anheyu.com/" title="安知鱼图床"><img class="back-menu-item-icon" src= "data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7" onerror="this.onerror=null,this.src=&quot;/img/404.jpg&quot;" data-lazy-src="https://image.anheyu.com/favicon.ico" alt="安知鱼图床"/><span class="back-menu-item-text">安知鱼图床</span></a></div></div></div><span class="sidebar-menu-item-title">标签</span><div class="card-tags"><div class="item-headline"></div><div class="card-tag-cloud"><a href="/tags/AI/" style="font-size: 0.88rem;">AI<sup>1</sup></a><a href="/tags/AI-Agent/" style="font-size: 0.88rem;">AI Agent<sup>2</sup></a><a href="/tags/AI%E4%BB%A3%E7%90%86/" style="font-size: 0.88rem;">AI代理<sup>1</sup></a><a href="/tags/DeFi/" style="font-size: 0.88rem;">DeFi<sup>6</sup></a><a href="/tags/ERC-4337/" style="font-size: 0.88rem;">ERC-4337<sup>2</sup></a><a href="/tags/SegWit/" style="font-size: 0.88rem;">SegWit<sup>1</sup></a><a href="/tags/TGE/" style="font-size: 0.88rem;">TGE<sup>1</sup></a><a href="/tags/UASF/" style="font-size: 0.88rem;">UASF<sup>1</sup></a><a href="/tags/Web3/" style="font-size: 0.88rem;">Web3<sup>2</sup></a><a href="/tags/Web3%E4%BD%93%E9%AA%8C/" style="font-size: 0.88rem;">Web3体验<sup>1</sup></a><a href="/tags/gas%E4%BB%A3%E4%BB%98/" style="font-size: 0.88rem;">gas代付<sup>1</sup></a><a href="/tags/x402/" style="font-size: 0.88rem;">x402<sup>1</sup></a><a href="/tags/%E4%BB%A3%E5%B8%81%E5%88%86%E5%8F%91/" style="font-size: 0.88rem;">代币分发<sup>1</sup></a><a href="/tags/%E5%85%B1%E8%AF%86%E6%9C%BA%E5%88%B6/" style="font-size: 0.88rem;">共识机制<sup>3</sup></a><a href="/tags/%E5%8A%A0%E5%AF%86ATM/" style="font-size: 0.88rem;">加密ATM<sup>1</sup></a><a href="/tags/%E5%8C%BA%E5%9D%97%E5%A4%A7%E5%B0%8F/" style="font-size: 0.88rem;">区块大小<sup>1</sup></a><a href="/tags/%E5%A5%B3%E5%B7%AB%E6%94%BB%E5%87%BB/" style="font-size: 0.88rem;">女巫攻击<sup>1</sup></a><a href="/tags/%E5%AE%9E%E4%BD%93%E5%85%91%E6%8D%A2/" style="font-size: 0.88rem;">实体兑换<sup>1</sup></a><a href="/tags/%E6%89%A9%E5%AE%B9/" style="font-size: 0.88rem;">扩容<sup>5</sup></a><a href="/tags/%E6%95%B0%E5%AD%97%E9%BB%84%E9%87%91/" style="font-size: 0.88rem;">数字黄金<sup>2</sup></a><a href="/tags/%E6%99%BA%E8%83%BD%E4%BD%93/" style="font-size: 0.88rem;">智能体<sup>1</sup></a><a href="/tags/%E6%99%BA%E8%83%BD%E5%90%88%E7%BA%A6/" style="font-size: 0.88rem;">智能合约<sup>4</sup></a><a href="/tags/%E6%99%BA%E8%83%BD%E5%90%88%E7%BA%A6%E9%92%B1%E5%8C%85/" style="font-size: 0.88rem;">智能合约钱包<sup>1</sup></a><a href="/tags/%E6%9C%BA%E5%99%A8%E6%94%AF%E4%BB%98/" style="font-size: 0.88rem;">机器支付<sup>1</sup></a><a href="/tags/%E6%AF%94%E7%89%B9%E5%B8%81/" style="font-size: 0.88rem;">比特币<sup>15</sup></a><a href="/tags/%E6%AF%94%E7%89%B9%E5%B8%81ATM/" style="font-size: 0.88rem;">比特币ATM<sup>1</sup></a><a href="/tags/%E6%B2%BB%E7%90%86/" style="font-size: 0.88rem;">治理<sup>2</sup></a><a href="/tags/%E7%8E%B0%E9%87%91%E5%85%91%E6%8D%A2/" style="font-size: 0.88rem;">现金兑换<sup>1</sup></a><a href="/tags/%E7%A4%BE%E4%BA%A4%E6%81%A2%E5%A4%8D/" style="font-size: 0.88rem;">社交恢复<sup>3</sup></a><a href="/tags/%E7%A8%B3%E5%AE%9A%E5%B8%81/" style="font-size: 0.88rem;">稳定币<sup>18</sup></a><a href="/tags/%E7%A9%BA%E6%8A%95/" style="font-size: 0.88rem;">空投<sup>1</sup></a><a href="/tags/%E7%BA%BF%E6%80%A7%E8%A7%A3%E9%94%81/" style="font-size: 0.88rem;">线性解锁<sup>1</sup></a><a href="/tags/%E7%BB%93%E7%AE%97/" style="font-size: 0.88rem;">结算<sup>3</sup></a><a href="/tags/%E8%87%AA%E4%B8%BB%E7%BB%8F%E6%B5%8E/" style="font-size: 0.88rem;">自主经济<sup>1</sup></a><a href="/tags/%E8%A1%8C%E4%B8%9A%E8%A7%82%E5%AF%9F/" style="font-size: 0.88rem;">行业观察<sup>1</sup></a><a href="/tags/%E8%B4%A6%E6%88%B7%E6%8A%BD%E8%B1%A1/" style="font-size: 0.88rem;">账户抽象<sup>3</sup></a><a href="/tags/%E8%B5%9B%E9%81%93%E6%8A%95%E7%A0%94/" style="font-size: 0.88rem;">赛道投研<sup>1</sup></a><a href="/tags/%E9%81%BF%E9%99%A9%E8%B5%84%E4%BA%A7/" style="font-size: 0.88rem;">避险资产<sup>2</sup></a><a href="/tags/%E9%93%BE%E4%B8%8A%E5%88%86%E6%9E%90/" style="font-size: 0.88rem;">链上分析<sup>3</sup></a><a href="/tags/%E9%98%B2%E8%AF%88%E9%AA%97/" style="font-size: 0.88rem;">防诈骗<sup>2</sup></a></div></div><hr/></div></div><div id="rightside"><div id="rightside-config-hide"><button id="readmode" type="button" title="Read Mode"><i class="anzhiyufont anzhiyu-icon-book-open"></i></button><button id="translateLink" type="button" title="Switch Between Traditional Chinese And Simplified Chinese">繁</button><button id="hide-aside-btn" type="button" title="Toggle between single-column and double-column"><i class="anzhiyufont anzhiyu-icon-arrows-left-right"></i></button></div><div id="rightside-config-show"><button id="rightside-config" type="button" title="Setting"><i class="anzhiyufont anzhiyu-icon-gear"></i></button><button class="close" id="mobile-toc-button" type="button" title="Table Of Contents"><i class="anzhiyufont anzhiyu-icon-list-ul"></i></button><button id="go-up" type="button" title="Back To Top"><i class="anzhiyufont anzhiyu-icon-arrow-up"></i></button></div></div><div id="rightMenu"><div class="rightMenu-group rightMenu-small"><div class="rightMenu-item" id="menu-backward"><i class="anzhiyufont anzhiyu-icon-arrow-left"></i></div><div class="rightMenu-item" id="menu-forward"><i class="anzhiyufont anzhiyu-icon-arrow-right"></i></div><div class="rightMenu-item" id="menu-refresh"><i class="anzhiyufont anzhiyu-icon-arrow-rotate-right" style="font-size: 1rem;"></i></div><div class="rightMenu-item" id="menu-top"><i class="anzhiyufont anzhiyu-icon-arrow-up"></i></div></div><div class="rightMenu-group rightMenu-line rightMenuPlugin"><div class="rightMenu-item" id="menu-copytext"><i class="anzhiyufont anzhiyu-icon-copy"></i><span>复制选中文本</span></div><div class="rightMenu-item" id="menu-pastetext"><i class="anzhiyufont anzhiyu-icon-paste"></i><span>粘贴文本</span></div><a class="rightMenu-item" id="menu-commenttext"><i class="anzhiyufont anzhiyu-icon-comment-medical"></i><span>引用到评论</span></a><div class="rightMenu-item" id="menu-newwindow"><i class="anzhiyufont anzhiyu-icon-window-restore"></i><span>新窗口打开</span></div><div class="rightMenu-item" id="menu-copylink"><i class="anzhiyufont anzhiyu-icon-link"></i><span>复制链接地址</span></div><div class="rightMenu-item" id="menu-copyimg"><i class="anzhiyufont anzhiyu-icon-images"></i><span>复制此图片</span></div><div class="rightMenu-item" id="menu-downloadimg"><i class="anzhiyufont anzhiyu-icon-download"></i><span>下载此图片</span></div><div class="rightMenu-item" id="menu-newwindowimg"><i class="anzhiyufont anzhiyu-icon-window-restore"></i><span>新窗口打开图片</span></div><div class="rightMenu-item" id="menu-search"><i class="anzhiyufont anzhiyu-icon-magnifying-glass"></i><span>站内搜索</span></div><div class="rightMenu-item" id="menu-searchBaidu"><i class="anzhiyufont anzhiyu-icon-magnifying-glass"></i><span>百度搜索</span></div><div class="rightMenu-item" id="menu-music-toggle"><i class="anzhiyufont anzhiyu-icon-play"></i><span>播放音乐</span></div><div class="rightMenu-item" id="menu-music-back"><i class="anzhiyufont anzhiyu-icon-backward"></i><span>切换到上一首</span></div><div class="rightMenu-item" id="menu-music-forward"><i class="anzhiyufont anzhiyu-icon-forward"></i><span>切换到下一首</span></div><div class="rightMenu-item" id="menu-music-playlist" onclick="window.open(&quot;https://y.qq.com/n/ryqq/playlist/8802438608&quot;, &quot;_blank&quot;);" style="display: none;"><i class="anzhiyufont anzhiyu-icon-radio"></i><span>查看所有歌曲</span></div><div class="rightMenu-item" id="menu-music-copyMusicName"><i class="anzhiyufont anzhiyu-icon-copy"></i><span>复制歌名</span></div></div><div class="rightMenu-group rightMenu-line rightMenuOther"><a class="rightMenu-item menu-link" id="menu-randomPost"><i class="anzhiyufont anzhiyu-icon-shuffle"></i><span>随便逛逛</span></a><a class="rightMenu-item menu-link" href="/categories/"><i class="anzhiyufont anzhiyu-icon-cube"></i><span>博客分类</span></a><a class="rightMenu-item menu-link" href="/tags/"><i class="anzhiyufont anzhiyu-icon-tags"></i><span>文章标签</span></a></div><div class="rightMenu-group rightMenu-line rightMenuOther"><a class="rightMenu-item" id="menu-copy" href="javascript:void(0);"><i class="anzhiyufont anzhiyu-icon-copy"></i><span>复制地址</span></a><a class="rightMenu-item" id="menu-commentBarrage" href="javascript:void(0);"><i class="anzhiyufont anzhiyu-icon-message"></i><span class="menu-commentBarrage-text">关闭热评</span></a><a class="rightMenu-item" id="menu-darkmode" href="javascript:void(0);"><i class="anzhiyufont anzhiyu-icon-circle-half-stroke"></i><span class="menu-darkmode-text">深色模式</span></a><a class="rightMenu-item" id="menu-translate" href="javascript:void(0);"><i class="anzhiyufont anzhiyu-icon-language"></i><span>轉為繁體</span></a></div></div><div id="rightmenu-mask"></div><div><script src="/js/utils.js"></script><script src="/js/main.js"></script><script src="/js/tw_cn.js"></script><script src="https://cdn.cbd.int/@fancyapps/ui@6.1.6/dist/fancybox/fancybox.umd.js"></script><script src="https://cdn.cbd.int/instant.page@5.2.0/instantpage.js" type="module"></script><script src="https://cdn.cbd.int/vanilla-lazyload@19.1.3/dist/lazyload.iife.min.js"></script><script src="https://cdn.cbd.int/node-snackbar@0.1.16/dist/snackbar.min.js"></script><canvas id="universe"></canvas><script async src="https://npm.elemecdn.com/anzhiyu-theme-static@1.0.0/dark/dark.js"></script><script>// 消除控制台打印
+var HoldLog = console.log;
+console.log = function () {};
+let now1 = new Date();
+queueMicrotask(() => {
+  const Log = function () {
+    HoldLog.apply(console, arguments);
+  }; //在恢复前输出日志
+  const grt = new Date("04/01/2021 00:00:00"); //此处修改你的建站时间或者网站上线时间
+  now1.setTime(now1.getTime() + 250);
+  const days = (now1 - grt) / 1000 / 60 / 60 / 24;
+  const dnum = Math.floor(days);
+  const ascll = [
+    `欢迎使用安知鱼!`,
+    `生活明朗, 万物可爱`,
+    `
+        
+       █████╗ ███╗   ██╗███████╗██╗  ██╗██╗██╗   ██╗██╗   ██╗
+      ██╔══██╗████╗  ██║╚══███╔╝██║  ██║██║╚██╗ ██╔╝██║   ██║
+      ███████║██╔██╗ ██║  ███╔╝ ███████║██║ ╚████╔╝ ██║   ██║
+      ██╔══██║██║╚██╗██║ ███╔╝  ██╔══██║██║  ╚██╔╝  ██║   ██║
+      ██║  ██║██║ ╚████║███████╗██║  ██║██║   ██║   ╚██████╔╝
+      ╚═╝  ╚═╝╚═╝  ╚═══╝╚══════╝╚═╝  ╚═╝╚═╝   ╚═╝    ╚═════╝
+        
+        `,
+    "已上线",
+    dnum,
+    "天",
+    "©2020 By 安知鱼 V1.7.1",
+  ];
+  const ascll2 = [`NCC2-036`, `调用前置摄像头拍照成功，识别为【小笨蛋】.`, `Photo captured: `, `🤪`];
+
+  setTimeout(
+    Log.bind(
+      console,
+      `\n%c${ascll[0]} %c ${ascll[1]} %c ${ascll[2]} %c${ascll[3]}%c ${ascll[4]}%c ${ascll[5]}\n\n%c ${ascll[6]}\n`,
+      "color:#425AEF",
+      "",
+      "color:#425AEF",
+      "color:#425AEF",
+      "",
+      "color:#425AEF",
+      ""
+    )
+  );
+  setTimeout(
+    Log.bind(
+      console,
+      `%c ${ascll2[0]} %c ${ascll2[1]} %c \n${ascll2[2]} %c\n${ascll2[3]}\n`,
+      "color:white; background-color:#4fd953",
+      "",
+      "",
+      'background:url("https://npm.elemecdn.com/anzhiyu-blog@1.1.6/img/post/common/tinggge.gif") no-repeat;font-size:450%'
+    )
+  );
+
+  setTimeout(Log.bind(console, "%c WELCOME %c 你好，小笨蛋.", "color:white; background-color:#4f90d9", ""));
+
+  setTimeout(
+    console.warn.bind(
+      console,
+      "%c ⚡ Powered by 安知鱼 %c 你正在访问 Bitbank 的博客.",
+      "color:white; background-color:#f0ad4e",
+      ""
+    )
+  );
+
+  setTimeout(Log.bind(console, "%c W23-12 %c 你已打开控制台.", "color:white; background-color:#4f90d9", ""));
+
+  setTimeout(
+    console.warn.bind(console, "%c S013-782 %c 你现在正处于监控中.", "color:white; background-color:#d9534f", "")
+  );
+});</script><script async src="/anzhiyu/random.js"></script><div class="js-pjax"><input type="hidden" name="page-type" id="page-type" value="post"></div><script>var visitorMail = "";
+</script><script async data-pjax src="https://cdn.cbd.int/anzhiyu-theme-static@1.0.0/waterfall/waterfall.js"></script><script src="https://cdn.cbd.int/qrcodejs@1.0.0/qrcode.min.js"></script><link rel="stylesheet" href="https://cdn.cbd.int/anzhiyu-theme-static@1.1.9/icon/ali_iconfont_css.css"><script src="/js/waterfall-home.js" defer></script><script src="/js/macro-board.js" defer></script><link rel="stylesheet" href="https://cdn.cbd.int/anzhiyu-theme-static@1.0.0/aplayer/APlayer.min.css" media="print" onload="this.media='all'"><script src="https://cdn.cbd.int/anzhiyu-blog-static@1.0.1/js/APlayer.min.js"></script><script src="https://cdn.cbd.int/hexo-anzhiyu-music@1.0.1/assets/js/Meting2.min.js"></script><script src="https://cdn.cbd.int/pjax@0.2.8/pjax.min.js"></script><script>let pjaxSelectors = ["head > title","#config-diff","#body-wrap","#rightside-config-hide","#rightside-config-show",".js-pjax"]
+var pjax = new Pjax({
+  elements: 'a:not([target="_blank"])',
+  selectors: pjaxSelectors,
+  cacheBust: false,
+  analytics: false,
+  scrollRestoration: false
+})
+
+document.addEventListener('pjax:send', function () {
+  // removeEventListener scroll 
+  anzhiyu.removeGlobalFnEvent('pjax')
+  anzhiyu.removeGlobalFnEvent('themeChange')
+
+  document.getElementById('rightside').classList.remove('rightside-show')
+  
+  if (window.aplayers) {
+    for (let i = 0; i < window.aplayers.length; i++) {
+      if (!window.aplayers[i].options.fixed) {
+        window.aplayers[i].destroy()
+      }
+    }
+  }
+
+  typeof typed === 'object' && typed.destroy()
+
+  //reset readmode
+  const $bodyClassList = document.body.classList
+  $bodyClassList.contains('read-mode') && $bodyClassList.remove('read-mode')
+})
+
+document.addEventListener('pjax:complete', function () {
+  window.refreshFn()
+
+  document.querySelectorAll('script[data-pjax]').forEach(item => {
+    const newScript = document.createElement('script')
+    const content = item.text || item.textContent || item.innerHTML || ""
+    Array.from(item.attributes).forEach(attr => newScript.setAttribute(attr.name, attr.value))
+    newScript.appendChild(document.createTextNode(content))
+    item.parentNode.replaceChild(newScript, item)
+  })
+
+  GLOBAL_CONFIG.islazyload && window.lazyLoadInstance.update()
+
+  typeof panguInit === 'function' && panguInit()
+
+  // google analytics
+  typeof gtag === 'function' && gtag('config', '', {'page_path': window.location.pathname});
+
+  // baidu analytics
+  typeof _hmt === 'object' && _hmt.push(['_trackPageview',window.location.pathname]);
+
+  typeof loadMeting === 'function' && document.getElementsByClassName('aplayer').length && loadMeting()
+
+  // prismjs
+  typeof Prism === 'object' && Prism.highlightAll()
+})
+
+document.addEventListener('pjax:error', e => {
+  if (e.request.status === 404) {
+    pjax.loadUrl('/404.html')
+  }
+})</script><script charset="UTF-8" src="https://cdn.cbd.int/anzhiyu-theme-static@1.1.5/accesskey/accesskey.js"></script></div><div id="popup-window"><div class="popup-window-title">通知</div><div class="popup-window-divider"></div><div class="popup-window-content"><div class="popup-tip">你好呀</div><div class="popup-link"><i class="anzhiyufont anzhiyu-icon-arrow-circle-right"></i></div></div></div></body></html>
