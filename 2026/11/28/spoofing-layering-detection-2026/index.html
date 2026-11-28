@@ -1,0 +1,368 @@
+<!DOCTYPE html><html lang="en" data-theme="dark"><head><meta charset="UTF-8"><meta http-equiv="X-UA-Compatible" content="IE=edge"><meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=no"><title>挂单不打算成交：spoofing 的可观测指标与举证难点 | BitBank|比特帮</title><meta name="keywords" content="spoofing,幌骗,layering,分层挂单,撤单率,订单簿操纵,市场操纵,交易监测,订单成交比,盘口假深度"><meta name="author" content="Bitbank"><meta name="copyright" content="Bitbank"><meta name="format-detection" content="telephone=no"><meta name="theme-color" content="#181A20"><meta name="mobile-web-app-capable" content="yes"><meta name="apple-touch-fullscreen" content="yes"><meta name="apple-mobile-web-app-title" content="挂单不打算成交：spoofing 的可观测指标与举证难点"><meta name="application-name" content="挂单不打算成交：spoofing 的可观测指标与举证难点"><meta name="apple-mobile-web-app-capable" content="yes"><meta name="apple-mobile-web-app-status-bar-style" content="#181A20"><meta property="og:type" content="article"><meta property="og:title" content="挂单不打算成交：spoofing 的可观测指标与举证难点"><meta property="og:url" content="http://www.bitbank.link/2026/11/28/spoofing-layering-detection-2026/index.html"><meta property="og:site_name" content="BitBank|比特帮"><meta property="og:description" content="盘口上那堵墙，可能是真的，也可能只挂 200 毫秒。区别在于挂单者是否打算成交——而意图无法直接观测，只能用行为指标推断。"><meta property="og:locale" content="en"><meta property="og:image" content="http://www.bitbank.link/img/btc.png"><meta property="article:author" content="Bitbank"><meta property="article:tag"><meta name="twitter:card" content="summary"><meta name="twitter:image" content="http://www.bitbank.link/img/btc.png"><meta name="description" content="盘口上那堵墙，可能是真的，也可能只挂 200 毫秒。区别在于挂单者是否打算成交——而意图无法直接观测，只能用行为指标推断。"><link rel="shortcut icon" href="/favicon.ico"><link rel="canonical" href="http://www.bitbank.link/2026/11/28/spoofing-layering-detection-2026/"><link rel="preconnect" href="//cdn.cbd.int"/><meta name="google-site-verification" content="xxx"/><meta name="baidu-site-verification" content="code-xxx"/><meta name="msvalidate.01" content="xxx"/><link rel="stylesheet" href="/css/index.css"><link rel="stylesheet" href="https://cdn.cbd.int/node-snackbar@0.1.16/dist/snackbar.min.css" media="print" onload="this.media='all'"><link rel="stylesheet" href="https://cdn.cbd.int/@fancyapps/ui@6.1.6/dist/fancybox/fancybox.css" media="print" onload="this.media='all'"><script>const GLOBAL_CONFIG = {
+  linkPageTop: undefined,
+  peoplecanvas: undefined,
+  postHeadAiDescription: {"enable":true,"gptName":"Bitbank","mode":"local","switchBtn":false,"btnLink":"https://afdian.net/item/886a79d4db6711eda42a52540025c377","randomNum":3,"basicWordCount":1000,"key":"xxxx","Referer":"https://xx.xx/"},
+  diytitle: {"enable":true,"leaveTitle":"BlockChain！Link the world！","backTitle":"BitBank"},
+  LA51: undefined,
+  greetingBox: undefined,
+  twikooEnvId: '',
+  commentBarrageConfig:undefined,
+  music_page_default: "nav_music",
+  root: '/',
+  preloader: {"source":3},
+  friends_vue_info: undefined,
+  navMusic: false,
+  mainTone: undefined,
+  authorStatus: undefined,
+  algolia: undefined,
+  localSearch: undefined,
+  translate: {"defaultEncoding":2,"translateDelay":0,"msgToTraditionalChinese":"繁","msgToSimplifiedChinese":"简","rightMenuMsgToTraditionalChinese":"转为繁体","rightMenuMsgToSimplifiedChinese":"转为简体"},
+  noticeOutdate: undefined,
+  highlight: {"plugin":"highlight.js","highlightCopy":true,"highlightLang":true,"highlightHeightLimit":330},
+  copy: {
+    success: 'Copy successfully',
+    error: 'Copy error',
+    noSupport: 'The browser does not support'
+  },
+  relativeDate: {
+    homepage: false,
+    simplehomepage: true,
+    post: false
+  },
+  runtime: 'days',
+  date_suffix: {
+    just: 'Just',
+    min: 'minutes ago',
+    hour: 'hours ago',
+    day: 'days ago',
+    month: 'months ago'
+  },
+  copyright: {"copy":true,"copyrightEbable":false,"limitCount":50,"languages":{"author":"Author: Bitbank","link":"Link: ","source":"Source: BitBank|比特帮","info":"Copyright is owned by the author. For commercial reprints, please contact the author for authorization. For non-commercial reprints, please indicate the source.","copySuccess":"Copy success, copy and reprint please mark the address of this article"}},
+  lightbox: 'fancybox',
+  Snackbar: {"chs_to_cht":"Traditional Chinese Activated Manually","cht_to_chs":"Simplified Chinese Activated Manually","day_to_night":"Dark Mode Activated Manually","night_to_day":"Light Mode Activated Manually","bgLight":"#425AEF","bgDark":"#1f1f1f","position":"top-center"},
+  source: {
+    justifiedGallery: {
+      js: 'https://cdn.cbd.int/flickr-justified-gallery@2.2.0/dist/fjGallery.min.js',
+      css: 'https://cdn.cbd.int/flickr-justified-gallery@2.2.0/dist/fjGallery.css'
+    }
+  },
+  isPhotoFigcaption: false,
+  islazyload: true,
+  isAnchor: false,
+  shortcutKey: undefined,
+  autoDarkmode: false
+}</script><script id="config-diff">var GLOBAL_CONFIG_SITE = {
+  configTitle: 'BitBank|比特帮',
+  title: '挂单不打算成交：spoofing 的可观测指标与举证难点',
+  postAI: '',
+  pageFillDescription: '法律定义与它的证明难点, 四个可观测指标, 分层挂单为什么看起来像流动性, 加密市场的三个特殊性, 举证与执法的现实, 散户能做什么币安欧意导读幌骗的构成要件是意图在成交前撤单意图在脑子里无法直接读取所以监管与交易所只能用一组行为指标做统计推断理解这些指标既能识别盘口假象也能避免自己的高频挂撤被误判法律定义与它的证明难点美国商品交易法对幌骗的表述是在成交前撤单的买价或卖价之出价行为且具有欺诈意图定义简单举证极难因为撤单本身完全合法做市商每天都在撤单撤单率超过也不违法意图必须由外部行为推断挂单规模是否远超其实际成交能力挂单方向是否与成交方向相反撤单是否总是发生在价格即将触及的瞬间需要完整订单生命周期数据下单改单撤单成交的时间戳而这类数据只有交易所持有因此执法通常依赖模式而非单笔某一账户在数月内上千次重复同一结构才能排除正常做市的解释年的首例和解中监管机构对一家交易公司处以约万美元的追缴与罚款理由正是其在多个合约上反复挂出大额订单在成交前撤走同时反向成交四个可观测指标其一订单成交比一段时间内提交订单数与成交数之比做市商高是常态到但幌骗者的常达到数百比一且撤单集中在单一方向其二驻留时间中位数每笔挂单从进入到撤走的时间真实流动性提供者的挂单驻留时间分布较宽幌骗者的挂单驻留时间高度集中在极短区间几百毫秒且与其希望被看到的时长吻合其三撤单与价格触及时序关键指标是撤单发生在最优价被吃掉前多少毫秒若撤单时间与对手方订单到达时间高度相关提前毫秒几乎可以确定挂单者能观测到订单流其四反向成交比例幌骗的最终目的往往是在另一侧成交若某账户在撤掉大额买单后的极短时间内以卖单成交且此模式重复出现就构成强证据分层挂单为什么看起来像流动性分层是幌骗的进阶形态在多个价位同时挂出同一方向的大额订单制造深度很好的视觉印象诱导对手方在该方向成交随后一次性撤掉全部挂单它的欺骗性在于利用了交易者对深度的信任盘口显示五档共手买盘交易者会认为下方有支撑但若这手全部来自同一账户且在该账户完成卖出后毫秒内消失那这堵墙从来就不是支撑而是一块布景识别分层的经验判据深度在时间上的驻留率真实挂单会在同一价位反复出现被吃掉一部分补单再被吃掉而分层挂单是整体出现整体消失几乎没有部分成交加密市场的三个特殊性其一没有合并行情传统市场有全国最优买卖报价与合并磁带监管可以在一个统一视图中比对所有场所加密有数百个场所同一资产的价格分散在不同订单簿上单一场所的假深度可能被跨所套利瞬间抹平也可能因为套利者不在场而长期存在其二返佣结构鼓励挂单返佣让挂单本身产生收入因此高撤单率在加密市场是被补贴的行为这使撤单率高这一指标的诊断力大幅下降人人都高其三子账户与让归因变难一个做市团队可以用数十个子账户分散挂单单个账户看都是正常规模聚合后才显现分层结构交易所能看到聚合视图外部研究者通常不能举证与执法的现实在传统市场执法机构可以调取交易所的完整订单日志交易员聊天记录内部代码举证链条完整在加密市场三个障碍同时存在管辖交易发生在他国服务器上运营主体在第三地注册数据订单日志不公开交易所未必保存足够粒度的历史标准多数辖区没有专门针对数字资产的幌骗条款只能套用欺诈或操纵的一般规定因此加密市场的幌骗治理实际主要依靠交易所自身的监测系统而交易所的激励是矛盾的幌骗者往往也是手续费贡献大户散户能做什么第一不要用单次快照判断深度看同一价位在秒内多次快照中的出现频率若某个大额挂单从未被部分成交只在价格接近时整体消失它不是流动性第二用成交密集区而非挂单密集区判断支撑历史成交量分布比盘口深度更难伪造因为它记录的是已经发生的交换第三警惕盘口越好成交越差的组合若某交易对显示极窄价差与极厚深度但你的市价单实际滑点远大于报价说明显示的深度不可成交这正是分层挂单的典型症状第四自己的策略也要留证据高频挂撤在波动期容易被风控标记保留策略说明参数记录与成交统计是在被问询时证明正常做市而非幌骗的唯一方式幌骗的本质不是撤单而是用不打算履约的报价去影响别人的判断这个定义对人和对算法同样适用一个以诱导对手方为目标的策略即使代码里没有这个词行为上也已经是了在币安与欧意交易时可对照其市场公平交易规则中关于异常挂撤单的条款了解平台判定阈值本文为市场操纵识别与监管框架分析不构成投资建议或法律意见具体案件的认定以监管机构与司法机关的正式文书为准',
+  isPost: true,
+  isHome: false,
+  isHighlightShrink: false,
+  isToc: true,
+  postUpdate: '2026-11-28 22:21:12',
+  postMainColor: '',
+}</script><noscript><style type="text/css">
+  #nav {
+    opacity: 1
+  }
+  .justified-gallery img {
+    opacity: 1
+  }
+
+  #recent-posts time,
+  #post-meta time {
+    display: inline !important
+  }
+</style></noscript><script>(win=>{
+      win.saveToLocal = {
+        set: (key, value, ttl) => {
+          if (ttl === 0) return
+          const now = Date.now()
+          const expiry = now + ttl * 86400000
+          const item = {
+            value,
+            expiry
+          }
+          localStorage.setItem(key, JSON.stringify(item))
+        },
+      
+        get: key => {
+          const itemStr = localStorage.getItem(key)
+      
+          if (!itemStr) {
+            return undefined
+          }
+          const item = JSON.parse(itemStr)
+          const now = Date.now()
+      
+          if (now > item.expiry) {
+            localStorage.removeItem(key)
+            return undefined
+          }
+          return item.value
+        }
+      }
+    
+      win.getScript = (url, attr = {}) => new Promise((resolve, reject) => {
+        const script = document.createElement('script')
+        script.src = url
+        script.async = true
+        script.onerror = reject
+        script.onload = script.onreadystatechange = function() {
+          const loadState = this.readyState
+          if (loadState && loadState !== 'loaded' && loadState !== 'complete') return
+          script.onload = script.onreadystatechange = null
+          resolve()
+        }
+
+        Object.keys(attr).forEach(key => {
+          script.setAttribute(key, attr[key])
+        })
+
+        document.head.appendChild(script)
+      })
+    
+      win.getCSS = (url, id = false) => new Promise((resolve, reject) => {
+        const link = document.createElement('link')
+        link.rel = 'stylesheet'
+        link.href = url
+        if (id) link.id = id
+        link.onerror = reject
+        link.onload = link.onreadystatechange = function() {
+          const loadState = this.readyState
+          if (loadState && loadState !== 'loaded' && loadState !== 'complete') return
+          link.onload = link.onreadystatechange = null
+          resolve()
+        }
+        document.head.appendChild(link)
+      })
+    
+      win.activateDarkMode = () => {
+        document.documentElement.setAttribute('data-theme', 'dark')
+        if (document.querySelector('meta[name="theme-color"]') !== null) {
+          document.querySelector('meta[name="theme-color"]').setAttribute('content', '#181A20')
+        }
+      }
+      win.activateLightMode = () => {
+        document.documentElement.setAttribute('data-theme', 'light')
+        if (document.querySelector('meta[name="theme-color"]') !== null) {
+          document.querySelector('meta[name="theme-color"]').setAttribute('content', '#F0B90B')
+        }
+      }
+      const t = saveToLocal.get('theme')
+    
+        if (t === 'dark') activateDarkMode()
+        else if (t === 'light') activateLightMode()
+      
+      const asideStatus = saveToLocal.get('aside-status')
+      if (asideStatus !== undefined) {
+        if (asideStatus === 'hide') {
+          document.documentElement.classList.add('hide-aside')
+        } else {
+          document.documentElement.classList.remove('hide-aside')
+        }
+      }
+    
+      const detectApple = () => {
+        if(/iPad|iPhone|iPod|Macintosh/.test(navigator.userAgent)){
+          document.documentElement.classList.add('apple')
+        }
+      }
+      detectApple()
+    })(window)</script><link rel="stylesheet" href="/css/waterfall-home.css"><link rel="stylesheet" href="/css/macro-board.css"><meta name="generator" content="Hexo 8.1.2"></head><body data-type="anzhiyu"><div id="web_bg"></div><div id="an_music_bg"></div><div id="loading-box" onclick="document.getElementById(&quot;loading-box&quot;).classList.add(&quot;loaded&quot;)"><div class="loading-bg"><img class="loading-img nolazyload" alt="加载头像" src="/img/btc.png"/><div class="loading-image-dot"></div></div></div><script>const preloader = {
+  endLoading: () => {
+    document.getElementById('loading-box').classList.add("loaded");
+  },
+  initLoading: () => {
+    document.getElementById('loading-box').classList.remove("loaded")
+  }
+}
+window.addEventListener('load',()=> { preloader.endLoading() })
+setTimeout(function(){preloader.endLoading();},10000)
+
+if (true) {
+  document.addEventListener('pjax:send', () => { preloader.initLoading() })
+  document.addEventListener('pjax:complete', () => { preloader.endLoading() })
+}</script><link rel="stylesheet" href="https://cdn.cbd.int/anzhiyu-theme-static@1.1.10/progress_bar/progress_bar.css"/><script async="async" src="https://cdn.cbd.int/pace-js@1.2.4/pace.min.js" data-pace-options="{ &quot;restartOnRequestAfter&quot;:false,&quot;eventLag&quot;:false}"></script><div class="post" id="body-wrap"><header class="post-bg" id="page-header"><nav id="nav"><div id="nav-group"><span id="blog_name"><a id="site-name" href="/" accesskey="h"><div class="title">BitBank|比特帮</div><i class="anzhiyufont anzhiyu-icon-house-chimney"></i></a></span><div class="mask-name-container"><div id="name-container"><a id="page-name" href="javascript:anzhiyu.scrollToDest(0, 500)">PAGE_NAME</a></div></div><div id="menus"></div><div id="nav-right"><div class="nav-button" id="randomPost_button"><a class="site-page" onclick="toRandomPost()" title="Random Post" href="javascript:void(0);"><i class="anzhiyufont anzhiyu-icon-dice"></i></a></div><input id="center-console" type="checkbox"/><label class="widget" for="center-console" title="Console" onclick="anzhiyu.switchConsole();"><i class="left"></i><i class="widget center"></i><i class="widget right"></i></label><div id="console"><div class="console-card-group-reward"><ul class="reward-all console-card"><li class="reward-item"><a href="/img/bitcoin.png" target="_blank"><img class="post-qr-code-img" alt="BTC" src="/img/bitcoin.png"/></a><div class="post-qr-code-desc">BTC</div></li><li class="reward-item"><a href="/img/eth.png" target="_blank"><img class="post-qr-code-img" alt="ETH" src="/img/eth.png"/></a><div class="post-qr-code-desc">ETH</div></li></ul></div><div class="console-card-group"><div class="console-card-group-left"><div class="console-card" id="card-newest-comments"><div class="card-content"><div class="author-content-item-tips">Interaction</div><span class="author-content-item-title"> Newest Comments</span></div><div class="aside-list"><span>loading...</span></div></div></div><div class="console-card-group-right"><div class="console-card tags"><div class="card-content"><div class="author-content-item-tips">Interests</div><span class="author-content-item-title">Find your area of interest</span><div class="card-tags"><div class="item-headline"></div><div class="card-tag-cloud"><a href="/tags/AI/" style="font-size: 1.05rem;">AI<sup>1</sup></a><a href="/tags/AI-Agent/" style="font-size: 1.05rem;">AI Agent<sup>2</sup></a><a href="/tags/AI%E4%BB%A3%E7%90%86/" style="font-size: 1.05rem;">AI代理<sup>1</sup></a><a href="/tags/DeFi/" style="font-size: 1.05rem;">DeFi<sup>6</sup></a><a href="/tags/ERC-4337/" style="font-size: 1.05rem;">ERC-4337<sup>3</sup></a><a href="/tags/SegWit/" style="font-size: 1.05rem;">SegWit<sup>1</sup></a><a href="/tags/TGE/" style="font-size: 1.05rem;">TGE<sup>1</sup></a><a href="/tags/UASF/" style="font-size: 1.05rem;">UASF<sup>1</sup></a><a href="/tags/Web3/" style="font-size: 1.05rem;">Web3<sup>2</sup></a><a href="/tags/Web3%E4%BD%93%E9%AA%8C/" style="font-size: 1.05rem;">Web3体验<sup>1</sup></a><a href="/tags/gas%E4%BB%A3%E4%BB%98/" style="font-size: 1.05rem;">gas代付<sup>1</sup></a><a href="/tags/x402/" style="font-size: 1.05rem;">x402<sup>1</sup></a><a href="/tags/%E4%BB%A3%E5%B8%81%E5%88%86%E5%8F%91/" style="font-size: 1.05rem;">代币分发<sup>1</sup></a><a href="/tags/%E5%85%B1%E8%AF%86%E6%9C%BA%E5%88%B6/" style="font-size: 1.05rem;">共识机制<sup>3</sup></a><a href="/tags/%E5%8A%A0%E5%AF%86ATM/" style="font-size: 1.05rem;">加密ATM<sup>1</sup></a><a href="/tags/%E5%8C%BA%E5%9D%97%E5%A4%A7%E5%B0%8F/" style="font-size: 1.05rem;">区块大小<sup>1</sup></a><a href="/tags/%E5%A5%B3%E5%B7%AB%E6%94%BB%E5%87%BB/" style="font-size: 1.05rem;">女巫攻击<sup>2</sup></a><a href="/tags/%E5%AE%9E%E4%BD%93%E5%85%91%E6%8D%A2/" style="font-size: 1.05rem;">实体兑换<sup>1</sup></a><a href="/tags/%E6%89%A9%E5%AE%B9/" style="font-size: 1.05rem;">扩容<sup>6</sup></a><a href="/tags/%E6%95%B0%E5%AD%97%E9%BB%84%E9%87%91/" style="font-size: 1.05rem;">数字黄金<sup>2</sup></a><a href="/tags/%E6%99%BA%E8%83%BD%E4%BD%93/" style="font-size: 1.05rem;">智能体<sup>1</sup></a><a href="/tags/%E6%99%BA%E8%83%BD%E5%90%88%E7%BA%A6/" style="font-size: 1.05rem;">智能合约<sup>7</sup></a><a href="/tags/%E6%99%BA%E8%83%BD%E5%90%88%E7%BA%A6%E9%92%B1%E5%8C%85/" style="font-size: 1.05rem;">智能合约钱包<sup>1</sup></a><a href="/tags/%E6%9C%BA%E5%99%A8%E6%94%AF%E4%BB%98/" style="font-size: 1.05rem;">机器支付<sup>1</sup></a><a href="/tags/%E6%AF%94%E7%89%B9%E5%B8%81/" style="font-size: 1.05rem;">比特币<sup>15</sup></a><a href="/tags/%E6%AF%94%E7%89%B9%E5%B8%81ATM/" style="font-size: 1.05rem;">比特币ATM<sup>1</sup></a><a href="/tags/%E6%B2%BB%E7%90%86/" style="font-size: 1.05rem;">治理<sup>4</sup></a><a href="/tags/%E7%8E%B0%E9%87%91%E5%85%91%E6%8D%A2/" style="font-size: 1.05rem;">现金兑换<sup>1</sup></a><a href="/tags/%E7%A4%BE%E4%BA%A4%E6%81%A2%E5%A4%8D/" style="font-size: 1.05rem;">社交恢复<sup>3</sup></a><a href="/tags/%E7%A8%B3%E5%AE%9A%E5%B8%81/" style="font-size: 1.05rem;">稳定币<sup>20</sup></a><a href="/tags/%E7%A9%BA%E6%8A%95/" style="font-size: 1.05rem;">空投<sup>2</sup></a><a href="/tags/%E7%BA%BF%E6%80%A7%E8%A7%A3%E9%94%81/" style="font-size: 1.05rem;">线性解锁<sup>1</sup></a><a href="/tags/%E7%BB%93%E7%AE%97/" style="font-size: 1.05rem;">结算<sup>3</sup></a><a href="/tags/%E8%87%AA%E4%B8%BB%E7%BB%8F%E6%B5%8E/" style="font-size: 1.05rem;">自主经济<sup>1</sup></a><a href="/tags/%E8%A1%8C%E4%B8%9A%E8%A7%82%E5%AF%9F/" style="font-size: 1.05rem;">行业观察<sup>1</sup></a><a href="/tags/%E8%B4%A6%E6%88%B7%E6%8A%BD%E8%B1%A1/" style="font-size: 1.05rem;">账户抽象<sup>4</sup></a><a href="/tags/%E8%B5%9B%E9%81%93%E6%8A%95%E7%A0%94/" style="font-size: 1.05rem;">赛道投研<sup>1</sup></a><a href="/tags/%E9%81%BF%E9%99%A9%E8%B5%84%E4%BA%A7/" style="font-size: 1.05rem;">避险资产<sup>2</sup></a><a href="/tags/%E9%93%BE%E4%B8%8A%E5%88%86%E6%9E%90/" style="font-size: 1.05rem;">链上分析<sup>3</sup></a><a href="/tags/%E9%98%B2%E8%AF%88%E9%AA%97/" style="font-size: 1.05rem;">防诈骗<sup>2</sup></a></div></div><hr/></div></div><div class="console-card history"><div class="item-headline"><i class="anzhiyufont anzhiyu-icon-box-archiv"></i><span>Articles</span></div><div class="card-archives"><div class="item-headline"><i class="anzhiyufont anzhiyu-icon-archive"></i><span>Archives</span></div><ul class="card-archive-list"><li class="card-archive-list-item"><a class="card-archive-list-link" href="/archives/2026/11/"><span class="card-archive-list-date">November 2026</span><div class="card-archive-list-count-group"><span class="card-archive-list-count">290</span><span>篇</span></div></a></li><li class="card-archive-list-item"><a class="card-archive-list-link" href="/archives/2026/10/"><span class="card-archive-list-date">October 2026</span><div class="card-archive-list-count-group"><span class="card-archive-list-count">59</span><span>篇</span></div></a></li><li class="card-archive-list-item"><a class="card-archive-list-link" href="/archives/2026/03/"><span class="card-archive-list-date">March 2026</span><div class="card-archive-list-count-group"><span class="card-archive-list-count">13</span><span>篇</span></div></a></li><li class="card-archive-list-item"><a class="card-archive-list-link" href="/archives/2026/02/"><span class="card-archive-list-date">February 2026</span><div class="card-archive-list-count-group"><span class="card-archive-list-count">2</span><span>篇</span></div></a></li><li class="card-archive-list-item"><a class="card-archive-list-link" href="/archives/2025/11/"><span class="card-archive-list-date">November 2025</span><div class="card-archive-list-count-group"><span class="card-archive-list-count">3</span><span>篇</span></div></a></li><li class="card-archive-list-item"><a class="card-archive-list-link" href="/archives/2025/10/"><span class="card-archive-list-date">October 2025</span><div class="card-archive-list-count-group"><span class="card-archive-list-count">2</span><span>篇</span></div></a></li><li class="card-archive-list-item"><a class="card-archive-list-link" href="/archives/2025/09/"><span class="card-archive-list-date">September 2025</span><div class="card-archive-list-count-group"><span class="card-archive-list-count">1</span><span>篇</span></div></a></li></ul></div><hr/></div></div></div><div class="button-group"><div class="console-btn-item"><a class="darkmode_switchbutton" title="Toggle Display Mode" href="javascript:void(0);"><i class="anzhiyufont anzhiyu-icon-moon"></i></a></div><div class="console-btn-item" id="consoleHideAside" onclick="anzhiyu.hideAsideBtn()" title="Toggle Sidebar"><a class="asideSwitch"><i class="anzhiyufont anzhiyu-icon-arrows-left-right"></i></a></div></div><div class="console-mask" onclick="anzhiyu.hideConsole()" href="javascript:void(0);"></div></div><div class="nav-button" id="nav-totop"><a class="totopbtn" href="javascript:void(0);"><i class="anzhiyufont anzhiyu-icon-arrow-up"></i><span id="percent" onclick="anzhiyu.scrollToDest(0,500)">0</span></a></div><div id="toggle-menu"><a class="site-page" href="javascript:void(0);" title="Toggle"><i class="anzhiyufont anzhiyu-icon-bars"></i></a></div></div></div></nav><div id="post-info"><div id="post-firstinfo"><div class="meta-firstline"><a class="post-meta-original">原创</a><span class="post-meta-categories"><span class="post-meta-separator"></span><i class="anzhiyufont anzhiyu-icon-inbox post-meta-icon"></i><a class="post-meta-categories" href="/categories/%E5%8A%A0%E5%AF%86%E8%B4%A7%E5%B8%81/" itemprop="url">加密货币</a><i class="anzhiyufont anzhiyu-icon-angle-right post-meta-separator"></i><i class="anzhiyufont anzhiyu-icon-inbox post-meta-icon"></i><a class="post-meta-categories" href="/categories/%E5%8A%A0%E5%AF%86%E8%B4%A7%E5%B8%81/%E5%B8%82%E5%9C%BA%E7%BB%93%E6%9E%84/" itemprop="url">市场结构</a></span><span class="article-meta tags"><a class="article-meta__tags" href="/tags/%E8%AE%A2%E5%8D%95%E7%B0%BF/" tabindex="-1" itemprop="url"> <span> <i class="anzhiyufont anzhiyu-icon-hashtag"></i>订单簿</span></a><a class="article-meta__tags" href="/tags/%E5%B8%82%E5%9C%BA%E6%93%8D%E7%BA%B5/" tabindex="-1" itemprop="url"> <span> <i class="anzhiyufont anzhiyu-icon-hashtag"></i>市场操纵</span></a><a class="article-meta__tags" href="/tags/%E5%B9%8C%E9%AA%97/" tabindex="-1" itemprop="url"> <span> <i class="anzhiyufont anzhiyu-icon-hashtag"></i>幌骗</span></a><a class="article-meta__tags" href="/tags/%E7%9B%91%E7%AE%A1%E6%89%A7%E6%B3%95/" tabindex="-1" itemprop="url"> <span> <i class="anzhiyufont anzhiyu-icon-hashtag"></i>监管执法</span></a><a class="article-meta__tags" href="/tags/%E4%BA%A4%E6%98%93%E7%9B%91%E6%B5%8B/" tabindex="-1" itemprop="url"> <span> <i class="anzhiyufont anzhiyu-icon-hashtag"></i>交易监测</span></a></span></div></div><h1 class="post-title" itemprop="name headline">挂单不打算成交：spoofing 的可观测指标与举证难点</h1><div id="post-meta"><div class="meta-firstline"><span class="post-meta-date"><i class="anzhiyufont anzhiyu-icon-calendar-days post-meta-icon"></i><span class="post-meta-label">Created</span><time class="post-meta-date-created" itemprop="dateCreated datePublished" datetime="2026-11-28T15:15:00.000Z" title="Created 2026-11-28 23:15:00">2026-11-28</time><span class="post-meta-separator"></span><i class="anzhiyufont anzhiyu-icon-history post-meta-icon"></i><span class="post-meta-label">Updated</span><time class="post-meta-date-updated" itemprop="dateCreated datePublished" datetime="2026-11-28T14:21:12.845Z" title="Updated 2026-11-28 22:21:12">2026-11-28</time></span></div><div class="meta-secondline"><span class="post-meta-separator">       </span><span class="post-meta-position" title="作者IP属地为Block"><i class="anzhiyufont anzhiyu-icon-location-dot"></i>Block</span></div></div></div><section class="main-hero-waves-area waves-area"><svg class="waves-svg" xmlns="http://www.w3.org/2000/svg" xlink="http://www.w3.org/1999/xlink" viewBox="0 24 150 28" preserveAspectRatio="none" shape-rendering="auto"><defs><path id="gentle-wave" d="M -160 44 c 30 0 58 -18 88 -18 s 58 18 88 18 s 58 -18 88 -18 s 58 18 88 18 v 44 h -352 Z"></path></defs><g class="parallax"><use href="#gentle-wave" x="48" y="0"></use><use href="#gentle-wave" x="48" y="3"></use><use href="#gentle-wave" x="48" y="5"></use><use href="#gentle-wave" x="48" y="7"></use></g></svg></section><div id="post-top-cover"><img class="nolazyload" id="post-top-bg" src=""></div></header><main id="blog-container"><div class="layout" id="content-inner"><div id="post"><article class="post-content" id="article-container" itemscope itemtype="http://www.bitbank.link/2026/11/28/spoofing-layering-detection-2026/"><header><a class="post-meta-categories" href="/categories/%E5%8A%A0%E5%AF%86%E8%B4%A7%E5%B8%81/" itemprop="url">加密货币</a><a class="post-meta-categories" href="/categories/%E5%8A%A0%E5%AF%86%E8%B4%A7%E5%B8%81/%E5%B8%82%E5%9C%BA%E7%BB%93%E6%9E%84/" itemprop="url">市场结构</a><a href="/tags/%E8%AE%A2%E5%8D%95%E7%B0%BF/" tabindex="-1" itemprop="url">订单簿</a><a href="/tags/%E5%B8%82%E5%9C%BA%E6%93%8D%E7%BA%B5/" tabindex="-1" itemprop="url">市场操纵</a><a href="/tags/%E5%B9%8C%E9%AA%97/" tabindex="-1" itemprop="url">幌骗</a><a href="/tags/%E7%9B%91%E7%AE%A1%E6%89%A7%E6%B3%95/" tabindex="-1" itemprop="url">监管执法</a><a href="/tags/%E4%BA%A4%E6%98%93%E7%9B%91%E6%B5%8B/" tabindex="-1" itemprop="url">交易监测</a><h1 id="CrawlerTitle" itemprop="name headline">挂单不打算成交：spoofing 的可观测指标与举证难点</h1><span itemprop="author" itemscope itemtype="http://schema.org/Person">Bitbank</span><time itemprop="dateCreated datePublished" datetime="2026-11-28T15:15:00.000Z" title="Created 2026-11-28 23:15:00">2026-11-28</time><time itemprop="dateCreated datePublished" datetime="2026-11-28T14:21:12.845Z" title="Updated 2026-11-28 22:21:12">2026-11-28</time></header><p><a target="_blank" rel="noopener" href="https://www.binance.com/register?ref=CYBERBASE">币安|Binance</a><br><a target="_blank" rel="noopener" href="https://www.okx.com/join/EBED6G2L">欧意|OKX</a></p>
+<blockquote>
+<p><strong>导读</strong>：幌骗（spoofing）的构成要件是「意图在成交前撤单」。意图在脑子里，无法直接读取，所以监管与交易所只能用一组行为指标做统计推断。理解这些指标，既能识别盘口假象，也能避免自己的高频挂撤被误判。</p>
+</blockquote>
+<h2 id="法律定义与它的证明难点"><a href="#法律定义与它的证明难点" class="headerlink" title="法律定义与它的证明难点"></a>法律定义与它的证明难点</h2><p>美国《商品交易法》对幌骗的表述是：<strong>在成交前撤单的买价或卖价之出价行为</strong>，且具有欺诈意图。定义简单，举证极难，因为：</p>
+<ol>
+<li>撤单本身完全合法。做市商每天都在撤单，撤单率超过 99% 也不违法。</li>
+<li>意图必须由外部行为推断：挂单规模是否远超其实际成交能力、挂单方向是否与成交方向相反、撤单是否总是发生在价格即将触及的瞬间。</li>
+<li>需要完整订单生命周期数据（下单、改单、撤单、成交的时间戳），而这类数据只有交易所持有。</li>
+</ol>
+<p>因此执法通常依赖「模式」而非「单笔」：某一账户在数月内、上千次重复同一结构，才能排除「正常做市」的解释。2013 年的首例和解中，监管机构对一家交易公司处以约 280 万美元的追缴与罚款，理由正是其在多个合约上反复挂出大额订单、在成交前撤走，同时反向成交。</p>
+<h2 id="四个可观测指标"><a href="#四个可观测指标" class="headerlink" title="四个可观测指标"></a>四个可观测指标</h2><p><strong>其一，订单成交比（order-to-trade ratio, OTR）。</strong> 一段时间内提交订单数与成交数之比。做市商 OTR 高是常态（10:1 到 100:1），但幌骗者的 OTR 常达到数百比一，且<strong>撤单集中在单一方向</strong>。</p>
+<p><strong>其二，驻留时间中位数。</strong> 每笔挂单从进入到撤走的时间。真实流动性提供者的挂单驻留时间分布较宽；幌骗者的挂单驻留时间高度集中在极短区间（几百毫秒），且与其「希望被看到」的时长吻合。</p>
+<p><strong>其三，撤单与价格触及时序。</strong> 关键指标是「撤单发生在最优价被吃掉前多少毫秒」。若撤单时间与对手方订单到达时间高度相关（提前 50–200 毫秒），几乎可以确定挂单者能观测到订单流。</p>
+<p><strong>其四，反向成交比例。</strong> 幌骗的最终目的往往是在另一侧成交。若某账户在撤掉大额买单后的极短时间内、以卖单成交，且此模式重复出现，就构成强证据。</p>
+<h2 id="分层挂单为什么看起来像流动性"><a href="#分层挂单为什么看起来像流动性" class="headerlink" title="分层挂单为什么看起来像流动性"></a>分层挂单为什么看起来像流动性</h2><p><code>Layering（分层）</code> 是幌骗的进阶形态：在多个价位同时挂出同一方向的大额订单，制造「深度很好」的视觉印象，诱导对手方在该方向成交，随后一次性撤掉全部挂单。</p>
+<p>它的欺骗性在于<strong>利用了交易者对深度的信任</strong>。盘口显示五档共 500 手买盘，交易者会认为下方有支撑；但若这 500 手全部来自同一账户、且在该账户完成卖出后 300 毫秒内消失，那这堵墙从来就不是支撑，而是一块布景。</p>
+<p>识别分层的经验判据：<strong>深度在时间上的驻留率</strong>。真实挂单会在同一价位反复出现（被吃掉一部分、补单、再被吃掉），而分层挂单是「整体出现、整体消失」，几乎没有部分成交。</p>
+<h2 id="加密市场的三个特殊性"><a href="#加密市场的三个特殊性" class="headerlink" title="加密市场的三个特殊性"></a>加密市场的三个特殊性</h2><p><strong>其一，没有合并行情。</strong> 传统市场有全国最优买卖报价（NBBO）与合并磁带，监管可以在一个统一视图中比对所有场所。加密有数百个场所，同一资产的价格分散在不同订单簿上，单一场所的假深度可能被跨所套利瞬间抹平，也可能因为套利者不在场而长期存在。</p>
+<p><strong>其二，返佣结构鼓励挂单。</strong> Maker 返佣让「挂单」本身产生收入，因此高撤单率在加密市场是<strong>被补贴的行为</strong>。这使「撤单率高」这一指标的诊断力大幅下降——人人都高。</p>
+<p><strong>其三，子账户与 API 让归因变难。</strong> 一个做市团队可以用数十个子账户分散挂单，单个账户看都是正常规模，聚合后才显现分层结构。交易所能看到聚合视图，外部研究者通常不能。</p>
+<h2 id="举证与执法的现实"><a href="#举证与执法的现实" class="headerlink" title="举证与执法的现实"></a>举证与执法的现实</h2><p>在传统市场，执法机构可以调取交易所的完整订单日志、交易员聊天记录、内部代码，举证链条完整。在加密市场，三个障碍同时存在：</p>
+<ul>
+<li><strong>管辖</strong>：交易发生在他国服务器上，运营主体在第三地注册；</li>
+<li><strong>数据</strong>：订单日志不公开，交易所未必保存足够粒度的历史；</li>
+<li><strong>标准</strong>：多数辖区没有专门针对数字资产的幌骗条款，只能套用欺诈或操纵的一般规定。</li>
+</ul>
+<p>因此加密市场的幌骗治理，实际主要依靠<strong>交易所自身</strong>的监测系统。而交易所的激励是矛盾的：幌骗者往往也是手续费贡献大户。</p>
+<h2 id="散户能做什么"><a href="#散户能做什么" class="headerlink" title="散户能做什么"></a>散户能做什么</h2><p><strong>第一，不要用单次快照判断深度。</strong> 看同一价位在 10 秒内多次快照中的出现频率。若某个大额挂单从未被部分成交、只在价格接近时整体消失，它不是流动性。</p>
+<p><strong>第二，用「成交密集区」而非「挂单密集区」判断支撑。</strong> 历史成交量分布（volume profile）比盘口深度更难伪造，因为它记录的是已经发生的交换。</p>
+<p><strong>第三，警惕「盘口越好、成交越差」的组合。</strong> 若某交易对显示极窄价差与极厚深度，但你的市价单实际滑点远大于报价，说明显示的深度不可成交——这正是分层挂单的典型症状。</p>
+<p><strong>第四，自己的策略也要留证据。</strong> 高频挂撤在波动期容易被风控标记。保留策略说明、参数记录与成交统计，是在被问询时证明「正常做市」而非「幌骗」的唯一方式。</p>
+<p>幌骗的本质不是「撤单」，而是<strong>用不打算履约的报价去影响别人的判断</strong>。这个定义对人和对算法同样适用：一个以「诱导对手方」为目标的策略，即使代码里没有 spoofing 这个词，行为上也已经是了。</p>
+<p>在 <a target="_blank" rel="noopener" href="https://www.binance.com/register?ref=CYBERBASE">币安</a> 与 <a target="_blank" rel="noopener" href="https://www.okx.com/join/EBED6G2L">欧意 OKX</a> 交易时，可对照其「市场公平交易规则」中关于异常挂撤单的条款，了解平台判定阈值。</p>
+<blockquote>
+<p>本文为市场操纵识别与监管框架分析，不构成投资建议或法律意见。具体案件的认定以监管机构与司法机关的正式文书为准。</p>
+</blockquote>
+</article><div class="post-copyright"><div class="copyright-cc-box"><i class="anzhiyufont anzhiyu-icon-copyright"></i></div><div class="post-copyright__author_box"><a class="post-copyright__author_img" href="/" title="头像"><img class="post-copyright__author_img_back" src= "data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7" onerror="this.onerror=null,this.src=&quot;/img/404.jpg&quot;" data-lazy-src="/img/btc.png" title="头像" alt="头像"><img class="post-copyright__author_img_front" src= "data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7" onerror="this.onerror=null,this.src=&quot;/img/404.jpg&quot;" data-lazy-src="/img/btc.png" title="头像" alt="头像"></a><div class="post-copyright__author_name">Bitbank</div><div class="post-copyright__author_desc"></div></div><div class="post-copyright__post__info"><a class="post-copyright__original" title="该文章为原创文章，注意版权协议" href="http://www.bitbank.link/2026/11/28/spoofing-layering-detection-2026/">原创</a><a class="post-copyright-title"><span onclick="rm.copyPageUrl('http://www.bitbank.link/2026/11/28/spoofing-layering-detection-2026/')">挂单不打算成交：spoofing 的可观测指标与举证难点</span></a></div><div class="post-tools" id="post-tools"><div class="post-tools-left"><div class="rewardLeftButton"><div class="post-reward" onclick="anzhiyu.addRewardMask()"><div class="reward-button button--animated" title="Support Author"><i class="anzhiyufont anzhiyu-icon-hand-heart-fill"></i>Donate</div><div class="reward-main"><div class="reward-all"><span class="reward-title">Thanks for your support</span><ul class="reward-group"><li class="reward-item"><a href="/img/bitcoin.png" target="_blank"><img class="post-qr-code-img" src= "data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7" onerror="this.onerror=null,this.src=&quot;/img/404.jpg&quot;" data-lazy-src="/img/bitcoin.png" alt="BTC"/></a><div class="post-qr-code-desc">BTC</div></li><li class="reward-item"><a href="/img/eth.png" target="_blank"><img class="post-qr-code-img" src= "data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7" onerror="this.onerror=null,this.src=&quot;/img/404.jpg&quot;" data-lazy-src="/img/eth.png" alt="ETH"/></a><div class="post-qr-code-desc">ETH</div></li></ul><a class="reward-main-btn" href="/about/#about-reward" target="_blank"><div class="reward-text">Supporters</div><div class="reward-dec">Your support motivates me to write more 🙏</div></a></div></div></div><div id="quit-box" onclick="anzhiyu.removeRewardMask()" style="display: none"></div></div><div class="shareRight"><div class="share-link mobile"><div class="share-qrcode"><div class="share-button" title="使用手机访问这篇文章"><i class="anzhiyufont anzhiyu-icon-qrcode"></i></div><div class="share-main"><div class="share-main-all"><div id="qrcode" title="http://www.bitbank.link/2026/11/28/spoofing-layering-detection-2026/"></div><div class="reward-dec">使用手机访问这篇文章</div></div></div></div></div><div class="share-link weibo"><a class="share-button" target="_blank" href="https://service.weibo.com/share/share.php?title=挂单不打算成交：spoofing 的可观测指标与举证难点&amp;url=http://www.bitbank.link/2026/11/28/spoofing-layering-detection-2026/&amp;pic=" rel="external nofollow noreferrer noopener"><i class="anzhiyufont anzhiyu-icon-weibo"></i></a></div><script>function copyCurrentPageUrl() {
+  var currentPageUrl = window.location.href;
+  var input = document.createElement("input");
+  input.setAttribute("value", currentPageUrl);
+  document.body.appendChild(input);
+  input.select();
+  input.setSelectionRange(0, 99999);
+  document.execCommand("copy");
+  document.body.removeChild(input);
+}</script><div class="share-link copyurl"><div class="share-button" id="post-share-url" title="复制链接" onclick="copyCurrentPageUrl()"><i class="anzhiyufont anzhiyu-icon-link"></i></div></div></div></div></div><div class="post-copyright__notice"><span class="post-copyright-info">All articles in this blog are licensed under <a target="_blank" rel="noopener" href="https://creativecommons.org/licenses/by-nc-sa/4.0/">CC BY-NC-SA 4.0</a> unless stating additionally.</span></div></div><div class="post-tools-right"><div class="tag_share"><div class="post-meta__box"><div class="post-meta__box__tag-list"><a class="post-meta__box__tags" href="/tags/%E8%AE%A2%E5%8D%95%E7%B0%BF/"><span class="tags-punctuation"> <i class="anzhiyufont anzhiyu-icon-tag"></i></span>订单簿<span class="tagsPageCount">5</span></a><a class="post-meta__box__tags" href="/tags/%E5%B8%82%E5%9C%BA%E6%93%8D%E7%BA%B5/"><span class="tags-punctuation"> <i class="anzhiyufont anzhiyu-icon-tag"></i></span>市场操纵<span class="tagsPageCount">1</span></a><a class="post-meta__box__tags" href="/tags/%E5%B9%8C%E9%AA%97/"><span class="tags-punctuation"> <i class="anzhiyufont anzhiyu-icon-tag"></i></span>幌骗<span class="tagsPageCount">1</span></a><a class="post-meta__box__tags" href="/tags/%E7%9B%91%E7%AE%A1%E6%89%A7%E6%B3%95/"><span class="tags-punctuation"> <i class="anzhiyufont anzhiyu-icon-tag"></i></span>监管执法<span class="tagsPageCount">1</span></a><a class="post-meta__box__tags" href="/tags/%E4%BA%A4%E6%98%93%E7%9B%91%E6%B5%8B/"><span class="tags-punctuation"> <i class="anzhiyufont anzhiyu-icon-tag"></i></span>交易监测<span class="tagsPageCount">1</span></a></div></div></div><div class="post_share"><div class="social-share" data-image="/img/btc.png" data-sites="facebook,twitter,wechat,weibo,qq"></div><link rel="stylesheet" href="https://cdn.cbd.int/butterfly-extsrc@1.1.3/sharejs/dist/css/share.min.css" media="print" onload="this.media='all'"/><script src="https://cdn.cbd.int/butterfly-extsrc@1.1.3/sharejs/dist/js/social-share.min.js" defer="defer"></script></div></div><nav class="pagination-post" id="pagination"><div class="prev-post pull-left"><a href="/2026/11/28/circuit-breaker-price-band-2026/"><img class="prev-cover" src= "data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7" onerror="this.onerror=null,this.src=&quot;/img/404.jpg&quot;" data-lazy-src="/" onerror="onerror=null;src='/img/404.jpg'" alt="cover of previous post"><div class="pagination-info"><div class="label">Previous Post</div><div class="prev_info">熔断、价格带与速率逻辑：三种机制各拦什么</div></div></a></div><div class="next-post pull-right"><a href="/2026/11/28/initial-margin-span-var-2026/"><img class="next-cover" src= "data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7" onerror="this.onerror=null,this.src=&quot;/img/404.jpg&quot;" data-lazy-src="/" onerror="onerror=null;src='/img/404.jpg'" alt="cover of next post"><div class="pagination-info"><div class="label">Next Post</div><div class="next_info">初始保证金是怎么算出来的：SPAN、VaR 与情景网格</div></div></a></div></nav><div class="relatedPosts"><div class="headline"><i class="anzhiyufont anzhiyu-icon-thumbs-up fa-fw" style="font-size: 1.5rem; margin-right: 4px"></i><span>Related Articles</span></div><div class="relatedPosts-list"><div><a href="/2026/11/23/market-data-snapshot-delta-orderbook-rebuild-2026/" title="订单簿是重建出来的：快照、增量与序列号"><img class="cover" src= "data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7" onerror="this.onerror=null,this.src=&quot;/img/404.jpg&quot;" data-lazy-src="/" alt="cover"><div class="content is-center"><div class="date"><i class="anzhiyufont anzhiyu-icon-calendar-days fa-fw"></i> 2026-11-23</div><div class="title">订单簿是重建出来的：快照、增量与序列号</div></div></a></div><div><a href="/2026/11/25/prediction-market-liquidity-clob-lmsr-2026/" title="预测市场的价差是买来的 CLOB、LMSR 与每月五百万美元的做市预算"><img class="cover" src= "data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7" onerror="this.onerror=null,this.src=&quot;/img/404.jpg&quot;" data-lazy-src="/" alt="cover"><div class="content is-center"><div class="date"><i class="anzhiyufont anzhiyu-icon-calendar-days fa-fw"></i> 2026-11-25</div><div class="title">预测市场的价差是买来的 CLOB、LMSR 与每月五百万美元的做市预算</div></div></a></div><div><a href="/2026/11/27/queue-position-microstructure-value-2026/" title="队列位置值多少钱：撮合优先级如何变成一张账单"><img class="cover" src= "data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7" onerror="this.onerror=null,this.src=&quot;/img/404.jpg&quot;" data-lazy-src="/" alt="cover"><div class="content is-center"><div class="date"><i class="anzhiyufont anzhiyu-icon-calendar-days fa-fw"></i> 2026-11-27</div><div class="title">队列位置值多少钱：撮合优先级如何变成一张账单</div></div></a></div><div><a href="/2026/11/28/tick-size-price-grid-2026/" title="一个最小报价单位能决定什么：tick size 与成交的隐性成本"><img class="cover" src= "data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7" onerror="this.onerror=null,this.src=&quot;/img/404.jpg&quot;" data-lazy-src="/" alt="cover"><div class="content is-center"><div class="date"><i class="anzhiyufont anzhiyu-icon-calendar-days fa-fw"></i> 2026-11-28</div><div class="title">一个最小报价单位能决定什么：tick size 与成交的隐性成本</div></div></a></div></div></div></div><div class="aside-content" id="aside-content"><div class="card-widget card-info"><div class="card-content"><div class="author-info-avatar"><img class="avatar-img" src= "data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7" onerror="this.onerror=null,this.src=&quot;/img/404.jpg&quot;" data-lazy-src="/img/btc.png" onerror="this.onerror=null;this.src='/img/friend_404.gif'" alt="avatar"/></div><div class="author-info__description"></div></div></div><div class="card-widget anzhiyu-right-widget" id="card-wechat" onclick="null"><div id="flip-wrapper"><div id="flip-content"><div class="face" style="background: url(https://bu.dusays.com/2023/01/13/63c02edf44033.png) center center / 100% no-repeat"></div><div class="back face" style="background: url(https://bu.dusays.com/2023/05/13/645fa415e8694.png) center center / 100% no-repeat"></div></div></div></div><div class="sticky_layout"><div class="card-widget" id="card-toc"><div class="item-headline"><i class="anzhiyufont anzhiyu-icon-bars"></i><span>Catalog</span><span class="toc-percentage"></span></div><div class="toc-content"><ol class="toc"><li class="toc-item toc-level-2"><a class="toc-link" href="#%E6%B3%95%E5%BE%8B%E5%AE%9A%E4%B9%89%E4%B8%8E%E5%AE%83%E7%9A%84%E8%AF%81%E6%98%8E%E9%9A%BE%E7%82%B9"><span class="toc-number">1.</span> <span class="toc-text">法律定义与它的证明难点</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E5%9B%9B%E4%B8%AA%E5%8F%AF%E8%A7%82%E6%B5%8B%E6%8C%87%E6%A0%87"><span class="toc-number">2.</span> <span class="toc-text">四个可观测指标</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E5%88%86%E5%B1%82%E6%8C%82%E5%8D%95%E4%B8%BA%E4%BB%80%E4%B9%88%E7%9C%8B%E8%B5%B7%E6%9D%A5%E5%83%8F%E6%B5%81%E5%8A%A8%E6%80%A7"><span class="toc-number">3.</span> <span class="toc-text">分层挂单为什么看起来像流动性</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E5%8A%A0%E5%AF%86%E5%B8%82%E5%9C%BA%E7%9A%84%E4%B8%89%E4%B8%AA%E7%89%B9%E6%AE%8A%E6%80%A7"><span class="toc-number">4.</span> <span class="toc-text">加密市场的三个特殊性</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E4%B8%BE%E8%AF%81%E4%B8%8E%E6%89%A7%E6%B3%95%E7%9A%84%E7%8E%B0%E5%AE%9E"><span class="toc-number">5.</span> <span class="toc-text">举证与执法的现实</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E6%95%A3%E6%88%B7%E8%83%BD%E5%81%9A%E4%BB%80%E4%B9%88"><span class="toc-number">6.</span> <span class="toc-text">散户能做什么</span></a></li></ol></div></div><div class="card-widget card-recent-post"><div class="item-headline"><i class="anzhiyufont anzhiyu-icon-history"></i><span>Recent Post</span></div><div class="aside-list"><div class="aside-list-item no-cover"><div class="content"><a class="title" href="/2026/11/28/trade-break-clearly-erroneous-2026/" title="成交可以被撤销吗：明显错误成交规则与平台的纠错权">成交可以被撤销吗：明显错误成交规则与平台的纠错权</a><time datetime="2026-11-28T15:43:00.000Z" title="Created 2026-11-28 23:43:00">2026-11-28</time></div></div><div class="aside-list-item no-cover"><div class="content"><a class="title" href="/2026/11/28/best-execution-evidence-2026/" title="「最优执行」不是最低价：执行质量的证据链">「最优执行」不是最低价：执行质量的证据链</a><time datetime="2026-11-28T15:36:00.000Z" title="Created 2026-11-28 23:36:00">2026-11-28</time></div></div><div class="aside-list-item no-cover"><div class="content"><a class="title" href="/2026/11/28/herstatt-risk-pvp-2026/" title="赫斯塔特风险：跨时区交割里的那几个小时">赫斯塔特风险：跨时区交割里的那几个小时</a><time datetime="2026-11-28T15:29:00.000Z" title="Created 2026-11-28 23:29:00">2026-11-28</time></div></div><div class="aside-list-item no-cover"><div class="content"><a class="title" href="/2026/11/28/initial-margin-span-var-2026/" title="初始保证金是怎么算出来的：SPAN、VaR 与情景网格">初始保证金是怎么算出来的：SPAN、VaR 与情景网格</a><time datetime="2026-11-28T15:22:00.000Z" title="Created 2026-11-28 23:22:00">2026-11-28</time></div></div><div class="aside-list-item no-cover"><div class="content"><a class="title" href="/2026/11/28/spoofing-layering-detection-2026/" title="挂单不打算成交：spoofing 的可观测指标与举证难点">挂单不打算成交：spoofing 的可观测指标与举证难点</a><time datetime="2026-11-28T15:15:00.000Z" title="Created 2026-11-28 23:15:00">2026-11-28</time></div></div></div></div></div></div></div></main><footer id="footer"><div id="footer-wrap"></div><div id="footer-bar"><div class="footer-bar-links"><div class="footer-bar-left"><div id="footer-bar-tips"><div class="copyright">&copy;2020 - 2026 By <a class="footer-bar-link" href="/" title="Bitbank" target="_blank">Bitbank</a></div></div><div id="footer-type-tips"></div></div><div class="footer-bar-right"><a class="footer-bar-link" target="_blank" rel="noopener" href="https://www.binance.com/register?ref=CYBERBASE" title="开始交易">开始交易</a></div></div></div></footer></div><div id="sidebar"><div id="menu-mask"></div><div id="sidebar-menus"><div class="sidebar-site-data site-data is-center"><a href="/archives/" title="archive"><div class="headline">Articles</div><div class="length-num">370</div></a><a href="/tags/" title="tag"><div class="headline">Tags</div><div class="length-num">1439</div></a><a href="/categories/" title="category"><div class="headline">Categories</div><div class="length-num">357</div></a></div><div class="back-menu-list-groups"><div class="back-menu-list-group"><div class="back-menu-list-title">网页</div><div class="back-menu-list"><a class="back-menu-item" target="_blank" rel="noopener" href="https://hexo.anheyu.com/" title="博客"><img class="back-menu-item-icon" src= "data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7" onerror="this.onerror=null,this.src=&quot;/img/404.jpg&quot;" data-lazy-src="/img/favicon.ico" alt="博客"/><span class="back-menu-item-text">博客</span></a></div></div><div class="back-menu-list-group"><div class="back-menu-list-title">项目</div><div class="back-menu-list"><a class="back-menu-item" target="_blank" rel="noopener" href="https://image.anheyu.com/" title="安知鱼图床"><img class="back-menu-item-icon" src= "data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7" onerror="this.onerror=null,this.src=&quot;/img/404.jpg&quot;" data-lazy-src="https://image.anheyu.com/favicon.ico" alt="安知鱼图床"/><span class="back-menu-item-text">安知鱼图床</span></a></div></div></div><span class="sidebar-menu-item-title">标签</span><div class="card-tags"><div class="item-headline"></div><div class="card-tag-cloud"><a href="/tags/AI/" style="font-size: 0.88rem;">AI<sup>1</sup></a><a href="/tags/AI-Agent/" style="font-size: 0.88rem;">AI Agent<sup>2</sup></a><a href="/tags/AI%E4%BB%A3%E7%90%86/" style="font-size: 0.88rem;">AI代理<sup>1</sup></a><a href="/tags/DeFi/" style="font-size: 0.88rem;">DeFi<sup>6</sup></a><a href="/tags/ERC-4337/" style="font-size: 0.88rem;">ERC-4337<sup>3</sup></a><a href="/tags/SegWit/" style="font-size: 0.88rem;">SegWit<sup>1</sup></a><a href="/tags/TGE/" style="font-size: 0.88rem;">TGE<sup>1</sup></a><a href="/tags/UASF/" style="font-size: 0.88rem;">UASF<sup>1</sup></a><a href="/tags/Web3/" style="font-size: 0.88rem;">Web3<sup>2</sup></a><a href="/tags/Web3%E4%BD%93%E9%AA%8C/" style="font-size: 0.88rem;">Web3体验<sup>1</sup></a><a href="/tags/gas%E4%BB%A3%E4%BB%98/" style="font-size: 0.88rem;">gas代付<sup>1</sup></a><a href="/tags/x402/" style="font-size: 0.88rem;">x402<sup>1</sup></a><a href="/tags/%E4%BB%A3%E5%B8%81%E5%88%86%E5%8F%91/" style="font-size: 0.88rem;">代币分发<sup>1</sup></a><a href="/tags/%E5%85%B1%E8%AF%86%E6%9C%BA%E5%88%B6/" style="font-size: 0.88rem;">共识机制<sup>3</sup></a><a href="/tags/%E5%8A%A0%E5%AF%86ATM/" style="font-size: 0.88rem;">加密ATM<sup>1</sup></a><a href="/tags/%E5%8C%BA%E5%9D%97%E5%A4%A7%E5%B0%8F/" style="font-size: 0.88rem;">区块大小<sup>1</sup></a><a href="/tags/%E5%A5%B3%E5%B7%AB%E6%94%BB%E5%87%BB/" style="font-size: 0.88rem;">女巫攻击<sup>2</sup></a><a href="/tags/%E5%AE%9E%E4%BD%93%E5%85%91%E6%8D%A2/" style="font-size: 0.88rem;">实体兑换<sup>1</sup></a><a href="/tags/%E6%89%A9%E5%AE%B9/" style="font-size: 0.88rem;">扩容<sup>6</sup></a><a href="/tags/%E6%95%B0%E5%AD%97%E9%BB%84%E9%87%91/" style="font-size: 0.88rem;">数字黄金<sup>2</sup></a><a href="/tags/%E6%99%BA%E8%83%BD%E4%BD%93/" style="font-size: 0.88rem;">智能体<sup>1</sup></a><a href="/tags/%E6%99%BA%E8%83%BD%E5%90%88%E7%BA%A6/" style="font-size: 0.88rem;">智能合约<sup>7</sup></a><a href="/tags/%E6%99%BA%E8%83%BD%E5%90%88%E7%BA%A6%E9%92%B1%E5%8C%85/" style="font-size: 0.88rem;">智能合约钱包<sup>1</sup></a><a href="/tags/%E6%9C%BA%E5%99%A8%E6%94%AF%E4%BB%98/" style="font-size: 0.88rem;">机器支付<sup>1</sup></a><a href="/tags/%E6%AF%94%E7%89%B9%E5%B8%81/" style="font-size: 0.88rem;">比特币<sup>15</sup></a><a href="/tags/%E6%AF%94%E7%89%B9%E5%B8%81ATM/" style="font-size: 0.88rem;">比特币ATM<sup>1</sup></a><a href="/tags/%E6%B2%BB%E7%90%86/" style="font-size: 0.88rem;">治理<sup>4</sup></a><a href="/tags/%E7%8E%B0%E9%87%91%E5%85%91%E6%8D%A2/" style="font-size: 0.88rem;">现金兑换<sup>1</sup></a><a href="/tags/%E7%A4%BE%E4%BA%A4%E6%81%A2%E5%A4%8D/" style="font-size: 0.88rem;">社交恢复<sup>3</sup></a><a href="/tags/%E7%A8%B3%E5%AE%9A%E5%B8%81/" style="font-size: 0.88rem;">稳定币<sup>20</sup></a><a href="/tags/%E7%A9%BA%E6%8A%95/" style="font-size: 0.88rem;">空投<sup>2</sup></a><a href="/tags/%E7%BA%BF%E6%80%A7%E8%A7%A3%E9%94%81/" style="font-size: 0.88rem;">线性解锁<sup>1</sup></a><a href="/tags/%E7%BB%93%E7%AE%97/" style="font-size: 0.88rem;">结算<sup>3</sup></a><a href="/tags/%E8%87%AA%E4%B8%BB%E7%BB%8F%E6%B5%8E/" style="font-size: 0.88rem;">自主经济<sup>1</sup></a><a href="/tags/%E8%A1%8C%E4%B8%9A%E8%A7%82%E5%AF%9F/" style="font-size: 0.88rem;">行业观察<sup>1</sup></a><a href="/tags/%E8%B4%A6%E6%88%B7%E6%8A%BD%E8%B1%A1/" style="font-size: 0.88rem;">账户抽象<sup>4</sup></a><a href="/tags/%E8%B5%9B%E9%81%93%E6%8A%95%E7%A0%94/" style="font-size: 0.88rem;">赛道投研<sup>1</sup></a><a href="/tags/%E9%81%BF%E9%99%A9%E8%B5%84%E4%BA%A7/" style="font-size: 0.88rem;">避险资产<sup>2</sup></a><a href="/tags/%E9%93%BE%E4%B8%8A%E5%88%86%E6%9E%90/" style="font-size: 0.88rem;">链上分析<sup>3</sup></a><a href="/tags/%E9%98%B2%E8%AF%88%E9%AA%97/" style="font-size: 0.88rem;">防诈骗<sup>2</sup></a></div></div><hr/></div></div><div id="rightside"><div id="rightside-config-hide"><button id="readmode" type="button" title="Read Mode"><i class="anzhiyufont anzhiyu-icon-book-open"></i></button><button id="translateLink" type="button" title="Switch Between Traditional Chinese And Simplified Chinese">繁</button><button id="hide-aside-btn" type="button" title="Toggle between single-column and double-column"><i class="anzhiyufont anzhiyu-icon-arrows-left-right"></i></button></div><div id="rightside-config-show"><button id="rightside-config" type="button" title="Setting"><i class="anzhiyufont anzhiyu-icon-gear"></i></button><button class="close" id="mobile-toc-button" type="button" title="Table Of Contents"><i class="anzhiyufont anzhiyu-icon-list-ul"></i></button><button id="go-up" type="button" title="Back To Top"><i class="anzhiyufont anzhiyu-icon-arrow-up"></i></button></div></div><div id="rightMenu"><div class="rightMenu-group rightMenu-small"><div class="rightMenu-item" id="menu-backward"><i class="anzhiyufont anzhiyu-icon-arrow-left"></i></div><div class="rightMenu-item" id="menu-forward"><i class="anzhiyufont anzhiyu-icon-arrow-right"></i></div><div class="rightMenu-item" id="menu-refresh"><i class="anzhiyufont anzhiyu-icon-arrow-rotate-right" style="font-size: 1rem;"></i></div><div class="rightMenu-item" id="menu-top"><i class="anzhiyufont anzhiyu-icon-arrow-up"></i></div></div><div class="rightMenu-group rightMenu-line rightMenuPlugin"><div class="rightMenu-item" id="menu-copytext"><i class="anzhiyufont anzhiyu-icon-copy"></i><span>复制选中文本</span></div><div class="rightMenu-item" id="menu-pastetext"><i class="anzhiyufont anzhiyu-icon-paste"></i><span>粘贴文本</span></div><a class="rightMenu-item" id="menu-commenttext"><i class="anzhiyufont anzhiyu-icon-comment-medical"></i><span>引用到评论</span></a><div class="rightMenu-item" id="menu-newwindow"><i class="anzhiyufont anzhiyu-icon-window-restore"></i><span>新窗口打开</span></div><div class="rightMenu-item" id="menu-copylink"><i class="anzhiyufont anzhiyu-icon-link"></i><span>复制链接地址</span></div><div class="rightMenu-item" id="menu-copyimg"><i class="anzhiyufont anzhiyu-icon-images"></i><span>复制此图片</span></div><div class="rightMenu-item" id="menu-downloadimg"><i class="anzhiyufont anzhiyu-icon-download"></i><span>下载此图片</span></div><div class="rightMenu-item" id="menu-newwindowimg"><i class="anzhiyufont anzhiyu-icon-window-restore"></i><span>新窗口打开图片</span></div><div class="rightMenu-item" id="menu-search"><i class="anzhiyufont anzhiyu-icon-magnifying-glass"></i><span>站内搜索</span></div><div class="rightMenu-item" id="menu-searchBaidu"><i class="anzhiyufont anzhiyu-icon-magnifying-glass"></i><span>百度搜索</span></div><div class="rightMenu-item" id="menu-music-toggle"><i class="anzhiyufont anzhiyu-icon-play"></i><span>播放音乐</span></div><div class="rightMenu-item" id="menu-music-back"><i class="anzhiyufont anzhiyu-icon-backward"></i><span>切换到上一首</span></div><div class="rightMenu-item" id="menu-music-forward"><i class="anzhiyufont anzhiyu-icon-forward"></i><span>切换到下一首</span></div><div class="rightMenu-item" id="menu-music-playlist" onclick="window.open(&quot;https://y.qq.com/n/ryqq/playlist/8802438608&quot;, &quot;_blank&quot;);" style="display: none;"><i class="anzhiyufont anzhiyu-icon-radio"></i><span>查看所有歌曲</span></div><div class="rightMenu-item" id="menu-music-copyMusicName"><i class="anzhiyufont anzhiyu-icon-copy"></i><span>复制歌名</span></div></div><div class="rightMenu-group rightMenu-line rightMenuOther"><a class="rightMenu-item menu-link" id="menu-randomPost"><i class="anzhiyufont anzhiyu-icon-shuffle"></i><span>随便逛逛</span></a><a class="rightMenu-item menu-link" href="/categories/"><i class="anzhiyufont anzhiyu-icon-cube"></i><span>博客分类</span></a><a class="rightMenu-item menu-link" href="/tags/"><i class="anzhiyufont anzhiyu-icon-tags"></i><span>文章标签</span></a></div><div class="rightMenu-group rightMenu-line rightMenuOther"><a class="rightMenu-item" id="menu-copy" href="javascript:void(0);"><i class="anzhiyufont anzhiyu-icon-copy"></i><span>复制地址</span></a><a class="rightMenu-item" id="menu-commentBarrage" href="javascript:void(0);"><i class="anzhiyufont anzhiyu-icon-message"></i><span class="menu-commentBarrage-text">关闭热评</span></a><a class="rightMenu-item" id="menu-darkmode" href="javascript:void(0);"><i class="anzhiyufont anzhiyu-icon-circle-half-stroke"></i><span class="menu-darkmode-text">深色模式</span></a><a class="rightMenu-item" id="menu-translate" href="javascript:void(0);"><i class="anzhiyufont anzhiyu-icon-language"></i><span>轉為繁體</span></a></div></div><div id="rightmenu-mask"></div><div><script src="/js/utils.js"></script><script src="/js/main.js"></script><script src="/js/tw_cn.js"></script><script src="https://cdn.cbd.int/@fancyapps/ui@6.1.6/dist/fancybox/fancybox.umd.js"></script><script src="https://cdn.cbd.int/instant.page@5.2.0/instantpage.js" type="module"></script><script src="https://cdn.cbd.int/vanilla-lazyload@19.1.3/dist/lazyload.iife.min.js"></script><script src="https://cdn.cbd.int/node-snackbar@0.1.16/dist/snackbar.min.js"></script><canvas id="universe"></canvas><script async src="https://npm.elemecdn.com/anzhiyu-theme-static@1.0.0/dark/dark.js"></script><script>// 消除控制台打印
+var HoldLog = console.log;
+console.log = function () {};
+let now1 = new Date();
+queueMicrotask(() => {
+  const Log = function () {
+    HoldLog.apply(console, arguments);
+  }; //在恢复前输出日志
+  const grt = new Date("04/01/2021 00:00:00"); //此处修改你的建站时间或者网站上线时间
+  now1.setTime(now1.getTime() + 250);
+  const days = (now1 - grt) / 1000 / 60 / 60 / 24;
+  const dnum = Math.floor(days);
+  const ascll = [
+    `欢迎使用安知鱼!`,
+    `生活明朗, 万物可爱`,
+    `
+        
+       █████╗ ███╗   ██╗███████╗██╗  ██╗██╗██╗   ██╗██╗   ██╗
+      ██╔══██╗████╗  ██║╚══███╔╝██║  ██║██║╚██╗ ██╔╝██║   ██║
+      ███████║██╔██╗ ██║  ███╔╝ ███████║██║ ╚████╔╝ ██║   ██║
+      ██╔══██║██║╚██╗██║ ███╔╝  ██╔══██║██║  ╚██╔╝  ██║   ██║
+      ██║  ██║██║ ╚████║███████╗██║  ██║██║   ██║   ╚██████╔╝
+      ╚═╝  ╚═╝╚═╝  ╚═══╝╚══════╝╚═╝  ╚═╝╚═╝   ╚═╝    ╚═════╝
+        
+        `,
+    "已上线",
+    dnum,
+    "天",
+    "©2020 By 安知鱼 V1.7.1",
+  ];
+  const ascll2 = [`NCC2-036`, `调用前置摄像头拍照成功，识别为【小笨蛋】.`, `Photo captured: `, `🤪`];
+
+  setTimeout(
+    Log.bind(
+      console,
+      `\n%c${ascll[0]} %c ${ascll[1]} %c ${ascll[2]} %c${ascll[3]}%c ${ascll[4]}%c ${ascll[5]}\n\n%c ${ascll[6]}\n`,
+      "color:#425AEF",
+      "",
+      "color:#425AEF",
+      "color:#425AEF",
+      "",
+      "color:#425AEF",
+      ""
+    )
+  );
+  setTimeout(
+    Log.bind(
+      console,
+      `%c ${ascll2[0]} %c ${ascll2[1]} %c \n${ascll2[2]} %c\n${ascll2[3]}\n`,
+      "color:white; background-color:#4fd953",
+      "",
+      "",
+      'background:url("https://npm.elemecdn.com/anzhiyu-blog@1.1.6/img/post/common/tinggge.gif") no-repeat;font-size:450%'
+    )
+  );
+
+  setTimeout(Log.bind(console, "%c WELCOME %c 你好，小笨蛋.", "color:white; background-color:#4f90d9", ""));
+
+  setTimeout(
+    console.warn.bind(
+      console,
+      "%c ⚡ Powered by 安知鱼 %c 你正在访问 Bitbank 的博客.",
+      "color:white; background-color:#f0ad4e",
+      ""
+    )
+  );
+
+  setTimeout(Log.bind(console, "%c W23-12 %c 你已打开控制台.", "color:white; background-color:#4f90d9", ""));
+
+  setTimeout(
+    console.warn.bind(console, "%c S013-782 %c 你现在正处于监控中.", "color:white; background-color:#d9534f", "")
+  );
+});</script><script async src="/anzhiyu/random.js"></script><div class="js-pjax"><input type="hidden" name="page-type" id="page-type" value="post"></div><script>var visitorMail = "";
+</script><script async data-pjax src="https://cdn.cbd.int/anzhiyu-theme-static@1.0.0/waterfall/waterfall.js"></script><script src="https://cdn.cbd.int/qrcodejs@1.0.0/qrcode.min.js"></script><link rel="stylesheet" href="https://cdn.cbd.int/anzhiyu-theme-static@1.1.9/icon/ali_iconfont_css.css"><script src="/js/waterfall-home.js" defer></script><script src="/js/macro-board.js" defer></script><link rel="stylesheet" href="https://cdn.cbd.int/anzhiyu-theme-static@1.0.0/aplayer/APlayer.min.css" media="print" onload="this.media='all'"><script src="https://cdn.cbd.int/anzhiyu-blog-static@1.0.1/js/APlayer.min.js"></script><script src="https://cdn.cbd.int/hexo-anzhiyu-music@1.0.1/assets/js/Meting2.min.js"></script><script src="https://cdn.cbd.int/pjax@0.2.8/pjax.min.js"></script><script>let pjaxSelectors = ["head > title","#config-diff","#body-wrap","#rightside-config-hide","#rightside-config-show",".js-pjax"]
+var pjax = new Pjax({
+  elements: 'a:not([target="_blank"])',
+  selectors: pjaxSelectors,
+  cacheBust: false,
+  analytics: false,
+  scrollRestoration: false
+})
+
+document.addEventListener('pjax:send', function () {
+  // removeEventListener scroll 
+  anzhiyu.removeGlobalFnEvent('pjax')
+  anzhiyu.removeGlobalFnEvent('themeChange')
+
+  document.getElementById('rightside').classList.remove('rightside-show')
+  
+  if (window.aplayers) {
+    for (let i = 0; i < window.aplayers.length; i++) {
+      if (!window.aplayers[i].options.fixed) {
+        window.aplayers[i].destroy()
+      }
+    }
+  }
+
+  typeof typed === 'object' && typed.destroy()
+
+  //reset readmode
+  const $bodyClassList = document.body.classList
+  $bodyClassList.contains('read-mode') && $bodyClassList.remove('read-mode')
+})
+
+document.addEventListener('pjax:complete', function () {
+  window.refreshFn()
+
+  document.querySelectorAll('script[data-pjax]').forEach(item => {
+    const newScript = document.createElement('script')
+    const content = item.text || item.textContent || item.innerHTML || ""
+    Array.from(item.attributes).forEach(attr => newScript.setAttribute(attr.name, attr.value))
+    newScript.appendChild(document.createTextNode(content))
+    item.parentNode.replaceChild(newScript, item)
+  })
+
+  GLOBAL_CONFIG.islazyload && window.lazyLoadInstance.update()
+
+  typeof panguInit === 'function' && panguInit()
+
+  // google analytics
+  typeof gtag === 'function' && gtag('config', '', {'page_path': window.location.pathname});
+
+  // baidu analytics
+  typeof _hmt === 'object' && _hmt.push(['_trackPageview',window.location.pathname]);
+
+  typeof loadMeting === 'function' && document.getElementsByClassName('aplayer').length && loadMeting()
+
+  // prismjs
+  typeof Prism === 'object' && Prism.highlightAll()
+})
+
+document.addEventListener('pjax:error', e => {
+  if (e.request.status === 404) {
+    pjax.loadUrl('/404.html')
+  }
+})</script><script charset="UTF-8" src="https://cdn.cbd.int/anzhiyu-theme-static@1.1.5/accesskey/accesskey.js"></script></div><div id="popup-window"><div class="popup-window-title">通知</div><div class="popup-window-divider"></div><div class="popup-window-content"><div class="popup-tip">你好呀</div><div class="popup-link"><i class="anzhiyufont anzhiyu-icon-arrow-circle-right"></i></div></div></div></body></html>

@@ -1,0 +1,402 @@
+<!DOCTYPE html><html lang="en" data-theme="dark"><head><meta charset="UTF-8"><meta http-equiv="X-UA-Compatible" content="IE=edge"><meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=no"><title>熔断、价格带与速率逻辑：三种机制各拦什么 | BitBank|比特帮</title><meta name="keywords" content="熔断机制,价格带,price banding,速率逻辑,velocity logic,涨跌停,波动率控制,只减仓,标记价格,极端行情"><meta name="author" content="Bitbank"><meta name="copyright" content="Bitbank"><meta name="format-detection" content="telephone=no"><meta name="theme-color" content="#181A20"><meta name="mobile-web-app-capable" content="yes"><meta name="apple-touch-fullscreen" content="yes"><meta name="apple-mobile-web-app-title" content="熔断、价格带与速率逻辑：三种机制各拦什么"><meta name="application-name" content="熔断、价格带与速率逻辑：三种机制各拦什么"><meta name="apple-mobile-web-app-capable" content="yes"><meta name="apple-mobile-web-app-status-bar-style" content="#181A20"><meta property="og:type" content="article"><meta property="og:title" content="熔断、价格带与速率逻辑：三种机制各拦什么"><meta property="og:url" content="http://www.bitbank.link/2026/11/28/circuit-breaker-price-band-2026/index.html"><meta property="og:site_name" content="BitBank|比特帮"><meta property="og:description" content="「太远」和「太快」是两种不同的失败模式，需要两种不同的闸门。加密市场大多一个都没装，于是价格用清算来完成自我修正。"><meta property="og:locale" content="en"><meta property="og:image" content="http://www.bitbank.link/img/btc.png"><meta property="article:author" content="Bitbank"><meta property="article:tag"><meta name="twitter:card" content="summary"><meta name="twitter:image" content="http://www.bitbank.link/img/btc.png"><meta name="description" content="「太远」和「太快」是两种不同的失败模式，需要两种不同的闸门。加密市场大多一个都没装，于是价格用清算来完成自我修正。"><link rel="shortcut icon" href="/favicon.ico"><link rel="canonical" href="http://www.bitbank.link/2026/11/28/circuit-breaker-price-band-2026/"><link rel="preconnect" href="//cdn.cbd.int"/><meta name="google-site-verification" content="xxx"/><meta name="baidu-site-verification" content="code-xxx"/><meta name="msvalidate.01" content="xxx"/><link rel="stylesheet" href="/css/index.css"><link rel="stylesheet" href="https://cdn.cbd.int/node-snackbar@0.1.16/dist/snackbar.min.css" media="print" onload="this.media='all'"><link rel="stylesheet" href="https://cdn.cbd.int/@fancyapps/ui@6.1.6/dist/fancybox/fancybox.css" media="print" onload="this.media='all'"><script>const GLOBAL_CONFIG = {
+  linkPageTop: undefined,
+  peoplecanvas: undefined,
+  postHeadAiDescription: {"enable":true,"gptName":"Bitbank","mode":"local","switchBtn":false,"btnLink":"https://afdian.net/item/886a79d4db6711eda42a52540025c377","randomNum":3,"basicWordCount":1000,"key":"xxxx","Referer":"https://xx.xx/"},
+  diytitle: {"enable":true,"leaveTitle":"BlockChain！Link the world！","backTitle":"BitBank"},
+  LA51: undefined,
+  greetingBox: undefined,
+  twikooEnvId: '',
+  commentBarrageConfig:undefined,
+  music_page_default: "nav_music",
+  root: '/',
+  preloader: {"source":3},
+  friends_vue_info: undefined,
+  navMusic: false,
+  mainTone: undefined,
+  authorStatus: undefined,
+  algolia: undefined,
+  localSearch: undefined,
+  translate: {"defaultEncoding":2,"translateDelay":0,"msgToTraditionalChinese":"繁","msgToSimplifiedChinese":"简","rightMenuMsgToTraditionalChinese":"转为繁体","rightMenuMsgToSimplifiedChinese":"转为简体"},
+  noticeOutdate: undefined,
+  highlight: {"plugin":"highlight.js","highlightCopy":true,"highlightLang":true,"highlightHeightLimit":330},
+  copy: {
+    success: 'Copy successfully',
+    error: 'Copy error',
+    noSupport: 'The browser does not support'
+  },
+  relativeDate: {
+    homepage: false,
+    simplehomepage: true,
+    post: false
+  },
+  runtime: 'days',
+  date_suffix: {
+    just: 'Just',
+    min: 'minutes ago',
+    hour: 'hours ago',
+    day: 'days ago',
+    month: 'months ago'
+  },
+  copyright: {"copy":true,"copyrightEbable":false,"limitCount":50,"languages":{"author":"Author: Bitbank","link":"Link: ","source":"Source: BitBank|比特帮","info":"Copyright is owned by the author. For commercial reprints, please contact the author for authorization. For non-commercial reprints, please indicate the source.","copySuccess":"Copy success, copy and reprint please mark the address of this article"}},
+  lightbox: 'fancybox',
+  Snackbar: {"chs_to_cht":"Traditional Chinese Activated Manually","cht_to_chs":"Simplified Chinese Activated Manually","day_to_night":"Dark Mode Activated Manually","night_to_day":"Light Mode Activated Manually","bgLight":"#425AEF","bgDark":"#1f1f1f","position":"top-center"},
+  source: {
+    justifiedGallery: {
+      js: 'https://cdn.cbd.int/flickr-justified-gallery@2.2.0/dist/fjGallery.min.js',
+      css: 'https://cdn.cbd.int/flickr-justified-gallery@2.2.0/dist/fjGallery.css'
+    }
+  },
+  isPhotoFigcaption: false,
+  islazyload: true,
+  isAnchor: false,
+  shortcutKey: undefined,
+  autoDarkmode: false
+}</script><script id="config-diff">var GLOBAL_CONFIG_SITE = {
+  configTitle: 'BitBank|比特帮',
+  title: '熔断、价格带与速率逻辑：三种机制各拦什么',
+  postAI: '',
+  pageFillDescription: '三套机制三种失败模式, 价格带：拒单而不是停市, 速率逻辑：快而远才触发, 静态涨跌停与全市场熔断, 加密市场为什么没有这些, 替代品：只减仓、标记价格与限价带, 对下单的实际影响币安欧意导读极端行情里交易者常把没成交归因于流动性差真实原因往往是交易所的风控闸门先动了有的闸门拒单有的停市有的只是把连续竞价切成集合竞价分清它们才能知道自己为什么被挡在门外三套机制三种失败模式价格失控有两种形态太远报价与公允价严重偏离通常来自错单数据源故障或流动性真空对策是价格带太快价格在极短时间内单向大幅移动通常来自程序化交易与清算级联对策是速率逻辑持续单边一整个交易日的方向性行情需要涨跌停与全市场熔断三者不替代而是串联价格带管单笔报价的合理性速率逻辑管价格变化的速度涨跌停管当日的边界熔断管整个市场的同时失控价格带拒单而不是停市价格带的逻辑是以参考价通常为最新成交价或前结算价为锚允许的报价区间为参考价固定带宽超出区间的订单直接被拒不进入撮合也不影响其他人的交易其精妙之处在于动态参考价随成交移动带宽随之平移价格急涨时旧的区间不会卡住正常成交闸门跟着水位走这使得价格带几乎不影响正常交易只在明显不合理时报错带宽按品种设定量级差异很大原油约美元玉米约美元指数期货则按点位设定例如微型纳指某档带宽点带宽通常由交易所按流动性与历史波动校准并可在极端情况下临时放宽对交易者的含义很直接限价单被拒往往不是价格写错而是写到了带外在跳空开盘或数据故障时把限价挂在远离盘口的位置会被系统判定为异常报价速率逻辑快而远才触发速率逻辑监控在极短回溯窗口内价格是否偏离过远参数有三个回溯窗口回溯期内的最高最低价速率带宽触发条件新价格超过回溯期最高价带宽或低于回溯期最低价带宽动作该合约及其相关期权进入短暂停撮通常为数秒的预开盘状态不接受市价单但允许挂单与撤单恢复停撮结束后回到连续竞价触发次数不受限制参数典型设置为窄带宽毫秒与宽带宽秒两档并行毫秒档捕捉的是瞬间的价格尖峰多为错单或流动性瞬时抽空秒档捕捉的是真实的快速单边行情两档并行的意义是前者几乎不打断正常交易后者给市场一个几秒的冷静期静态涨跌停与全市场熔断涨跌停以昨日结算价为锚设定当日最大波动幅度触及后市场仍开市但不允许在限外成交它主要用于农产品与股指期货的夜盘全市场熔断与现货市场联动按跌幅分级与触发分钟股指期货与分钟现货的暂停则当日收市它的目的不是限制价格而是强制中断信息不对称在所有人都不知道发生了什么时先停下来加密市场为什么没有这些中心化加密交易所普遍不设涨跌停原因有三交易没有收盘价可作锚涨跌停需要一个日界而加密没有跨所套利会瞬间击穿任何价格带当同一种资产在十几个场所交易单所设带等于把订单送给别处价格带的拒单会被解读为平台不让交易商业上不可接受结果是加密市场用清算来完成价格发现价格下跌触发杠杆多头强平强平市价单继续压价压价触发更多强平这个过程在几秒内完成速度比任何速率逻辑的窗口都快而唯一吸收冲击的缓冲是保险基金与自动减仓替代品只减仓标记价格与限价带没有熔断交易所退而求其次装了几道软闸门机制作用局限标记价格强平用多源指数而非最新成交价判定强平阻断插针触发清算的链条指数本身也可能被单一场所拖偏只减仓停市期间只允许平仓不允许开新仓无法阻止平仓本身的踩踏动态限价带部分平台的限价单需在盘口一定范围内范围宽且常可按账户等级放宽分层维持保证金仓位越大维持保证金率越高顺周期压力期反而加速去杠杆关键差别这些机制都是平台参数不是公开规则同一时刻不同平台的标记价格可能相差而强平就在这之间发生对下单的实际影响第一极端行情里限价单也可能不成交不是价格没到而是你的报价落在带外被拒或撮合已切到集合竞价看成交回报里的拒单原因比看线有用第二不要在开盘跳空时挂远价无论是传统市场的集合竞价还是加密平台的维护后重启重启瞬间的参考价往往尚未形成远价单被拒的概率显著上升第三把标记价格与最新成交价分开看强平依据前者成交依据后者两者背离时你的仓位可能在一个你从未见过的价格上被平掉第四理解闸门的对称性熔断与速率逻辑在上涨与下跌时同样触发但清算级联只在一个方向放大这就是为什么下跌时的深度消失得更快不是机制偏心是杠杆结构偏心波动率控制机制的价值不在于让价格不波动而在于把瞬时失控与趋势性重定价区分开前者需要闸门后者需要流动性混淆两者就会在每一次急跌时误判为机制失灵在币安与欧意的合约规则里可以查到标记价格成分强平引擎与只减仓的具体说明这些参数比任何抗跌宣传都更值得读本文为交易机制与风控结构分析不构成投资建议各交易所规则参数与阈值可能随时调整请以官方文档为准',
+  isPost: true,
+  isHome: false,
+  isHighlightShrink: false,
+  isToc: true,
+  postUpdate: '2026-11-28 22:20:52',
+  postMainColor: '',
+}</script><noscript><style type="text/css">
+  #nav {
+    opacity: 1
+  }
+  .justified-gallery img {
+    opacity: 1
+  }
+
+  #recent-posts time,
+  #post-meta time {
+    display: inline !important
+  }
+</style></noscript><script>(win=>{
+      win.saveToLocal = {
+        set: (key, value, ttl) => {
+          if (ttl === 0) return
+          const now = Date.now()
+          const expiry = now + ttl * 86400000
+          const item = {
+            value,
+            expiry
+          }
+          localStorage.setItem(key, JSON.stringify(item))
+        },
+      
+        get: key => {
+          const itemStr = localStorage.getItem(key)
+      
+          if (!itemStr) {
+            return undefined
+          }
+          const item = JSON.parse(itemStr)
+          const now = Date.now()
+      
+          if (now > item.expiry) {
+            localStorage.removeItem(key)
+            return undefined
+          }
+          return item.value
+        }
+      }
+    
+      win.getScript = (url, attr = {}) => new Promise((resolve, reject) => {
+        const script = document.createElement('script')
+        script.src = url
+        script.async = true
+        script.onerror = reject
+        script.onload = script.onreadystatechange = function() {
+          const loadState = this.readyState
+          if (loadState && loadState !== 'loaded' && loadState !== 'complete') return
+          script.onload = script.onreadystatechange = null
+          resolve()
+        }
+
+        Object.keys(attr).forEach(key => {
+          script.setAttribute(key, attr[key])
+        })
+
+        document.head.appendChild(script)
+      })
+    
+      win.getCSS = (url, id = false) => new Promise((resolve, reject) => {
+        const link = document.createElement('link')
+        link.rel = 'stylesheet'
+        link.href = url
+        if (id) link.id = id
+        link.onerror = reject
+        link.onload = link.onreadystatechange = function() {
+          const loadState = this.readyState
+          if (loadState && loadState !== 'loaded' && loadState !== 'complete') return
+          link.onload = link.onreadystatechange = null
+          resolve()
+        }
+        document.head.appendChild(link)
+      })
+    
+      win.activateDarkMode = () => {
+        document.documentElement.setAttribute('data-theme', 'dark')
+        if (document.querySelector('meta[name="theme-color"]') !== null) {
+          document.querySelector('meta[name="theme-color"]').setAttribute('content', '#181A20')
+        }
+      }
+      win.activateLightMode = () => {
+        document.documentElement.setAttribute('data-theme', 'light')
+        if (document.querySelector('meta[name="theme-color"]') !== null) {
+          document.querySelector('meta[name="theme-color"]').setAttribute('content', '#F0B90B')
+        }
+      }
+      const t = saveToLocal.get('theme')
+    
+        if (t === 'dark') activateDarkMode()
+        else if (t === 'light') activateLightMode()
+      
+      const asideStatus = saveToLocal.get('aside-status')
+      if (asideStatus !== undefined) {
+        if (asideStatus === 'hide') {
+          document.documentElement.classList.add('hide-aside')
+        } else {
+          document.documentElement.classList.remove('hide-aside')
+        }
+      }
+    
+      const detectApple = () => {
+        if(/iPad|iPhone|iPod|Macintosh/.test(navigator.userAgent)){
+          document.documentElement.classList.add('apple')
+        }
+      }
+      detectApple()
+    })(window)</script><link rel="stylesheet" href="/css/waterfall-home.css"><link rel="stylesheet" href="/css/macro-board.css"><meta name="generator" content="Hexo 8.1.2"></head><body data-type="anzhiyu"><div id="web_bg"></div><div id="an_music_bg"></div><div id="loading-box" onclick="document.getElementById(&quot;loading-box&quot;).classList.add(&quot;loaded&quot;)"><div class="loading-bg"><img class="loading-img nolazyload" alt="加载头像" src="/img/btc.png"/><div class="loading-image-dot"></div></div></div><script>const preloader = {
+  endLoading: () => {
+    document.getElementById('loading-box').classList.add("loaded");
+  },
+  initLoading: () => {
+    document.getElementById('loading-box').classList.remove("loaded")
+  }
+}
+window.addEventListener('load',()=> { preloader.endLoading() })
+setTimeout(function(){preloader.endLoading();},10000)
+
+if (true) {
+  document.addEventListener('pjax:send', () => { preloader.initLoading() })
+  document.addEventListener('pjax:complete', () => { preloader.endLoading() })
+}</script><link rel="stylesheet" href="https://cdn.cbd.int/anzhiyu-theme-static@1.1.10/progress_bar/progress_bar.css"/><script async="async" src="https://cdn.cbd.int/pace-js@1.2.4/pace.min.js" data-pace-options="{ &quot;restartOnRequestAfter&quot;:false,&quot;eventLag&quot;:false}"></script><div class="post" id="body-wrap"><header class="post-bg" id="page-header"><nav id="nav"><div id="nav-group"><span id="blog_name"><a id="site-name" href="/" accesskey="h"><div class="title">BitBank|比特帮</div><i class="anzhiyufont anzhiyu-icon-house-chimney"></i></a></span><div class="mask-name-container"><div id="name-container"><a id="page-name" href="javascript:anzhiyu.scrollToDest(0, 500)">PAGE_NAME</a></div></div><div id="menus"></div><div id="nav-right"><div class="nav-button" id="randomPost_button"><a class="site-page" onclick="toRandomPost()" title="Random Post" href="javascript:void(0);"><i class="anzhiyufont anzhiyu-icon-dice"></i></a></div><input id="center-console" type="checkbox"/><label class="widget" for="center-console" title="Console" onclick="anzhiyu.switchConsole();"><i class="left"></i><i class="widget center"></i><i class="widget right"></i></label><div id="console"><div class="console-card-group-reward"><ul class="reward-all console-card"><li class="reward-item"><a href="/img/bitcoin.png" target="_blank"><img class="post-qr-code-img" alt="BTC" src="/img/bitcoin.png"/></a><div class="post-qr-code-desc">BTC</div></li><li class="reward-item"><a href="/img/eth.png" target="_blank"><img class="post-qr-code-img" alt="ETH" src="/img/eth.png"/></a><div class="post-qr-code-desc">ETH</div></li></ul></div><div class="console-card-group"><div class="console-card-group-left"><div class="console-card" id="card-newest-comments"><div class="card-content"><div class="author-content-item-tips">Interaction</div><span class="author-content-item-title"> Newest Comments</span></div><div class="aside-list"><span>loading...</span></div></div></div><div class="console-card-group-right"><div class="console-card tags"><div class="card-content"><div class="author-content-item-tips">Interests</div><span class="author-content-item-title">Find your area of interest</span><div class="card-tags"><div class="item-headline"></div><div class="card-tag-cloud"><a href="/tags/AI/" style="font-size: 1.05rem;">AI<sup>1</sup></a><a href="/tags/AI-Agent/" style="font-size: 1.05rem;">AI Agent<sup>2</sup></a><a href="/tags/AI%E4%BB%A3%E7%90%86/" style="font-size: 1.05rem;">AI代理<sup>1</sup></a><a href="/tags/DeFi/" style="font-size: 1.05rem;">DeFi<sup>6</sup></a><a href="/tags/ERC-4337/" style="font-size: 1.05rem;">ERC-4337<sup>3</sup></a><a href="/tags/SegWit/" style="font-size: 1.05rem;">SegWit<sup>1</sup></a><a href="/tags/TGE/" style="font-size: 1.05rem;">TGE<sup>1</sup></a><a href="/tags/UASF/" style="font-size: 1.05rem;">UASF<sup>1</sup></a><a href="/tags/Web3/" style="font-size: 1.05rem;">Web3<sup>2</sup></a><a href="/tags/Web3%E4%BD%93%E9%AA%8C/" style="font-size: 1.05rem;">Web3体验<sup>1</sup></a><a href="/tags/gas%E4%BB%A3%E4%BB%98/" style="font-size: 1.05rem;">gas代付<sup>1</sup></a><a href="/tags/x402/" style="font-size: 1.05rem;">x402<sup>1</sup></a><a href="/tags/%E4%BB%A3%E5%B8%81%E5%88%86%E5%8F%91/" style="font-size: 1.05rem;">代币分发<sup>1</sup></a><a href="/tags/%E5%85%B1%E8%AF%86%E6%9C%BA%E5%88%B6/" style="font-size: 1.05rem;">共识机制<sup>3</sup></a><a href="/tags/%E5%8A%A0%E5%AF%86ATM/" style="font-size: 1.05rem;">加密ATM<sup>1</sup></a><a href="/tags/%E5%8C%BA%E5%9D%97%E5%A4%A7%E5%B0%8F/" style="font-size: 1.05rem;">区块大小<sup>1</sup></a><a href="/tags/%E5%A5%B3%E5%B7%AB%E6%94%BB%E5%87%BB/" style="font-size: 1.05rem;">女巫攻击<sup>2</sup></a><a href="/tags/%E5%AE%9E%E4%BD%93%E5%85%91%E6%8D%A2/" style="font-size: 1.05rem;">实体兑换<sup>1</sup></a><a href="/tags/%E6%89%A9%E5%AE%B9/" style="font-size: 1.05rem;">扩容<sup>6</sup></a><a href="/tags/%E6%95%B0%E5%AD%97%E9%BB%84%E9%87%91/" style="font-size: 1.05rem;">数字黄金<sup>2</sup></a><a href="/tags/%E6%99%BA%E8%83%BD%E4%BD%93/" style="font-size: 1.05rem;">智能体<sup>1</sup></a><a href="/tags/%E6%99%BA%E8%83%BD%E5%90%88%E7%BA%A6/" style="font-size: 1.05rem;">智能合约<sup>7</sup></a><a href="/tags/%E6%99%BA%E8%83%BD%E5%90%88%E7%BA%A6%E9%92%B1%E5%8C%85/" style="font-size: 1.05rem;">智能合约钱包<sup>1</sup></a><a href="/tags/%E6%9C%BA%E5%99%A8%E6%94%AF%E4%BB%98/" style="font-size: 1.05rem;">机器支付<sup>1</sup></a><a href="/tags/%E6%AF%94%E7%89%B9%E5%B8%81/" style="font-size: 1.05rem;">比特币<sup>15</sup></a><a href="/tags/%E6%AF%94%E7%89%B9%E5%B8%81ATM/" style="font-size: 1.05rem;">比特币ATM<sup>1</sup></a><a href="/tags/%E6%B2%BB%E7%90%86/" style="font-size: 1.05rem;">治理<sup>4</sup></a><a href="/tags/%E7%8E%B0%E9%87%91%E5%85%91%E6%8D%A2/" style="font-size: 1.05rem;">现金兑换<sup>1</sup></a><a href="/tags/%E7%A4%BE%E4%BA%A4%E6%81%A2%E5%A4%8D/" style="font-size: 1.05rem;">社交恢复<sup>3</sup></a><a href="/tags/%E7%A8%B3%E5%AE%9A%E5%B8%81/" style="font-size: 1.05rem;">稳定币<sup>20</sup></a><a href="/tags/%E7%A9%BA%E6%8A%95/" style="font-size: 1.05rem;">空投<sup>2</sup></a><a href="/tags/%E7%BA%BF%E6%80%A7%E8%A7%A3%E9%94%81/" style="font-size: 1.05rem;">线性解锁<sup>1</sup></a><a href="/tags/%E7%BB%93%E7%AE%97/" style="font-size: 1.05rem;">结算<sup>3</sup></a><a href="/tags/%E8%87%AA%E4%B8%BB%E7%BB%8F%E6%B5%8E/" style="font-size: 1.05rem;">自主经济<sup>1</sup></a><a href="/tags/%E8%A1%8C%E4%B8%9A%E8%A7%82%E5%AF%9F/" style="font-size: 1.05rem;">行业观察<sup>1</sup></a><a href="/tags/%E8%B4%A6%E6%88%B7%E6%8A%BD%E8%B1%A1/" style="font-size: 1.05rem;">账户抽象<sup>4</sup></a><a href="/tags/%E8%B5%9B%E9%81%93%E6%8A%95%E7%A0%94/" style="font-size: 1.05rem;">赛道投研<sup>1</sup></a><a href="/tags/%E9%81%BF%E9%99%A9%E8%B5%84%E4%BA%A7/" style="font-size: 1.05rem;">避险资产<sup>2</sup></a><a href="/tags/%E9%93%BE%E4%B8%8A%E5%88%86%E6%9E%90/" style="font-size: 1.05rem;">链上分析<sup>3</sup></a><a href="/tags/%E9%98%B2%E8%AF%88%E9%AA%97/" style="font-size: 1.05rem;">防诈骗<sup>2</sup></a></div></div><hr/></div></div><div class="console-card history"><div class="item-headline"><i class="anzhiyufont anzhiyu-icon-box-archiv"></i><span>Articles</span></div><div class="card-archives"><div class="item-headline"><i class="anzhiyufont anzhiyu-icon-archive"></i><span>Archives</span></div><ul class="card-archive-list"><li class="card-archive-list-item"><a class="card-archive-list-link" href="/archives/2026/11/"><span class="card-archive-list-date">November 2026</span><div class="card-archive-list-count-group"><span class="card-archive-list-count">290</span><span>篇</span></div></a></li><li class="card-archive-list-item"><a class="card-archive-list-link" href="/archives/2026/10/"><span class="card-archive-list-date">October 2026</span><div class="card-archive-list-count-group"><span class="card-archive-list-count">59</span><span>篇</span></div></a></li><li class="card-archive-list-item"><a class="card-archive-list-link" href="/archives/2026/03/"><span class="card-archive-list-date">March 2026</span><div class="card-archive-list-count-group"><span class="card-archive-list-count">13</span><span>篇</span></div></a></li><li class="card-archive-list-item"><a class="card-archive-list-link" href="/archives/2026/02/"><span class="card-archive-list-date">February 2026</span><div class="card-archive-list-count-group"><span class="card-archive-list-count">2</span><span>篇</span></div></a></li><li class="card-archive-list-item"><a class="card-archive-list-link" href="/archives/2025/11/"><span class="card-archive-list-date">November 2025</span><div class="card-archive-list-count-group"><span class="card-archive-list-count">3</span><span>篇</span></div></a></li><li class="card-archive-list-item"><a class="card-archive-list-link" href="/archives/2025/10/"><span class="card-archive-list-date">October 2025</span><div class="card-archive-list-count-group"><span class="card-archive-list-count">2</span><span>篇</span></div></a></li><li class="card-archive-list-item"><a class="card-archive-list-link" href="/archives/2025/09/"><span class="card-archive-list-date">September 2025</span><div class="card-archive-list-count-group"><span class="card-archive-list-count">1</span><span>篇</span></div></a></li></ul></div><hr/></div></div></div><div class="button-group"><div class="console-btn-item"><a class="darkmode_switchbutton" title="Toggle Display Mode" href="javascript:void(0);"><i class="anzhiyufont anzhiyu-icon-moon"></i></a></div><div class="console-btn-item" id="consoleHideAside" onclick="anzhiyu.hideAsideBtn()" title="Toggle Sidebar"><a class="asideSwitch"><i class="anzhiyufont anzhiyu-icon-arrows-left-right"></i></a></div></div><div class="console-mask" onclick="anzhiyu.hideConsole()" href="javascript:void(0);"></div></div><div class="nav-button" id="nav-totop"><a class="totopbtn" href="javascript:void(0);"><i class="anzhiyufont anzhiyu-icon-arrow-up"></i><span id="percent" onclick="anzhiyu.scrollToDest(0,500)">0</span></a></div><div id="toggle-menu"><a class="site-page" href="javascript:void(0);" title="Toggle"><i class="anzhiyufont anzhiyu-icon-bars"></i></a></div></div></div></nav><div id="post-info"><div id="post-firstinfo"><div class="meta-firstline"><a class="post-meta-original">原创</a><span class="post-meta-categories"><span class="post-meta-separator"></span><i class="anzhiyufont anzhiyu-icon-inbox post-meta-icon"></i><a class="post-meta-categories" href="/categories/%E5%8A%A0%E5%AF%86%E8%B4%A7%E5%B8%81/" itemprop="url">加密货币</a><i class="anzhiyufont anzhiyu-icon-angle-right post-meta-separator"></i><i class="anzhiyufont anzhiyu-icon-inbox post-meta-icon"></i><a class="post-meta-categories" href="/categories/%E5%8A%A0%E5%AF%86%E8%B4%A7%E5%B8%81/%E5%B8%82%E5%9C%BA%E7%BB%93%E6%9E%84/" itemprop="url">市场结构</a></span><span class="article-meta tags"><a class="article-meta__tags" href="/tags/%E5%BC%BA%E5%B9%B3/" tabindex="-1" itemprop="url"> <span> <i class="anzhiyufont anzhiyu-icon-hashtag"></i>强平</span></a><a class="article-meta__tags" href="/tags/%E7%86%94%E6%96%AD/" tabindex="-1" itemprop="url"> <span> <i class="anzhiyufont anzhiyu-icon-hashtag"></i>熔断</span></a><a class="article-meta__tags" href="/tags/%E6%92%AE%E5%90%88%E8%A7%84%E5%88%99/" tabindex="-1" itemprop="url"> <span> <i class="anzhiyufont anzhiyu-icon-hashtag"></i>撮合规则</span></a><a class="article-meta__tags" href="/tags/%E4%BB%B7%E6%A0%BC%E5%B8%A6/" tabindex="-1" itemprop="url"> <span> <i class="anzhiyufont anzhiyu-icon-hashtag"></i>价格带</span></a><a class="article-meta__tags" href="/tags/%E6%B3%A2%E5%8A%A8%E7%8E%87%E6%8E%A7%E5%88%B6/" tabindex="-1" itemprop="url"> <span> <i class="anzhiyufont anzhiyu-icon-hashtag"></i>波动率控制</span></a></span></div></div><h1 class="post-title" itemprop="name headline">熔断、价格带与速率逻辑：三种机制各拦什么</h1><div id="post-meta"><div class="meta-firstline"><span class="post-meta-date"><i class="anzhiyufont anzhiyu-icon-calendar-days post-meta-icon"></i><span class="post-meta-label">Created</span><time class="post-meta-date-created" itemprop="dateCreated datePublished" datetime="2026-11-28T15:08:00.000Z" title="Created 2026-11-28 23:08:00">2026-11-28</time><span class="post-meta-separator"></span><i class="anzhiyufont anzhiyu-icon-history post-meta-icon"></i><span class="post-meta-label">Updated</span><time class="post-meta-date-updated" itemprop="dateCreated datePublished" datetime="2026-11-28T14:20:52.677Z" title="Updated 2026-11-28 22:20:52">2026-11-28</time></span></div><div class="meta-secondline"><span class="post-meta-separator">       </span><span class="post-meta-position" title="作者IP属地为Block"><i class="anzhiyufont anzhiyu-icon-location-dot"></i>Block</span></div></div></div><section class="main-hero-waves-area waves-area"><svg class="waves-svg" xmlns="http://www.w3.org/2000/svg" xlink="http://www.w3.org/1999/xlink" viewBox="0 24 150 28" preserveAspectRatio="none" shape-rendering="auto"><defs><path id="gentle-wave" d="M -160 44 c 30 0 58 -18 88 -18 s 58 18 88 18 s 58 -18 88 -18 s 58 18 88 18 v 44 h -352 Z"></path></defs><g class="parallax"><use href="#gentle-wave" x="48" y="0"></use><use href="#gentle-wave" x="48" y="3"></use><use href="#gentle-wave" x="48" y="5"></use><use href="#gentle-wave" x="48" y="7"></use></g></svg></section><div id="post-top-cover"><img class="nolazyload" id="post-top-bg" src=""></div></header><main id="blog-container"><div class="layout" id="content-inner"><div id="post"><article class="post-content" id="article-container" itemscope itemtype="http://www.bitbank.link/2026/11/28/circuit-breaker-price-band-2026/"><header><a class="post-meta-categories" href="/categories/%E5%8A%A0%E5%AF%86%E8%B4%A7%E5%B8%81/" itemprop="url">加密货币</a><a class="post-meta-categories" href="/categories/%E5%8A%A0%E5%AF%86%E8%B4%A7%E5%B8%81/%E5%B8%82%E5%9C%BA%E7%BB%93%E6%9E%84/" itemprop="url">市场结构</a><a href="/tags/%E5%BC%BA%E5%B9%B3/" tabindex="-1" itemprop="url">强平</a><a href="/tags/%E7%86%94%E6%96%AD/" tabindex="-1" itemprop="url">熔断</a><a href="/tags/%E6%92%AE%E5%90%88%E8%A7%84%E5%88%99/" tabindex="-1" itemprop="url">撮合规则</a><a href="/tags/%E4%BB%B7%E6%A0%BC%E5%B8%A6/" tabindex="-1" itemprop="url">价格带</a><a href="/tags/%E6%B3%A2%E5%8A%A8%E7%8E%87%E6%8E%A7%E5%88%B6/" tabindex="-1" itemprop="url">波动率控制</a><h1 id="CrawlerTitle" itemprop="name headline">熔断、价格带与速率逻辑：三种机制各拦什么</h1><span itemprop="author" itemscope itemtype="http://schema.org/Person">Bitbank</span><time itemprop="dateCreated datePublished" datetime="2026-11-28T15:08:00.000Z" title="Created 2026-11-28 23:08:00">2026-11-28</time><time itemprop="dateCreated datePublished" datetime="2026-11-28T14:20:52.677Z" title="Updated 2026-11-28 22:20:52">2026-11-28</time></header><p><a target="_blank" rel="noopener" href="https://www.binance.com/register?ref=CYBERBASE">币安|Binance</a><br><a target="_blank" rel="noopener" href="https://www.okx.com/join/EBED6G2L">欧意|OKX</a></p>
+<blockquote>
+<p><strong>导读</strong>：极端行情里，交易者常把「没成交」归因于流动性差。真实原因往往是交易所的风控闸门先动了：有的闸门拒单，有的停市，有的只是把连续竞价切成集合竞价。分清它们，才能知道自己为什么被挡在门外。</p>
+</blockquote>
+<h2 id="三套机制，三种失败模式"><a href="#三套机制，三种失败模式" class="headerlink" title="三套机制，三种失败模式"></a>三套机制，三种失败模式</h2><p>价格失控有两种形态：</p>
+<ul>
+<li><strong>太远</strong>：报价与公允价严重偏离，通常来自错单、数据源故障或流动性真空。对策是<strong>价格带</strong>（price banding）。</li>
+<li><strong>太快</strong>：价格在极短时间内单向大幅移动，通常来自程序化交易与清算级联。对策是<strong>速率逻辑</strong>（velocity logic）。</li>
+<li><strong>持续单边</strong>：一整个交易日的方向性行情，需要<strong>涨跌停</strong>（daily limit）与<strong>全市场熔断</strong>（market-wide circuit breaker）。</li>
+</ul>
+<p>三者不替代，而是串联：价格带管单笔报价的合理性，速率逻辑管价格变化的速度，涨跌停管当日的边界，熔断管整个市场的同时失控。</p>
+<h2 id="价格带：拒单而不是停市"><a href="#价格带：拒单而不是停市" class="headerlink" title="价格带：拒单而不是停市"></a>价格带：拒单而不是停市</h2><p>价格带的逻辑是：以参考价（通常为最新成交价或前结算价）为锚，允许的报价区间为 <code>参考价 ± 固定带宽</code>。超出区间的订单<strong>直接被拒</strong>，不进入撮合，也不影响其他人的交易。</p>
+<p>其精妙之处在于<strong>动态</strong>：参考价随成交移动，带宽随之平移。价格急涨时，旧的区间不会卡住正常成交，闸门跟着水位走。这使得价格带几乎不影响正常交易，只在「明显不合理」时报错。</p>
+<p>带宽按品种设定，量级差异很大：原油约 0.50 美元、玉米约 0.0975 美元；指数期货则按点位设定，例如微型纳指某档带宽 30 点。带宽通常由交易所按流动性与历史波动校准，并可在极端情况下临时放宽。</p>
+<p>对交易者的含义很直接：<strong>限价单被拒，往往不是价格写错，而是写到了带外。</strong> 在跳空开盘或数据故障时，把限价挂在远离盘口的位置，会被系统判定为异常报价。</p>
+<h2 id="速率逻辑：快而远才触发"><a href="#速率逻辑：快而远才触发" class="headerlink" title="速率逻辑：快而远才触发"></a>速率逻辑：快而远才触发</h2><p>速率逻辑监控「在极短回溯窗口内，价格是否偏离过远」。参数有三个：回溯窗口、回溯期内的最高&#x2F;最低价、速率带宽。</p>
+<ul>
+<li>触发条件：新价格超过 <code>回溯期最高价 + 带宽</code> 或低于 <code>回溯期最低价 − 带宽</code>；</li>
+<li>动作：该合约（及其相关期权）进入<strong>短暂停撮</strong>，通常为数秒的预开盘状态——不接受市价单，但允许挂单与撤单；</li>
+<li>恢复：停撮结束后回到连续竞价；触发次数不受限制。</li>
+</ul>
+<p>参数典型设置为「窄带宽 + 1 毫秒」与「宽带宽 + 1 秒」两档并行。毫秒档捕捉的是瞬间的价格尖峰（多为错单或流动性瞬时抽空），秒档捕捉的是真实的快速单边行情。两档并行的意义是：前者几乎不打断正常交易，后者给市场一个几秒的冷静期。</p>
+<h2 id="静态涨跌停与全市场熔断"><a href="#静态涨跌停与全市场熔断" class="headerlink" title="静态涨跌停与全市场熔断"></a>静态涨跌停与全市场熔断</h2><p><strong>涨跌停</strong>以昨日结算价为锚，设定当日最大波动幅度，触及后市场仍开市，但不允许在限外成交。它主要用于农产品与股指期货的夜盘。</p>
+<p><strong>全市场熔断</strong>与现货市场联动，按跌幅分级：7% 与 13% 触发 10 分钟（股指期货）与 15 分钟（现货）的暂停，20% 则当日收市。它的目的不是限制价格，而是<strong>强制中断信息不对称</strong>：在所有人都不知道发生了什么时，先停下来。</p>
+<h2 id="加密市场为什么没有这些"><a href="#加密市场为什么没有这些" class="headerlink" title="加密市场为什么没有这些"></a>加密市场为什么没有这些</h2><p>中心化加密交易所普遍不设涨跌停，原因有三：</p>
+<ol>
+<li><strong>7×24 交易，没有「收盘价」可作锚。</strong> 涨跌停需要一个日界，而加密没有。</li>
+<li><strong>跨所套利会瞬间击穿任何价格带。</strong> 当同一种资产在十几个场所交易，单所设带等于把订单送给别处。</li>
+<li><strong>价格带的拒单会被解读为「平台不让交易」</strong>，商业上不可接受。</li>
+</ol>
+<p>结果是：<strong>加密市场用清算来完成价格发现。</strong> 价格下跌触发杠杆多头强平，强平市价单继续压价，压价触发更多强平。这个过程在几秒内完成，速度比任何速率逻辑的窗口都快，而唯一吸收冲击的缓冲是保险基金与自动减仓。</p>
+<h2 id="替代品：只减仓、标记价格与限价带"><a href="#替代品：只减仓、标记价格与限价带" class="headerlink" title="替代品：只减仓、标记价格与限价带"></a>替代品：只减仓、标记价格与限价带</h2><p>没有熔断，交易所退而求其次装了几道「软闸门」：</p>
+<table>
+<thead>
+<tr>
+<th>机制</th>
+<th>作用</th>
+<th>局限</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>标记价格强平</td>
+<td>用多源指数而非最新成交价判定强平，阻断「插针触发清算」的链条</td>
+<td>指数本身也可能被单一场所拖偏</td>
+</tr>
+<tr>
+<td>只减仓（reduce-only）</td>
+<td>停市期间只允许平仓，不允许开新仓</td>
+<td>无法阻止平仓本身的踩踏</td>
+</tr>
+<tr>
+<td>动态限价带</td>
+<td>部分平台的限价单需在盘口一定范围内</td>
+<td>范围宽，且常可按账户等级放宽</td>
+</tr>
+<tr>
+<td>分层维持保证金</td>
+<td>仓位越大，维持保证金率越高</td>
+<td>顺周期，压力期反而加速去杠杆</td>
+</tr>
+</tbody></table>
+<p>关键差别：这些机制都是<strong>平台参数</strong>，不是公开规则。同一时刻，不同平台的标记价格可能相差 0.5%，而强平就在这 0.5% 之间发生。</p>
+<h2 id="对下单的实际影响"><a href="#对下单的实际影响" class="headerlink" title="对下单的实际影响"></a>对下单的实际影响</h2><p><strong>第一，极端行情里限价单也可能不成交。</strong> 不是价格没到，而是你的报价落在带外被拒，或撮合已切到集合竞价。看成交回报里的拒单原因，比看 K 线有用。</p>
+<p><strong>第二，不要在开盘跳空时挂远价。</strong> 无论是传统市场的集合竞价，还是加密平台的维护后重启，重启瞬间的参考价往往尚未形成，远价单被拒的概率显著上升。</p>
+<p><strong>第三，把「标记价格」与「最新成交价」分开看。</strong> 强平依据前者，成交依据后者。两者背离时，你的仓位可能在一个你从未见过的价格上被平掉。</p>
+<p><strong>第四，理解闸门的对称性。</strong> 熔断与速率逻辑在上涨与下跌时同样触发，但清算级联只在一个方向放大。这就是为什么下跌时的深度消失得更快——不是机制偏心，是杠杆结构偏心。</p>
+<p>波动率控制机制的价值，不在于让价格不波动，而在于把「瞬时失控」与「趋势性重定价」区分开。前者需要闸门，后者需要流动性。混淆两者，就会在每一次急跌时误判为「机制失灵」。</p>
+<p>在 <a target="_blank" rel="noopener" href="https://www.binance.com/register?ref=CYBERBASE">币安</a> 与 <a target="_blank" rel="noopener" href="https://www.okx.com/join/EBED6G2L">欧意 OKX</a> 的合约规则里，可以查到标记价格成分、强平引擎与只减仓的具体说明；这些参数比任何「抗跌」宣传都更值得读。</p>
+<blockquote>
+<p>本文为交易机制与风控结构分析，不构成投资建议。各交易所规则、参数与阈值可能随时调整，请以官方文档为准。</p>
+</blockquote>
+</article><div class="post-copyright"><div class="copyright-cc-box"><i class="anzhiyufont anzhiyu-icon-copyright"></i></div><div class="post-copyright__author_box"><a class="post-copyright__author_img" href="/" title="头像"><img class="post-copyright__author_img_back" src= "data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7" onerror="this.onerror=null,this.src=&quot;/img/404.jpg&quot;" data-lazy-src="/img/btc.png" title="头像" alt="头像"><img class="post-copyright__author_img_front" src= "data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7" onerror="this.onerror=null,this.src=&quot;/img/404.jpg&quot;" data-lazy-src="/img/btc.png" title="头像" alt="头像"></a><div class="post-copyright__author_name">Bitbank</div><div class="post-copyright__author_desc"></div></div><div class="post-copyright__post__info"><a class="post-copyright__original" title="该文章为原创文章，注意版权协议" href="http://www.bitbank.link/2026/11/28/circuit-breaker-price-band-2026/">原创</a><a class="post-copyright-title"><span onclick="rm.copyPageUrl('http://www.bitbank.link/2026/11/28/circuit-breaker-price-band-2026/')">熔断、价格带与速率逻辑：三种机制各拦什么</span></a></div><div class="post-tools" id="post-tools"><div class="post-tools-left"><div class="rewardLeftButton"><div class="post-reward" onclick="anzhiyu.addRewardMask()"><div class="reward-button button--animated" title="Support Author"><i class="anzhiyufont anzhiyu-icon-hand-heart-fill"></i>Donate</div><div class="reward-main"><div class="reward-all"><span class="reward-title">Thanks for your support</span><ul class="reward-group"><li class="reward-item"><a href="/img/bitcoin.png" target="_blank"><img class="post-qr-code-img" src= "data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7" onerror="this.onerror=null,this.src=&quot;/img/404.jpg&quot;" data-lazy-src="/img/bitcoin.png" alt="BTC"/></a><div class="post-qr-code-desc">BTC</div></li><li class="reward-item"><a href="/img/eth.png" target="_blank"><img class="post-qr-code-img" src= "data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7" onerror="this.onerror=null,this.src=&quot;/img/404.jpg&quot;" data-lazy-src="/img/eth.png" alt="ETH"/></a><div class="post-qr-code-desc">ETH</div></li></ul><a class="reward-main-btn" href="/about/#about-reward" target="_blank"><div class="reward-text">Supporters</div><div class="reward-dec">Your support motivates me to write more 🙏</div></a></div></div></div><div id="quit-box" onclick="anzhiyu.removeRewardMask()" style="display: none"></div></div><div class="shareRight"><div class="share-link mobile"><div class="share-qrcode"><div class="share-button" title="使用手机访问这篇文章"><i class="anzhiyufont anzhiyu-icon-qrcode"></i></div><div class="share-main"><div class="share-main-all"><div id="qrcode" title="http://www.bitbank.link/2026/11/28/circuit-breaker-price-band-2026/"></div><div class="reward-dec">使用手机访问这篇文章</div></div></div></div></div><div class="share-link weibo"><a class="share-button" target="_blank" href="https://service.weibo.com/share/share.php?title=熔断、价格带与速率逻辑：三种机制各拦什么&amp;url=http://www.bitbank.link/2026/11/28/circuit-breaker-price-band-2026/&amp;pic=" rel="external nofollow noreferrer noopener"><i class="anzhiyufont anzhiyu-icon-weibo"></i></a></div><script>function copyCurrentPageUrl() {
+  var currentPageUrl = window.location.href;
+  var input = document.createElement("input");
+  input.setAttribute("value", currentPageUrl);
+  document.body.appendChild(input);
+  input.select();
+  input.setSelectionRange(0, 99999);
+  document.execCommand("copy");
+  document.body.removeChild(input);
+}</script><div class="share-link copyurl"><div class="share-button" id="post-share-url" title="复制链接" onclick="copyCurrentPageUrl()"><i class="anzhiyufont anzhiyu-icon-link"></i></div></div></div></div></div><div class="post-copyright__notice"><span class="post-copyright-info">All articles in this blog are licensed under <a target="_blank" rel="noopener" href="https://creativecommons.org/licenses/by-nc-sa/4.0/">CC BY-NC-SA 4.0</a> unless stating additionally.</span></div></div><div class="post-tools-right"><div class="tag_share"><div class="post-meta__box"><div class="post-meta__box__tag-list"><a class="post-meta__box__tags" href="/tags/%E5%BC%BA%E5%B9%B3/"><span class="tags-punctuation"> <i class="anzhiyufont anzhiyu-icon-tag"></i></span>强平<span class="tagsPageCount">3</span></a><a class="post-meta__box__tags" href="/tags/%E7%86%94%E6%96%AD/"><span class="tags-punctuation"> <i class="anzhiyufont anzhiyu-icon-tag"></i></span>熔断<span class="tagsPageCount">2</span></a><a class="post-meta__box__tags" href="/tags/%E6%92%AE%E5%90%88%E8%A7%84%E5%88%99/"><span class="tags-punctuation"> <i class="anzhiyufont anzhiyu-icon-tag"></i></span>撮合规则<span class="tagsPageCount">2</span></a><a class="post-meta__box__tags" href="/tags/%E4%BB%B7%E6%A0%BC%E5%B8%A6/"><span class="tags-punctuation"> <i class="anzhiyufont anzhiyu-icon-tag"></i></span>价格带<span class="tagsPageCount">1</span></a><a class="post-meta__box__tags" href="/tags/%E6%B3%A2%E5%8A%A8%E7%8E%87%E6%8E%A7%E5%88%B6/"><span class="tags-punctuation"> <i class="anzhiyufont anzhiyu-icon-tag"></i></span>波动率控制<span class="tagsPageCount">1</span></a></div></div></div><div class="post_share"><div class="social-share" data-image="/img/btc.png" data-sites="facebook,twitter,wechat,weibo,qq"></div><link rel="stylesheet" href="https://cdn.cbd.int/butterfly-extsrc@1.1.3/sharejs/dist/css/share.min.css" media="print" onload="this.media='all'"/><script src="https://cdn.cbd.int/butterfly-extsrc@1.1.3/sharejs/dist/js/social-share.min.js" defer="defer"></script></div></div><nav class="pagination-post" id="pagination"><div class="prev-post pull-left"><a href="/2026/11/28/pfof-order-flow-payment-2026/"><img class="prev-cover" src= "data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7" onerror="this.onerror=null,this.src=&quot;/img/404.jpg&quot;" data-lazy-src="/" onerror="onerror=null;src='/img/404.jpg'" alt="cover of previous post"><div class="pagination-info"><div class="label">Previous Post</div><div class="prev_info">订单流是被卖掉的：PFOF 的现金流与 2026 年的禁令</div></div></a></div><div class="next-post pull-right"><a href="/2026/11/28/spoofing-layering-detection-2026/"><img class="next-cover" src= "data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7" onerror="this.onerror=null,this.src=&quot;/img/404.jpg&quot;" data-lazy-src="/" onerror="onerror=null;src='/img/404.jpg'" alt="cover of next post"><div class="pagination-info"><div class="label">Next Post</div><div class="next_info">挂单不打算成交：spoofing 的可观测指标与举证难点</div></div></a></div></nav><div class="relatedPosts"><div class="headline"><i class="anzhiyufont anzhiyu-icon-thumbs-up fa-fw" style="font-size: 1.5rem; margin-right: 4px"></i><span>Related Articles</span></div><div class="relatedPosts-list"><div><a href="/2026/11/04/leverage-liquidation-mechanics-2026/" title="杠杆交易与爆仓机制：保证金、维持保证金与强平价格"><img class="cover" src= "data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7" onerror="this.onerror=null,this.src=&quot;/img/404.jpg&quot;" data-lazy-src="/" alt="cover"><div class="content is-center"><div class="date"><i class="anzhiyufont anzhiyu-icon-calendar-days fa-fw"></i> 2026-11-04</div><div class="title">杠杆交易与爆仓机制：保证金、维持保证金与强平价格</div></div></a></div><div><a href="/2026/11/28/initial-margin-span-var-2026/" title="初始保证金是怎么算出来的：SPAN、VaR 与情景网格"><img class="cover" src= "data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7" onerror="this.onerror=null,this.src=&quot;/img/404.jpg&quot;" data-lazy-src="/" alt="cover"><div class="content is-center"><div class="date"><i class="anzhiyufont anzhiyu-icon-calendar-days fa-fw"></i> 2026-11-28</div><div class="title">初始保证金是怎么算出来的：SPAN、VaR 与情景网格</div></div></a></div><div><a href="/2026/11/19/exchange-api-rate-limit-risk-control-2026/" title="接口限频与交易风控：程序化交易最容易踩的六个坑"><img class="cover" src= "data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7" onerror="this.onerror=null,this.src=&quot;/img/404.jpg&quot;" data-lazy-src="/" alt="cover"><div class="content is-center"><div class="date"><i class="anzhiyufont anzhiyu-icon-calendar-days fa-fw"></i> 2026-11-19</div><div class="title">接口限频与交易风控：程序化交易最容易踩的六个坑</div></div></a></div><div><a href="/2026/11/27/queue-position-microstructure-value-2026/" title="队列位置值多少钱：撮合优先级如何变成一张账单"><img class="cover" src= "data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7" onerror="this.onerror=null,this.src=&quot;/img/404.jpg&quot;" data-lazy-src="/" alt="cover"><div class="content is-center"><div class="date"><i class="anzhiyufont anzhiyu-icon-calendar-days fa-fw"></i> 2026-11-27</div><div class="title">队列位置值多少钱：撮合优先级如何变成一张账单</div></div></a></div></div></div></div><div class="aside-content" id="aside-content"><div class="card-widget card-info"><div class="card-content"><div class="author-info-avatar"><img class="avatar-img" src= "data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7" onerror="this.onerror=null,this.src=&quot;/img/404.jpg&quot;" data-lazy-src="/img/btc.png" onerror="this.onerror=null;this.src='/img/friend_404.gif'" alt="avatar"/></div><div class="author-info__description"></div></div></div><div class="card-widget anzhiyu-right-widget" id="card-wechat" onclick="null"><div id="flip-wrapper"><div id="flip-content"><div class="face" style="background: url(https://bu.dusays.com/2023/01/13/63c02edf44033.png) center center / 100% no-repeat"></div><div class="back face" style="background: url(https://bu.dusays.com/2023/05/13/645fa415e8694.png) center center / 100% no-repeat"></div></div></div></div><div class="sticky_layout"><div class="card-widget" id="card-toc"><div class="item-headline"><i class="anzhiyufont anzhiyu-icon-bars"></i><span>Catalog</span><span class="toc-percentage"></span></div><div class="toc-content"><ol class="toc"><li class="toc-item toc-level-2"><a class="toc-link" href="#%E4%B8%89%E5%A5%97%E6%9C%BA%E5%88%B6%EF%BC%8C%E4%B8%89%E7%A7%8D%E5%A4%B1%E8%B4%A5%E6%A8%A1%E5%BC%8F"><span class="toc-number">1.</span> <span class="toc-text">三套机制，三种失败模式</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E4%BB%B7%E6%A0%BC%E5%B8%A6%EF%BC%9A%E6%8B%92%E5%8D%95%E8%80%8C%E4%B8%8D%E6%98%AF%E5%81%9C%E5%B8%82"><span class="toc-number">2.</span> <span class="toc-text">价格带：拒单而不是停市</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E9%80%9F%E7%8E%87%E9%80%BB%E8%BE%91%EF%BC%9A%E5%BF%AB%E8%80%8C%E8%BF%9C%E6%89%8D%E8%A7%A6%E5%8F%91"><span class="toc-number">3.</span> <span class="toc-text">速率逻辑：快而远才触发</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E9%9D%99%E6%80%81%E6%B6%A8%E8%B7%8C%E5%81%9C%E4%B8%8E%E5%85%A8%E5%B8%82%E5%9C%BA%E7%86%94%E6%96%AD"><span class="toc-number">4.</span> <span class="toc-text">静态涨跌停与全市场熔断</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E5%8A%A0%E5%AF%86%E5%B8%82%E5%9C%BA%E4%B8%BA%E4%BB%80%E4%B9%88%E6%B2%A1%E6%9C%89%E8%BF%99%E4%BA%9B"><span class="toc-number">5.</span> <span class="toc-text">加密市场为什么没有这些</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E6%9B%BF%E4%BB%A3%E5%93%81%EF%BC%9A%E5%8F%AA%E5%87%8F%E4%BB%93%E3%80%81%E6%A0%87%E8%AE%B0%E4%BB%B7%E6%A0%BC%E4%B8%8E%E9%99%90%E4%BB%B7%E5%B8%A6"><span class="toc-number">6.</span> <span class="toc-text">替代品：只减仓、标记价格与限价带</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E5%AF%B9%E4%B8%8B%E5%8D%95%E7%9A%84%E5%AE%9E%E9%99%85%E5%BD%B1%E5%93%8D"><span class="toc-number">7.</span> <span class="toc-text">对下单的实际影响</span></a></li></ol></div></div><div class="card-widget card-recent-post"><div class="item-headline"><i class="anzhiyufont anzhiyu-icon-history"></i><span>Recent Post</span></div><div class="aside-list"><div class="aside-list-item no-cover"><div class="content"><a class="title" href="/2026/11/28/trade-break-clearly-erroneous-2026/" title="成交可以被撤销吗：明显错误成交规则与平台的纠错权">成交可以被撤销吗：明显错误成交规则与平台的纠错权</a><time datetime="2026-11-28T15:43:00.000Z" title="Created 2026-11-28 23:43:00">2026-11-28</time></div></div><div class="aside-list-item no-cover"><div class="content"><a class="title" href="/2026/11/28/best-execution-evidence-2026/" title="「最优执行」不是最低价：执行质量的证据链">「最优执行」不是最低价：执行质量的证据链</a><time datetime="2026-11-28T15:36:00.000Z" title="Created 2026-11-28 23:36:00">2026-11-28</time></div></div><div class="aside-list-item no-cover"><div class="content"><a class="title" href="/2026/11/28/herstatt-risk-pvp-2026/" title="赫斯塔特风险：跨时区交割里的那几个小时">赫斯塔特风险：跨时区交割里的那几个小时</a><time datetime="2026-11-28T15:29:00.000Z" title="Created 2026-11-28 23:29:00">2026-11-28</time></div></div><div class="aside-list-item no-cover"><div class="content"><a class="title" href="/2026/11/28/initial-margin-span-var-2026/" title="初始保证金是怎么算出来的：SPAN、VaR 与情景网格">初始保证金是怎么算出来的：SPAN、VaR 与情景网格</a><time datetime="2026-11-28T15:22:00.000Z" title="Created 2026-11-28 23:22:00">2026-11-28</time></div></div><div class="aside-list-item no-cover"><div class="content"><a class="title" href="/2026/11/28/spoofing-layering-detection-2026/" title="挂单不打算成交：spoofing 的可观测指标与举证难点">挂单不打算成交：spoofing 的可观测指标与举证难点</a><time datetime="2026-11-28T15:15:00.000Z" title="Created 2026-11-28 23:15:00">2026-11-28</time></div></div></div></div></div></div></div></main><footer id="footer"><div id="footer-wrap"></div><div id="footer-bar"><div class="footer-bar-links"><div class="footer-bar-left"><div id="footer-bar-tips"><div class="copyright">&copy;2020 - 2026 By <a class="footer-bar-link" href="/" title="Bitbank" target="_blank">Bitbank</a></div></div><div id="footer-type-tips"></div></div><div class="footer-bar-right"><a class="footer-bar-link" target="_blank" rel="noopener" href="https://www.binance.com/register?ref=CYBERBASE" title="开始交易">开始交易</a></div></div></div></footer></div><div id="sidebar"><div id="menu-mask"></div><div id="sidebar-menus"><div class="sidebar-site-data site-data is-center"><a href="/archives/" title="archive"><div class="headline">Articles</div><div class="length-num">370</div></a><a href="/tags/" title="tag"><div class="headline">Tags</div><div class="length-num">1439</div></a><a href="/categories/" title="category"><div class="headline">Categories</div><div class="length-num">357</div></a></div><div class="back-menu-list-groups"><div class="back-menu-list-group"><div class="back-menu-list-title">网页</div><div class="back-menu-list"><a class="back-menu-item" target="_blank" rel="noopener" href="https://hexo.anheyu.com/" title="博客"><img class="back-menu-item-icon" src= "data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7" onerror="this.onerror=null,this.src=&quot;/img/404.jpg&quot;" data-lazy-src="/img/favicon.ico" alt="博客"/><span class="back-menu-item-text">博客</span></a></div></div><div class="back-menu-list-group"><div class="back-menu-list-title">项目</div><div class="back-menu-list"><a class="back-menu-item" target="_blank" rel="noopener" href="https://image.anheyu.com/" title="安知鱼图床"><img class="back-menu-item-icon" src= "data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7" onerror="this.onerror=null,this.src=&quot;/img/404.jpg&quot;" data-lazy-src="https://image.anheyu.com/favicon.ico" alt="安知鱼图床"/><span class="back-menu-item-text">安知鱼图床</span></a></div></div></div><span class="sidebar-menu-item-title">标签</span><div class="card-tags"><div class="item-headline"></div><div class="card-tag-cloud"><a href="/tags/AI/" style="font-size: 0.88rem;">AI<sup>1</sup></a><a href="/tags/AI-Agent/" style="font-size: 0.88rem;">AI Agent<sup>2</sup></a><a href="/tags/AI%E4%BB%A3%E7%90%86/" style="font-size: 0.88rem;">AI代理<sup>1</sup></a><a href="/tags/DeFi/" style="font-size: 0.88rem;">DeFi<sup>6</sup></a><a href="/tags/ERC-4337/" style="font-size: 0.88rem;">ERC-4337<sup>3</sup></a><a href="/tags/SegWit/" style="font-size: 0.88rem;">SegWit<sup>1</sup></a><a href="/tags/TGE/" style="font-size: 0.88rem;">TGE<sup>1</sup></a><a href="/tags/UASF/" style="font-size: 0.88rem;">UASF<sup>1</sup></a><a href="/tags/Web3/" style="font-size: 0.88rem;">Web3<sup>2</sup></a><a href="/tags/Web3%E4%BD%93%E9%AA%8C/" style="font-size: 0.88rem;">Web3体验<sup>1</sup></a><a href="/tags/gas%E4%BB%A3%E4%BB%98/" style="font-size: 0.88rem;">gas代付<sup>1</sup></a><a href="/tags/x402/" style="font-size: 0.88rem;">x402<sup>1</sup></a><a href="/tags/%E4%BB%A3%E5%B8%81%E5%88%86%E5%8F%91/" style="font-size: 0.88rem;">代币分发<sup>1</sup></a><a href="/tags/%E5%85%B1%E8%AF%86%E6%9C%BA%E5%88%B6/" style="font-size: 0.88rem;">共识机制<sup>3</sup></a><a href="/tags/%E5%8A%A0%E5%AF%86ATM/" style="font-size: 0.88rem;">加密ATM<sup>1</sup></a><a href="/tags/%E5%8C%BA%E5%9D%97%E5%A4%A7%E5%B0%8F/" style="font-size: 0.88rem;">区块大小<sup>1</sup></a><a href="/tags/%E5%A5%B3%E5%B7%AB%E6%94%BB%E5%87%BB/" style="font-size: 0.88rem;">女巫攻击<sup>2</sup></a><a href="/tags/%E5%AE%9E%E4%BD%93%E5%85%91%E6%8D%A2/" style="font-size: 0.88rem;">实体兑换<sup>1</sup></a><a href="/tags/%E6%89%A9%E5%AE%B9/" style="font-size: 0.88rem;">扩容<sup>6</sup></a><a href="/tags/%E6%95%B0%E5%AD%97%E9%BB%84%E9%87%91/" style="font-size: 0.88rem;">数字黄金<sup>2</sup></a><a href="/tags/%E6%99%BA%E8%83%BD%E4%BD%93/" style="font-size: 0.88rem;">智能体<sup>1</sup></a><a href="/tags/%E6%99%BA%E8%83%BD%E5%90%88%E7%BA%A6/" style="font-size: 0.88rem;">智能合约<sup>7</sup></a><a href="/tags/%E6%99%BA%E8%83%BD%E5%90%88%E7%BA%A6%E9%92%B1%E5%8C%85/" style="font-size: 0.88rem;">智能合约钱包<sup>1</sup></a><a href="/tags/%E6%9C%BA%E5%99%A8%E6%94%AF%E4%BB%98/" style="font-size: 0.88rem;">机器支付<sup>1</sup></a><a href="/tags/%E6%AF%94%E7%89%B9%E5%B8%81/" style="font-size: 0.88rem;">比特币<sup>15</sup></a><a href="/tags/%E6%AF%94%E7%89%B9%E5%B8%81ATM/" style="font-size: 0.88rem;">比特币ATM<sup>1</sup></a><a href="/tags/%E6%B2%BB%E7%90%86/" style="font-size: 0.88rem;">治理<sup>4</sup></a><a href="/tags/%E7%8E%B0%E9%87%91%E5%85%91%E6%8D%A2/" style="font-size: 0.88rem;">现金兑换<sup>1</sup></a><a href="/tags/%E7%A4%BE%E4%BA%A4%E6%81%A2%E5%A4%8D/" style="font-size: 0.88rem;">社交恢复<sup>3</sup></a><a href="/tags/%E7%A8%B3%E5%AE%9A%E5%B8%81/" style="font-size: 0.88rem;">稳定币<sup>20</sup></a><a href="/tags/%E7%A9%BA%E6%8A%95/" style="font-size: 0.88rem;">空投<sup>2</sup></a><a href="/tags/%E7%BA%BF%E6%80%A7%E8%A7%A3%E9%94%81/" style="font-size: 0.88rem;">线性解锁<sup>1</sup></a><a href="/tags/%E7%BB%93%E7%AE%97/" style="font-size: 0.88rem;">结算<sup>3</sup></a><a href="/tags/%E8%87%AA%E4%B8%BB%E7%BB%8F%E6%B5%8E/" style="font-size: 0.88rem;">自主经济<sup>1</sup></a><a href="/tags/%E8%A1%8C%E4%B8%9A%E8%A7%82%E5%AF%9F/" style="font-size: 0.88rem;">行业观察<sup>1</sup></a><a href="/tags/%E8%B4%A6%E6%88%B7%E6%8A%BD%E8%B1%A1/" style="font-size: 0.88rem;">账户抽象<sup>4</sup></a><a href="/tags/%E8%B5%9B%E9%81%93%E6%8A%95%E7%A0%94/" style="font-size: 0.88rem;">赛道投研<sup>1</sup></a><a href="/tags/%E9%81%BF%E9%99%A9%E8%B5%84%E4%BA%A7/" style="font-size: 0.88rem;">避险资产<sup>2</sup></a><a href="/tags/%E9%93%BE%E4%B8%8A%E5%88%86%E6%9E%90/" style="font-size: 0.88rem;">链上分析<sup>3</sup></a><a href="/tags/%E9%98%B2%E8%AF%88%E9%AA%97/" style="font-size: 0.88rem;">防诈骗<sup>2</sup></a></div></div><hr/></div></div><div id="rightside"><div id="rightside-config-hide"><button id="readmode" type="button" title="Read Mode"><i class="anzhiyufont anzhiyu-icon-book-open"></i></button><button id="translateLink" type="button" title="Switch Between Traditional Chinese And Simplified Chinese">繁</button><button id="hide-aside-btn" type="button" title="Toggle between single-column and double-column"><i class="anzhiyufont anzhiyu-icon-arrows-left-right"></i></button></div><div id="rightside-config-show"><button id="rightside-config" type="button" title="Setting"><i class="anzhiyufont anzhiyu-icon-gear"></i></button><button class="close" id="mobile-toc-button" type="button" title="Table Of Contents"><i class="anzhiyufont anzhiyu-icon-list-ul"></i></button><button id="go-up" type="button" title="Back To Top"><i class="anzhiyufont anzhiyu-icon-arrow-up"></i></button></div></div><div id="rightMenu"><div class="rightMenu-group rightMenu-small"><div class="rightMenu-item" id="menu-backward"><i class="anzhiyufont anzhiyu-icon-arrow-left"></i></div><div class="rightMenu-item" id="menu-forward"><i class="anzhiyufont anzhiyu-icon-arrow-right"></i></div><div class="rightMenu-item" id="menu-refresh"><i class="anzhiyufont anzhiyu-icon-arrow-rotate-right" style="font-size: 1rem;"></i></div><div class="rightMenu-item" id="menu-top"><i class="anzhiyufont anzhiyu-icon-arrow-up"></i></div></div><div class="rightMenu-group rightMenu-line rightMenuPlugin"><div class="rightMenu-item" id="menu-copytext"><i class="anzhiyufont anzhiyu-icon-copy"></i><span>复制选中文本</span></div><div class="rightMenu-item" id="menu-pastetext"><i class="anzhiyufont anzhiyu-icon-paste"></i><span>粘贴文本</span></div><a class="rightMenu-item" id="menu-commenttext"><i class="anzhiyufont anzhiyu-icon-comment-medical"></i><span>引用到评论</span></a><div class="rightMenu-item" id="menu-newwindow"><i class="anzhiyufont anzhiyu-icon-window-restore"></i><span>新窗口打开</span></div><div class="rightMenu-item" id="menu-copylink"><i class="anzhiyufont anzhiyu-icon-link"></i><span>复制链接地址</span></div><div class="rightMenu-item" id="menu-copyimg"><i class="anzhiyufont anzhiyu-icon-images"></i><span>复制此图片</span></div><div class="rightMenu-item" id="menu-downloadimg"><i class="anzhiyufont anzhiyu-icon-download"></i><span>下载此图片</span></div><div class="rightMenu-item" id="menu-newwindowimg"><i class="anzhiyufont anzhiyu-icon-window-restore"></i><span>新窗口打开图片</span></div><div class="rightMenu-item" id="menu-search"><i class="anzhiyufont anzhiyu-icon-magnifying-glass"></i><span>站内搜索</span></div><div class="rightMenu-item" id="menu-searchBaidu"><i class="anzhiyufont anzhiyu-icon-magnifying-glass"></i><span>百度搜索</span></div><div class="rightMenu-item" id="menu-music-toggle"><i class="anzhiyufont anzhiyu-icon-play"></i><span>播放音乐</span></div><div class="rightMenu-item" id="menu-music-back"><i class="anzhiyufont anzhiyu-icon-backward"></i><span>切换到上一首</span></div><div class="rightMenu-item" id="menu-music-forward"><i class="anzhiyufont anzhiyu-icon-forward"></i><span>切换到下一首</span></div><div class="rightMenu-item" id="menu-music-playlist" onclick="window.open(&quot;https://y.qq.com/n/ryqq/playlist/8802438608&quot;, &quot;_blank&quot;);" style="display: none;"><i class="anzhiyufont anzhiyu-icon-radio"></i><span>查看所有歌曲</span></div><div class="rightMenu-item" id="menu-music-copyMusicName"><i class="anzhiyufont anzhiyu-icon-copy"></i><span>复制歌名</span></div></div><div class="rightMenu-group rightMenu-line rightMenuOther"><a class="rightMenu-item menu-link" id="menu-randomPost"><i class="anzhiyufont anzhiyu-icon-shuffle"></i><span>随便逛逛</span></a><a class="rightMenu-item menu-link" href="/categories/"><i class="anzhiyufont anzhiyu-icon-cube"></i><span>博客分类</span></a><a class="rightMenu-item menu-link" href="/tags/"><i class="anzhiyufont anzhiyu-icon-tags"></i><span>文章标签</span></a></div><div class="rightMenu-group rightMenu-line rightMenuOther"><a class="rightMenu-item" id="menu-copy" href="javascript:void(0);"><i class="anzhiyufont anzhiyu-icon-copy"></i><span>复制地址</span></a><a class="rightMenu-item" id="menu-commentBarrage" href="javascript:void(0);"><i class="anzhiyufont anzhiyu-icon-message"></i><span class="menu-commentBarrage-text">关闭热评</span></a><a class="rightMenu-item" id="menu-darkmode" href="javascript:void(0);"><i class="anzhiyufont anzhiyu-icon-circle-half-stroke"></i><span class="menu-darkmode-text">深色模式</span></a><a class="rightMenu-item" id="menu-translate" href="javascript:void(0);"><i class="anzhiyufont anzhiyu-icon-language"></i><span>轉為繁體</span></a></div></div><div id="rightmenu-mask"></div><div><script src="/js/utils.js"></script><script src="/js/main.js"></script><script src="/js/tw_cn.js"></script><script src="https://cdn.cbd.int/@fancyapps/ui@6.1.6/dist/fancybox/fancybox.umd.js"></script><script src="https://cdn.cbd.int/instant.page@5.2.0/instantpage.js" type="module"></script><script src="https://cdn.cbd.int/vanilla-lazyload@19.1.3/dist/lazyload.iife.min.js"></script><script src="https://cdn.cbd.int/node-snackbar@0.1.16/dist/snackbar.min.js"></script><canvas id="universe"></canvas><script async src="https://npm.elemecdn.com/anzhiyu-theme-static@1.0.0/dark/dark.js"></script><script>// 消除控制台打印
+var HoldLog = console.log;
+console.log = function () {};
+let now1 = new Date();
+queueMicrotask(() => {
+  const Log = function () {
+    HoldLog.apply(console, arguments);
+  }; //在恢复前输出日志
+  const grt = new Date("04/01/2021 00:00:00"); //此处修改你的建站时间或者网站上线时间
+  now1.setTime(now1.getTime() + 250);
+  const days = (now1 - grt) / 1000 / 60 / 60 / 24;
+  const dnum = Math.floor(days);
+  const ascll = [
+    `欢迎使用安知鱼!`,
+    `生活明朗, 万物可爱`,
+    `
+        
+       █████╗ ███╗   ██╗███████╗██╗  ██╗██╗██╗   ██╗██╗   ██╗
+      ██╔══██╗████╗  ██║╚══███╔╝██║  ██║██║╚██╗ ██╔╝██║   ██║
+      ███████║██╔██╗ ██║  ███╔╝ ███████║██║ ╚████╔╝ ██║   ██║
+      ██╔══██║██║╚██╗██║ ███╔╝  ██╔══██║██║  ╚██╔╝  ██║   ██║
+      ██║  ██║██║ ╚████║███████╗██║  ██║██║   ██║   ╚██████╔╝
+      ╚═╝  ╚═╝╚═╝  ╚═══╝╚══════╝╚═╝  ╚═╝╚═╝   ╚═╝    ╚═════╝
+        
+        `,
+    "已上线",
+    dnum,
+    "天",
+    "©2020 By 安知鱼 V1.7.1",
+  ];
+  const ascll2 = [`NCC2-036`, `调用前置摄像头拍照成功，识别为【小笨蛋】.`, `Photo captured: `, `🤪`];
+
+  setTimeout(
+    Log.bind(
+      console,
+      `\n%c${ascll[0]} %c ${ascll[1]} %c ${ascll[2]} %c${ascll[3]}%c ${ascll[4]}%c ${ascll[5]}\n\n%c ${ascll[6]}\n`,
+      "color:#425AEF",
+      "",
+      "color:#425AEF",
+      "color:#425AEF",
+      "",
+      "color:#425AEF",
+      ""
+    )
+  );
+  setTimeout(
+    Log.bind(
+      console,
+      `%c ${ascll2[0]} %c ${ascll2[1]} %c \n${ascll2[2]} %c\n${ascll2[3]}\n`,
+      "color:white; background-color:#4fd953",
+      "",
+      "",
+      'background:url("https://npm.elemecdn.com/anzhiyu-blog@1.1.6/img/post/common/tinggge.gif") no-repeat;font-size:450%'
+    )
+  );
+
+  setTimeout(Log.bind(console, "%c WELCOME %c 你好，小笨蛋.", "color:white; background-color:#4f90d9", ""));
+
+  setTimeout(
+    console.warn.bind(
+      console,
+      "%c ⚡ Powered by 安知鱼 %c 你正在访问 Bitbank 的博客.",
+      "color:white; background-color:#f0ad4e",
+      ""
+    )
+  );
+
+  setTimeout(Log.bind(console, "%c W23-12 %c 你已打开控制台.", "color:white; background-color:#4f90d9", ""));
+
+  setTimeout(
+    console.warn.bind(console, "%c S013-782 %c 你现在正处于监控中.", "color:white; background-color:#d9534f", "")
+  );
+});</script><script async src="/anzhiyu/random.js"></script><div class="js-pjax"><input type="hidden" name="page-type" id="page-type" value="post"></div><script>var visitorMail = "";
+</script><script async data-pjax src="https://cdn.cbd.int/anzhiyu-theme-static@1.0.0/waterfall/waterfall.js"></script><script src="https://cdn.cbd.int/qrcodejs@1.0.0/qrcode.min.js"></script><link rel="stylesheet" href="https://cdn.cbd.int/anzhiyu-theme-static@1.1.9/icon/ali_iconfont_css.css"><script src="/js/waterfall-home.js" defer></script><script src="/js/macro-board.js" defer></script><link rel="stylesheet" href="https://cdn.cbd.int/anzhiyu-theme-static@1.0.0/aplayer/APlayer.min.css" media="print" onload="this.media='all'"><script src="https://cdn.cbd.int/anzhiyu-blog-static@1.0.1/js/APlayer.min.js"></script><script src="https://cdn.cbd.int/hexo-anzhiyu-music@1.0.1/assets/js/Meting2.min.js"></script><script src="https://cdn.cbd.int/pjax@0.2.8/pjax.min.js"></script><script>let pjaxSelectors = ["head > title","#config-diff","#body-wrap","#rightside-config-hide","#rightside-config-show",".js-pjax"]
+var pjax = new Pjax({
+  elements: 'a:not([target="_blank"])',
+  selectors: pjaxSelectors,
+  cacheBust: false,
+  analytics: false,
+  scrollRestoration: false
+})
+
+document.addEventListener('pjax:send', function () {
+  // removeEventListener scroll 
+  anzhiyu.removeGlobalFnEvent('pjax')
+  anzhiyu.removeGlobalFnEvent('themeChange')
+
+  document.getElementById('rightside').classList.remove('rightside-show')
+  
+  if (window.aplayers) {
+    for (let i = 0; i < window.aplayers.length; i++) {
+      if (!window.aplayers[i].options.fixed) {
+        window.aplayers[i].destroy()
+      }
+    }
+  }
+
+  typeof typed === 'object' && typed.destroy()
+
+  //reset readmode
+  const $bodyClassList = document.body.classList
+  $bodyClassList.contains('read-mode') && $bodyClassList.remove('read-mode')
+})
+
+document.addEventListener('pjax:complete', function () {
+  window.refreshFn()
+
+  document.querySelectorAll('script[data-pjax]').forEach(item => {
+    const newScript = document.createElement('script')
+    const content = item.text || item.textContent || item.innerHTML || ""
+    Array.from(item.attributes).forEach(attr => newScript.setAttribute(attr.name, attr.value))
+    newScript.appendChild(document.createTextNode(content))
+    item.parentNode.replaceChild(newScript, item)
+  })
+
+  GLOBAL_CONFIG.islazyload && window.lazyLoadInstance.update()
+
+  typeof panguInit === 'function' && panguInit()
+
+  // google analytics
+  typeof gtag === 'function' && gtag('config', '', {'page_path': window.location.pathname});
+
+  // baidu analytics
+  typeof _hmt === 'object' && _hmt.push(['_trackPageview',window.location.pathname]);
+
+  typeof loadMeting === 'function' && document.getElementsByClassName('aplayer').length && loadMeting()
+
+  // prismjs
+  typeof Prism === 'object' && Prism.highlightAll()
+})
+
+document.addEventListener('pjax:error', e => {
+  if (e.request.status === 404) {
+    pjax.loadUrl('/404.html')
+  }
+})</script><script charset="UTF-8" src="https://cdn.cbd.int/anzhiyu-theme-static@1.1.5/accesskey/accesskey.js"></script></div><div id="popup-window"><div class="popup-window-title">通知</div><div class="popup-window-divider"></div><div class="popup-window-content"><div class="popup-tip">你好呀</div><div class="popup-link"><i class="anzhiyufont anzhiyu-icon-arrow-circle-right"></i></div></div></div></body></html>
